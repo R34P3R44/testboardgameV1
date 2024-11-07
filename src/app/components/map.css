@@ -31,12 +31,12 @@
 .zoomedImg80 {
   transition: transform 5s ease; 
   transform-origin: 0 0;
-  transform: scale(7);  
+  transform: scale(6);  
 }
 
 .img{
   transition: transform 3s ease; 
-  transform-origin: 0 0;
+  transform-origin: 1 1;
   transform: scale(1);  
 
 }

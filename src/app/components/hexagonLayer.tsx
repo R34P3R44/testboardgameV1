@@ -10,8 +10,7 @@ const HexagonLayer: React.FC = () => {
                 opacity: 0.5,
                 position: "absolute",
                 left: 700,
-                top: 20,
-
+                top: 120,
             }}
         >
             <div className="hexagon color-sass">
