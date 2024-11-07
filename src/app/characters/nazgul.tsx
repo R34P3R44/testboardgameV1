@@ -1,5 +1,5 @@
 // components/Draggable.tsx
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './movableObject.css';
 import { useAbly } from '../../app/lib/useAbly';
 
@@ -14,7 +14,7 @@ type Position = {
 };
 
 const Nazgul: React.FC<NazgulProps> = ({getNazgulPosition}) => {
-  const draggableRef = useRef<HTMLDivElement | null>(null);
+  // const draggableRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 1150, y: 550 });
   const divRef = useRef<HTMLDivElement | null>(null);
   const { sendMessage, messages } = useAbly('draggable-channel');
