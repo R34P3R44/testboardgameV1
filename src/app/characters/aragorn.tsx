@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAbly } from '../../app/lib/useAbly';
+// import { useAbly } from '../../app/lib/useAbly';
 import './movableObject.css';
 
 type Position = {
@@ -15,19 +15,18 @@ type AragornProps = {
 const Aragorn: React.FC<AragornProps> = ({ getAragornPosition, }) => {
   const [position, setPosition] = useState<Position>({ x: 1450, y: 670 });
   const divRef = useRef<HTMLDivElement | null>(null);
-  const { sendMessage, messages } = useAbly('draggable-channel');
+  // const { sendMessage, messages } = useAbly('draggable-channel');
   const [offset, setOffset] = useState<Position>({ x: 50, y: 50 });
-
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
 
   // Update position on receiving messages from Ably
-  useEffect(() => {
-    const latestMessage = messages[messages.length - 1];
-    if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
-      setPosition({ x: latestMessage.x, y: latestMessage.y });
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   const latestMessage = messages[messages.length - 1];
+  //   if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
+  //     setPosition({ x: latestMessage.x, y: latestMessage.y });
+  //   }
+  // }, [messages]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

@@ -31,18 +31,11 @@ interface NazgulPosition {
 
 const ZoomableImage: React.FC = ({ }) => {
 
-
-  const [scale, setScale] = useState<number>(1);
   const [aragornPos, setAragornPos] = useState<AragornPosition>({ x: 0, y: 0 });
   const [orcArcherPos, setOrcArcherPos] = useState<OrcArcherPosition>({ x: 0, y: 0 });
   const [orcHunterPos, setOrcHunterPos] = useState<OrcHunterPosition>({ x: 0, y: 0 });
   const [nazgul, setNazgulPos] = useState<NazgulPosition>({ x: 0, y: 0 });
   const [zoomedMap, setZoomedMap] = useState<boolean>(false);
-
-
-  const handleMouseLeave = () => {
-    setScale(1); // Reset to original scale
-  };
 
   const getAragornPosition = (position: any) => {
     setAragornPos(position)
@@ -58,10 +51,6 @@ const ZoomableImage: React.FC = ({ }) => {
 
   const getNazgulPosition = (position: any) => {
     setNazgulPos(position)
-  }
-
-  const mapZoom = () => {
-    setZoomedMap(!zoomedMap)
   }
 
 

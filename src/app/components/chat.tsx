@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAbly } from '../../app/lib/useAbly'
+// import { useAbly } from '../../app/lib/useAbly'
 import './chat.css';
 
 
@@ -8,13 +8,13 @@ type ChatProps = {
 };
 
 const Chat: React.FC<ChatProps> = ({ channelName }) => {
-  const { messages, sendMessage } = useAbly(channelName);
+  // const { messages, sendMessage } = useAbly(channelName);
   const [name, setName] = useState('');
   const [text, setText] = useState('');
 
   const handleSend = () => {
     if (text.trim()) {
-      sendMessage(name || 'Anonymous', text);
+      // sendMessage(name || 'Anonymous', text);
       setText('');
     }
   };
@@ -25,11 +25,11 @@ const Chat: React.FC<ChatProps> = ({ channelName }) => {
         <h2>Chat Room</h2>
       </div>
       <div style={{ maxHeight: 'auto', overflowY: 'auto', margin: '1rem' }}>
-        {messages.map((message, index) => (
-          <div key={index}>
-            <strong>{message.name}:</strong> {message.text}
-          </div>
-        ))}
+        {/* {messages.map((message, index) => ( */}
+          {/* <div key={index}> */}
+            {/* <strong>{message.name}:</strong> {message.text} */}
+          {/* </div> */}
+        {/* ))} */}
       </div>
       <input
         type="text"

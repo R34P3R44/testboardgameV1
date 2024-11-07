@@ -1,7 +1,7 @@
 // components/Draggable.tsx
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import './movableObject.css';
-import { useAbly } from '../../app/lib/useAbly';
+// import { useAbly } from '../../app/lib/useAbly';
 
 
 type OrcArcherProps = {
@@ -15,20 +15,19 @@ type Position = {
 };
 
 const OrcArcher: React.FC<OrcArcherProps> = ({getArcherPosition}) => {
-  const draggableRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 1250, y: 250 });
-  const { sendMessage, messages } = useAbly('draggable-channel');
+  // const { sendMessage, messages } = useAbly('draggable-channel');
   const [offset, setOffset] = useState<Position>({ x: 50, y: 50 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
 
   // Update position on receiving messages from Ably
-  useEffect(() => {
-    const latestMessage = messages[messages.length - 1];
-    if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
-      setPosition({ x: latestMessage.x, y: latestMessage.y });
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   const latestMessage = messages[messages.length - 1];
+  //   if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
+  //     setPosition({ x: latestMessage.x, y: latestMessage.y });
+  //   }
+  // }, [messages]);
 
   // Handle drag event
   useEffect(() => {

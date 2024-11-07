@@ -1,10 +1,7 @@
 import './hexagonLayer.css';
 
-interface HexagonLayerProps {
-    // scale: number
-}
 
-const HexagonLayer: React.FC<HexagonLayerProps> = () => {
+const HexagonLayer: React.FC = () => {
 
     return (
         <div className="hexagon-container"

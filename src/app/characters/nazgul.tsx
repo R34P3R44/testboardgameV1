@@ -1,7 +1,7 @@
 // components/Draggable.tsx
 import React, { useRef, useState, useEffect } from 'react';
 import './movableObject.css';
-import { useAbly } from '../../app/lib/useAbly';
+// import { useAbly } from '../../app/lib/useAbly';
 
 type NazgulProps = {
   // channelName: string;
@@ -14,21 +14,20 @@ type Position = {
 };
 
 const Nazgul: React.FC<NazgulProps> = ({getNazgulPosition}) => {
-  // const draggableRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 1150, y: 550 });
   const divRef = useRef<HTMLDivElement | null>(null);
-  const { sendMessage, messages } = useAbly('draggable-channel');
+  // const { sendMessage, messages } = useAbly('draggable-channel');
   const [offset, setOffset] = useState<Position>({ x: 50, y: 50 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
 
   // Update position on receiving messages from Ably
-  useEffect(() => {
-    const latestMessage = messages[messages.length - 1];
-    if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
-      setPosition({ x: latestMessage.x, y: latestMessage.y });
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   const latestMessage = messages[messages.length - 1];
+  //   if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
+  //     setPosition({ x: latestMessage.x, y: latestMessage.y });
+  //   }
+  // }, [messages]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
