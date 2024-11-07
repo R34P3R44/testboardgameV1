@@ -1,5 +1,5 @@
 // components/Draggable.tsx
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './movableObject.css';
 // import { useAbly } from '../../app/lib/useAbly';
 
@@ -33,7 +33,7 @@ const OrcHunter: React.FC<OrcHunterProps> = ({getOrchunterPosition}) => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
-        let newPosition = {
+        const newPosition = {
           x: e.clientX - offset.x,
           y: e.clientY - offset.y,
         };

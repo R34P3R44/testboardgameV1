@@ -32,7 +32,7 @@ const Nazgul: React.FC<NazgulProps> = ({getNazgulPosition}) => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
-        let newPosition = {
+        const newPosition = {
           x: e.clientX - offset.x,
           y: e.clientY - offset.y,
         };

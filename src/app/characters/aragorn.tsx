@@ -31,7 +31,7 @@ const Aragorn: React.FC<AragornProps> = ({ getAragornPosition, }) => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
-        let newPosition = {
+        const newPosition = {
           x: e.clientX - offset.x,
           y: e.clientY - offset.y,
         };

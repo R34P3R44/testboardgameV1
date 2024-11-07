@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState,} from 'react';
 import HexagonLayer from './hexagonLayer';
 import './map.css';
 
@@ -63,19 +62,6 @@ const Map: React.FC = () => {
                             :
                             null}
                     </div>
-                    {/* <Image
-                                src="https://media.wizards.com/2015/images/dnd/resources/Sword-Coast-Map_HighRes.jpg" // Replace with your image URL
-                                alt="Zoomable Background"
-                                width={1400}
-                                height={800}
-                                style={{
-                                zIndex: 1,
-                                opacity: 0.8,
-                                }}
-                                className={zoomedMap ? "zoomedImg" : "img"} // Ensures it targets the CSS .img class
-                            >
-
-                            </Image> */}
                 </div>
             </div>
         </>

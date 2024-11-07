@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import './chat.css';
 
 
-type ChatProps = {
-  channelName: string;
-};
+// type ChatProps = {
+//   channelName: string;
+// };
 
-const Chat: React.FC<ChatProps> = ({ channelName }) => {
+const Chat: React.FC = () => {
   // const { messages, sendMessage } = useAbly(channelName);
   const [name, setName] = useState('');
   const [text, setText] = useState('');
