@@ -1,13 +1,13 @@
 "use client"; // This directive makes the component a client component
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import './page.css';
 import Aragorn from './characters/aragorn';
 import OrcArcher from "./characters/orcArcher";
 import OrcHunter from "./characters/orcHunter";
 import Nazgul from "./characters/nazgul";
 import Map from './components/map';
-import Chat from './components/chat';
+// import Chat from './components/chat';
 
 interface AragornPosition {
   x: number, 
@@ -35,7 +35,6 @@ const ZoomableImage: React.FC = ({ }) => {
   const [orcArcherPos, setOrcArcherPos] = useState<OrcArcherPosition>({ x: 0, y: 0 });
   const [orcHunterPos, setOrcHunterPos] = useState<OrcHunterPosition>({ x: 0, y: 0 });
   const [nazgul, setNazgulPos] = useState<NazgulPosition>({ x: 0, y: 0 });
-  const [zoomedMap, setZoomedMap] = useState<boolean>(false);
 
   const getAragornPosition = (position: any) => {
     setAragornPos(position)
@@ -57,7 +56,7 @@ const ZoomableImage: React.FC = ({ }) => {
   return (
     <div className="hiddenOverflow ">
       <div className='leftColumn'>
-        <Chat channelName="ably-chat-room"/>
+        {/* <Chat channelName="ably-chat-room"/> */}
         <div className='trackerStyle'>
           <div >{`Aragorn position: x: ${aragornPos.x} y:${aragornPos.y}`}</div>
           <div >{`Orc Archer position: x: ${orcArcherPos.x} y:${orcArcherPos.y}`}</div>
