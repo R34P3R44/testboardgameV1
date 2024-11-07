@@ -1,0 +1,33 @@
+
+.hiddenOverflow{
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.leftColumn{
+    width: 20vw;
+    padding: 1%;
+}
+
+.rightColumn{
+    width: 100vw;
+}
+
+.trackerStyle{
+    background-color: #358ccb;
+    color: white;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: 200px;
+    font-size: 15px;
+    width: 'auto';
+}
+

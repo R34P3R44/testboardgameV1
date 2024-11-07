@@ -1,0 +1,14 @@
+.chatRoomStyle{
+    width: 15vw; 
+    opacity: 5;
+    display: flex; 
+    flex-direction: column;
+    background-color: #358ccb;
+    align-content: space-around;
+    flex-wrap: wrap;
+    min-height: 15vw;
+    height: auto;
+    margin: 1%;
+    justify-items: center;
+    border-radius: 7px;
+}
