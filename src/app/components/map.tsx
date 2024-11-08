@@ -49,12 +49,12 @@ const Map: React.FC = () => {
     return (
         <>
             <div style={{marginTop: '10px', width: '150px', height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                <button style={{padding: '10px', height: '50px', borderRadius: '7px', backgroundColor: '#4FC08D', zIndex: 30, }} onClick={switchtoGridView}>{!gridView ? "Hex grid On" : "Hex grid Off"}</button>
-                <button className={!zoomedMap80 ? 'zoomButtonStyles' : 'disabledZoomButtonStyles'} onClick={mapZoom}>{!zoomedMap ? "Zoom 30%" : "Back"}</button>
-                <button className={!zoomedMap ? 'zoomButtonStyles' : 'disabledZoomButtonStyles'} onClick={mapZoom80}>{!zoomedMap80 ? "Zoom 80%" : "Back"}</button>
+                <button className='p-2 h-12 rounded-md bg-green-700 text-white' onClick={switchtoGridView}>{!gridView ? "Hex grid On" : "Hex grid Off"}</button>
+                <button className={!zoomedMap80 ? 'p-2 h-12 rounded-md bg-green-700 text-white' : 'p-2 h-12 rounded-md bg-green-700 text-white pointer-events-none'} onClick={mapZoom}>{!zoomedMap ? "Zoom 30%" : "Back"}</button>
+                <button className={!zoomedMap ? 'p-2 h-12 rounded-md bg-green-700 text-white' : 'p-2 h-12 rounded-md bg-green-700 text-white pointer-events-none'} onClick={mapZoom80}>{!zoomedMap80 ? "Zoom 80%" : "Back"}</button>
 
             </div>
-            <div className='mapContainer'>
+            <div className='mapContainer pt-16'>
                 <div className={zoomedMap || zoomedMap80 ? zoomingFeatureContainer() : "image-container"}>
                     <div className={zoomedMap || zoomedMap80 ? zoomingFeature() : 'img testmap'}>
                         {gridView ?
