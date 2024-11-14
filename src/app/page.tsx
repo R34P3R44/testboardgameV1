@@ -49,6 +49,7 @@ const ZoomableImage: React.FC = ({ }) => {
           setShowAragorn(true)  
         }
         else {
+          console.log(latestPlayerMove)
           setDBPosition({x: latestPlayerMove[0].x, y: latestPlayerMove[0].y, dateTime: latestPlayerMove[0].dateTime})
           setShowAragorn(true) 
 
