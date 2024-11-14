@@ -24,7 +24,8 @@ export default async function handler(
         };
       });
       res.status(200).json({ positions });
-    } catch (res: any) {
+    } catch (error: any) {
+      console.error("Error retrieving positions:", error);
       res.status(500).json({ error: "Error retrieving users" });
     }
   } else {
