@@ -3,10 +3,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import './movableObject.css';
 // import { useAbly } from '../../app/lib/useAbly';
 
-type NazgulProps = {
-  // channelName: string;
-  getNazgulPosition(position: { x: number; y: number }): void;
-}
 
 type Position = {
   x: number;

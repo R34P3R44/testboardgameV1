@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 // import { useAbly } from '../../app/lib/useAbly';
 import './movableObject.css';
-import Ably from 'ably';
-import { Position } from "../../app/data-types/characterType";
+// import Ably from 'ably';
+// import { Position } from "../../app/data-types/characterType";
 import {sendPosition} from '../../pages/api/send-position'
 
 type Positions = {
@@ -20,12 +20,12 @@ type Offset = {
 
 
 type AragornProps = {
-  channelName: string;
+  // channelName: string;
   dBPosition: { x: number | null, y: number | null, dateTime: Date | null }
   // getAragornPosition(position: { x: number; y: number }): void;
 }
 
-const Aragorn: React.FC<AragornProps> = ({ channelName, dBPosition }) => {
+const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
 
   //uncomment to use ably updates
   // const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });

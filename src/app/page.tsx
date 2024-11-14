@@ -15,20 +15,20 @@ interface AragornPosition {
   dateTime: Date | null; // Not optional
 }
 
-interface OrcArcherPosition {
-  x: number, 
-  y: number
-}
+// interface OrcArcherPosition {
+//   x: number, 
+//   y: number
+// }
 
-interface OrcHunterPosition {
-  x: number, 
-  y: number
-}
+// interface OrcHunterPosition {
+//   x: number, 
+//   y: number
+// }
 
-interface NazgulPosition {
-  x: number, 
-  y: number
-}
+// interface NazgulPosition {
+//   x: number, 
+//   y: number
+// }
 
 const ZoomableImage: React.FC = ({ }) => {
 
@@ -97,7 +97,10 @@ const ZoomableImage: React.FC = ({ }) => {
       <div className='rightColumn flex'>
         <Map />
         {showAragorn ? 
-          <Aragorn channelName="ably-chat-room" dBPosition={dBPosition} />
+          <Aragorn 
+            // channelName="ably-chat-room" 
+            dBPosition={dBPosition} 
+          />
         :
           null
         }
