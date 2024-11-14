@@ -94,7 +94,7 @@ const ZoomableImage: React.FC = ({ }) => {
 
   return (
     <div className="hiddenOverflow ">
-      <div className='leftColumn'>
+      <div className='leftColumn flex'>
         {/* <Chat channelName="ably-chat-room"/> */}
         <div className='trackerStyle'>
           <div >{`Aragorn position: x: ${aragornPos.x} y:${aragornPos.y}`}</div>
@@ -103,7 +103,7 @@ const ZoomableImage: React.FC = ({ }) => {
           <div >{`Nazgul position: x: ${nazgul.x} y:${nazgul.y}`}</div>
         </div>
       </div>
-      <div className='rightColumn'>
+      <div className='rightColumn flex'>
         <Map />
         {showAragorn ? 
           <Aragorn channelName="ably-chat-room" dBPosition={dBPosition} />
