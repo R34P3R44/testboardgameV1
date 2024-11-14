@@ -4,9 +4,9 @@ import './movableObject.css';
 // import { useAbly } from '../../app/lib/useAbly';
 
 
-interface OrcHunterProps {
-  getOrchunterPosition(position: { x: number; y: number }): void;
-}
+// interface OrcHunterProps {
+//   getOrchunterPosition(position: { x: number; y: number }): void;
+// }
 
 type Position = {
   x: number;

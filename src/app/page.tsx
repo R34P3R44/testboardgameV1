@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import './page.css';
 import Aragorn from './characters/aragorn';
-import OrcArcher from "./characters/orcArcher";
-import OrcHunter from "./characters/orcHunter";
-import Nazgul from "./characters/nazgul";
+// import OrcArcher from "./characters/orcArcher";
+// import OrcHunter from "./characters/orcHunter";
+// import Nazgul from "./characters/nazgul";
 import Map from './components/map';
 // import Chat from './components/chat';
 
@@ -32,11 +32,6 @@ interface NazgulPosition {
 
 const ZoomableImage: React.FC = ({ }) => {
 
-  const [aragornPos, setAragornPos] = useState<AragornPosition>({ x: 0, y: 0, dateTime: new Date() });
-  const [orcArcherPos, setOrcArcherPos] = useState<OrcArcherPosition>({ x: 0, y: 0 });
-  const [orcHunterPos, setOrcHunterPos] = useState<OrcHunterPosition>({ x: 0, y: 0 });
-  const [nazgul, setNazgulPos] = useState<NazgulPosition>({ x: 0, y: 0 });
-
   const [showAragorn, setShowAragorn] = useState<boolean>(false);
 
   const [dBPosition, setDBPosition] = useState<AragornPosition>({ x: 0, y: 0, dateTime: new Date()});
@@ -48,7 +43,7 @@ const ZoomableImage: React.FC = ({ }) => {
       if(res.ok){
         const data = await res.json();
         const respData = data.positions
-        let latestPlayerMove = Array.isArray(respData) ?  [...respData].sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
+        const latestPlayerMove = Array.isArray(respData) ?  [...respData].sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
         if(latestPlayerMove === undefined || latestPlayerMove === null) {
           setDBPosition({x: 0, y: 0, dateTime: new Date()})
           setShowAragorn(true)  
@@ -97,10 +92,6 @@ const ZoomableImage: React.FC = ({ }) => {
       <div className='leftColumn flex'>
         {/* <Chat channelName="ably-chat-room"/> */}
         <div className='trackerStyle'>
-          <div >{`Aragorn position: x: ${aragornPos.x} y:${aragornPos.y}`}</div>
-          <div >{`Orc Archer position: x: ${orcArcherPos.x} y:${orcArcherPos.y}`}</div>
-          <div >{`Orc Hunter position: x: ${orcHunterPos.x} y:${orcHunterPos.y}`}</div>
-          <div >{`Nazgul position: x: ${nazgul.x} y:${nazgul.y}`}</div>
         </div>
       </div>
       <div className='rightColumn flex'>

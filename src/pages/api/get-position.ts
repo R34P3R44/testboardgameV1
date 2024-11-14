@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../app/lib/firebase";
-import { collection, getDocs, Timestamp } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { Position } from "../../app/data-types/characterType";
 
 type Data = {
@@ -24,7 +24,7 @@ export default async function handler(
         };
       });
       res.status(200).json({ positions });
-    } catch (error) {
+    } catch (res: any) {
       res.status(500).json({ error: "Error retrieving users" });
     }
   } else {
