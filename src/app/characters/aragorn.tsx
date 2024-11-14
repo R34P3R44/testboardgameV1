@@ -1,47 +1,70 @@
 import { useEffect, useRef, useState } from 'react';
 // import { useAbly } from '../../app/lib/useAbly';
 import './movableObject.css';
+import Ably from 'ably';
+import { Position } from "../../app/data-types/characterType";
+import {sendPosition} from '../../pages/api/send-position'
 
-type Position = {
+type Positions = {
+  x: number | null;
+  y: number | null;
+  dateTime: Date | null
+};
+
+
+type Offset = {
   x: number;
   y: number;
 };
 
+
+
 type AragornProps = {
   channelName: string;
-  getAragornPosition(position: { x: number; y: number }): void;
+  dBPosition: { x: number | null, y: number | null, dateTime: Date | null }
+  // getAragornPosition(position: { x: number; y: number }): void;
 }
 
-const Aragorn: React.FC<AragornProps> = ({ getAragornPosition, }) => {
-  const [position, setPosition] = useState<Position>({ x: 1450, y: 670 });
-  const divRef = useRef<HTMLDivElement | null>(null);
+const Aragorn: React.FC<AragornProps> = ({ channelName, dBPosition }) => {
+
+  //uncomment to use ably updates
+  // const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
+  // const channel = ably.channels.get(channelName);
   // const { sendMessage, messages } = useAbly('draggable-channel');
-  const [offset, setOffset] = useState<Position>({ x: 50, y: 50 });
+
+  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date() });
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (dBPosition.dateTime) {
+      setNewPosition({ x: dBPosition.x, y: dBPosition.y, dateTime: null })
+    }
+    else {
+      setNewPosition({ x: 0, y: 0, dateTime: null })
+    }
 
-  // Update position on receiving messages from Ably
-  // useEffect(() => {
-  //   const latestMessage = messages[messages.length - 1];
-  //   if (latestMessage && latestMessage.x !== undefined && latestMessage.y !== undefined) {
-  //     setPosition({ x: latestMessage.x, y: latestMessage.y });
-  //   }
-  // }, [messages]);
+  }, []);
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging && (offset.x && offset.y)) {
+      const position = {
+        x: e.clientX - offset.x,
+        y: e.clientY - offset.y,
+        dateTime: new Date()
+      };
+      setNewPosition(position)
+      // getAragornPosition(newPosition)
+    }
+  };
+
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        const newPosition = {
-          x: e.clientX - offset.x,
-          y: e.clientY - offset.y,
-        };
-        setPosition(newPosition)
-        getAragornPosition(newPosition)
-
-      }
-    };
-    const handleMouseUp = () => {
+    const handleMouseUp = async () => {
       setIsDragging(false);
+
+      sendPosition(newPosition)
     };
 
     if (isDragging) {
@@ -57,36 +80,46 @@ const Aragorn: React.FC<AragornProps> = ({ getAragornPosition, }) => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, offset]);
+  }, [isDragging, newPosition]);
 
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setOffset({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y,
-    });
+    if (newPosition.x !== null && newPosition.y !== null) {
+      // e.preventDefault();
+      setIsDragging(true);
+      setOffset({
+        x: e.clientX - newPosition.x,
+        y: e.clientY - newPosition.y,
+      });
+
+    }
   };
+
+  //uncomment to use ably updates
+  // useEffect(() => {
+  //   // Publish the new position to Ably
+  //   channel.publish('position-update', position);
+  // }, [position]);
 
   return (
     <div
       draggable={false}
       ref={divRef}
       onMouseDown={handleMouseDown}
-      className='backdrop'
       style={{
         position: 'absolute',
-        top: position.y,
-        left: position.x,
+        left: `${newPosition.x}px`,
+        top: `${newPosition.y}px`,
         width: '50px',
         height: '70px',
         backgroundColor: 'transparent',
         cursor: 'move',
-        zIndex: 2,
+        zIndex: 3,
       }}
     >
-      <div className='aragorn'></div>
+      <div className='aragorn'>
+        <div className='relative bottom-12 width text-yellow-400 font-semibold bg-blue-800 rounded-lg flex justify-center'>{`X: ${newPosition.x}px, Y: ${newPosition.y}px, Date&Time: ${newPosition?.dateTime?.toISOString()}`}</div>
+      </div>
     </div>
 
   );

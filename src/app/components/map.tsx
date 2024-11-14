@@ -1,6 +1,8 @@
 import React, { useState,} from 'react';
 import HexagonLayer from './hexagonLayer';
 import './map.css';
+import Aragorn from '../characters/aragorn';
+
 
 
 const Map: React.FC = () => {
@@ -60,7 +62,8 @@ const Map: React.FC = () => {
                         {gridView ?
                             <HexagonLayer />
                             :
-                            null}
+                            null
+                        }
                     </div>
                 </div>
             </div>

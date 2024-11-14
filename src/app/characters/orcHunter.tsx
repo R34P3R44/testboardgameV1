@@ -13,7 +13,7 @@ type Position = {
   y: number;
 };
 
-const OrcHunter: React.FC<OrcHunterProps> = ({getOrchunterPosition}) => {
+const OrcHunter: React.FC = () => {
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 1150, y: 150 });
   const divRef = useRef<HTMLDivElement | null>(null);
   // const { sendMessage, messages } = useAbly('draggable-channel');
@@ -38,7 +38,7 @@ const OrcHunter: React.FC<OrcHunterProps> = ({getOrchunterPosition}) => {
           y: e.clientY - offset.y,
         };
         setPosition(newPosition)
-        getOrchunterPosition(newPosition)
+        // getOrchunterPosition(newPosition)
       }
     };
 

@@ -1,6 +1,6 @@
 "use client"; // This directive makes the component a client component
 
-import React, { useState, } from 'react';
+import React, { useState, useEffect } from 'react';
 import './page.css';
 import Aragorn from './characters/aragorn';
 import OrcArcher from "./characters/orcArcher";
@@ -10,8 +10,9 @@ import Map from './components/map';
 // import Chat from './components/chat';
 
 interface AragornPosition {
-  x: number, 
-  y: number
+  x: number | null;
+  y: number | null;
+  dateTime: Date | null; // Not optional
 }
 
 interface OrcArcherPosition {
@@ -31,26 +32,64 @@ interface NazgulPosition {
 
 const ZoomableImage: React.FC = ({ }) => {
 
-  const [aragornPos, setAragornPos] = useState<AragornPosition>({ x: 0, y: 0 });
+  const [aragornPos, setAragornPos] = useState<AragornPosition>({ x: 0, y: 0, dateTime: new Date() });
   const [orcArcherPos, setOrcArcherPos] = useState<OrcArcherPosition>({ x: 0, y: 0 });
   const [orcHunterPos, setOrcHunterPos] = useState<OrcHunterPosition>({ x: 0, y: 0 });
   const [nazgul, setNazgulPos] = useState<NazgulPosition>({ x: 0, y: 0 });
 
-  const getAragornPosition = (position: any) => {
-    setAragornPos(position)
-  }
+  const [showAragorn, setShowAragorn] = useState<boolean>(false);
 
-  const getOrchunterPosition = (position: any) => {
-    setOrcHunterPos(position)
-  }
+  const [dBPosition, setDBPosition] = useState<AragornPosition>({ x: 0, y: 0, dateTime: new Date()});
 
-  const getArcherPosition = (position: any) => {
-    setOrcArcherPos(position)
-  }
 
-  const getNazgulPosition = (position: any) => {
-    setNazgulPos(position)
-  }
+  useEffect(() => {
+    const fetchposition = async () => {
+      const res = await fetch('/api/get-position');
+      if(res.ok){
+        const data = await res.json();
+        const respData = data.positions
+        let latestPlayerMove = Array.isArray(respData) ?  [...respData].sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
+        if(latestPlayerMove === undefined || latestPlayerMove === null) {
+          setDBPosition({x: 0, y: 0, dateTime: new Date()})
+          setShowAragorn(true)  
+        }
+        else {
+          setDBPosition({x: latestPlayerMove[0].x, y: latestPlayerMove[0].y, dateTime: latestPlayerMove[0].dateTime})
+          setShowAragorn(true) 
+
+        }
+      }
+      else {
+        setDBPosition({x: 0, y: 0, dateTime: new Date()})
+        setShowAragorn(true)  
+      }
+    }
+  
+    fetchposition()
+    
+  }, []);
+
+
+  // const getAragornPosition = (position: any) => {
+  //   setAragornPos(position)
+  // }
+
+  // const getOrchunterPosition = (position: any) => {
+  //   setOrcHunterPos(position)
+  // }
+
+  // const getArcherPosition = (position: any) => {
+  //   setOrcArcherPos(position)
+  // }
+
+  // const getNazgulPosition = (position: any) => {
+  //   setNazgulPos(position)
+  // }
+
+  // const resetDbPosition = () => {
+  //   setDBPosition({x: null, y: null})
+
+  // }
 
 
   return (
@@ -65,11 +104,15 @@ const ZoomableImage: React.FC = ({ }) => {
         </div>
       </div>
       <div className='rightColumn'>
-        <Map/>
-        <Aragorn channelName="ably-chat-room" getAragornPosition={getAragornPosition}/>
-        <OrcArcher getArcherPosition={getArcherPosition}/>
-        <OrcHunter getOrchunterPosition={getOrchunterPosition}/>
-        <Nazgul getNazgulPosition={getNazgulPosition}/>
+        <Map />
+        {showAragorn ? 
+          <Aragorn channelName="ably-chat-room" dBPosition={dBPosition} />
+        :
+          null
+        }
+        {/* <OrcArcher /> */}
+        {/* <OrcHunter />
+        <Nazgul /> */}
       </div>
     </div>
   );

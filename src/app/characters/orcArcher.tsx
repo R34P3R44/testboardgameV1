@@ -6,7 +6,7 @@ import './movableObject.css';
 
 type OrcArcherProps = {
   // channelName: string;
-  getArcherPosition(position: { x: number; y: number }): void;
+  // getArcherPosition(position: { x: number; y: number }): void;
 }
 
 type Position = {
@@ -14,8 +14,8 @@ type Position = {
   y: number;
 };
 
-const OrcArcher: React.FC<OrcArcherProps> = ({getArcherPosition}) => {
-  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 1250, y: 250 });
+const OrcArcher: React.FC = () => {
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 150, y: 250 });
   // const { sendMessage, messages } = useAbly('draggable-channel');
   const [offset, setOffset] = useState<Position>({ x: 50, y: 50 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -38,7 +38,7 @@ const OrcArcher: React.FC<OrcArcherProps> = ({getArcherPosition}) => {
           y: e.clientY - offset.y,
         };
         setPosition(newPosition)
-        getArcherPosition(newPosition)
+        // getArcherPosition(newPosition)
       }
     };
 
