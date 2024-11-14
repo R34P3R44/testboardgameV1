@@ -43,6 +43,7 @@ const ZoomableImage: React.FC = ({ }) => {
       if(res.ok){
         const data = await res.json();
         const respData = data.positions
+        console.log(respData)
         const latestPlayerMove = Array.isArray(respData) ?  [...respData].sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
         if(latestPlayerMove === undefined || latestPlayerMove === null) {
           setDBPosition({x: 0, y: 0, dateTime: new Date()})
