@@ -1,19 +1,19 @@
 "use client"; // This directive makes the component a client component
+
 import React, { useState, useEffect } from 'react';
-import Main from './components/Main';
 
-const Landing: React.FC = ({ }) => {
+const Sidebar: React.FC = ({ }) => {
 
-  // useEffect(() => {
-    
-  // }, []);
+
+  //   useEffect(() => {    
+  //   }, []);
 
 
   return (
     <div className="">
-        <Main/>
+      
     </div>
   );
 };
 
-export default Landing;
+export default Sidebar;

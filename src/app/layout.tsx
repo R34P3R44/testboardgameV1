@@ -24,12 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <html lang="en" className="w-full h-full">
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full h-full`}>
+      <div className="w-full h-full flex flex-col">
+        <div className="container max-w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
+          {children}
+        </div>
+      </div>
+    </body>
+  </html>
   );
 }

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import './movableObject.css';
 // import Ably from 'ably';
 // import { Position } from "../../app/data-types/characterType";
-import {sendPosition} from '../../pages/api/send-position'
+import {sendPosition} from '../../../pages/api/send-position'
 
 type Positions = {
   x: number | null;
