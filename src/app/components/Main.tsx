@@ -1,6 +1,6 @@
 "use client"; // This directive makes the component a client component
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SideBar from './SideBar/SideBar';
 import Maincontent from './Maincontent/Maincontent';
 
