@@ -1,4 +1,4 @@
-import WarBoys from '../../../../public/WarBoys.png'
+import WarBoys from '../../../../public/Warboys.png'
 import BulletFarm from '../../../../public/BulletFarm.png'
 import Buzzards from '../../../../public/Buzzards.png'
 export const allfactions = [

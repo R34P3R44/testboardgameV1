@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import Aragorn from './characters/aragorn';
-import './map.css';
+import './Map.css';
 
 interface AragornPosition {
     x: number | null;
