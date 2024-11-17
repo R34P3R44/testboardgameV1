@@ -10,7 +10,6 @@ interface AragornPosition {
 
 const Map: React.FC = () => {
 
-    const [gridView, setGridView] = useState<boolean>(false);
     const [zoomedMap, setZoomedMap] = useState<boolean>(false);
     const [zoomedMap80, setZoomedMap80] = useState<boolean>(false);
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
