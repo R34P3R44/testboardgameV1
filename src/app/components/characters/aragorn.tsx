@@ -114,8 +114,8 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
         height: '70px',
         backgroundColor: 'transparent',
         cursor: 'move',
-        zIndex: 3,
       }}
+      className='z-40'
     >
       <div className='aragorn'>
         <div className='relative bottom-12 width text-yellow-400 font-semibold bg-blue-800 rounded-lg flex justify-center'>{`X: ${newPosition.x}px, Y: ${newPosition.y}px, Date&Time: ${newPosition?.dateTime?.toISOString()}`}</div>
