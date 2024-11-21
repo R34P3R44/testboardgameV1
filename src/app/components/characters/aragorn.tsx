@@ -4,11 +4,17 @@ import './movableObject.css';
 // import Ably from 'ably';
 // import { Position } from "../../app/data-types/characterType";
 import {sendPosition} from '../../../pages/api/send-position'
+import Moverange from '../Moverange'
 
 type Positions = {
   x: number | null;
   y: number | null;
   dateTime: Date | null
+};
+
+type MoveRangePositions = {
+  x: number | null;
+  y: number | null;
 };
 
 
@@ -33,16 +39,34 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
   // const { sendMessage, messages } = useAbly('draggable-channel');
 
   const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date() });
+  const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
+
   const divRef = useRef<HTMLDivElement | null>(null);
   const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [showMoveRange, setShowMoveRange] = useState<boolean>(false);
+
+  let newMoveRangePosition = {
+    x: 0,
+    y: 0
+  }
+
 
   useEffect(() => {
+    if (dBPosition.x === null || dBPosition.y === null) {
+      throw new Error("Invalid position: x or y is null.");
+    }
+    newMoveRangePosition = {
+      x: dBPosition.x + 100,
+      y: dBPosition.y + 10
+    }
     if (dBPosition.dateTime) {
       setNewPosition({ x: dBPosition.x, y: dBPosition.y, dateTime: null })
+      setMoveRangePosition({x: newMoveRangePosition.x, y: newMoveRangePosition.y})
     }
     else {
       setNewPosition({ x: 0, y: 0, dateTime: null })
+      setMoveRangePosition({x: 0, y: 0})
     }
 
   }, []);
@@ -58,6 +82,17 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
       // getAragornPosition(newPosition)
     }
   };
+
+  useEffect(() => {
+    if(!showMoveRange && newPosition.x && newPosition.y){
+      newMoveRangePosition = {
+        x: newPosition.x + 100,
+        y: newPosition.y + 10
+      }
+      setMoveRangePosition({x: newPosition.x, y: newPosition.y})
+    }
+    
+  }, [newPosition, showMoveRange]);
 
 
   useEffect(() => {
@@ -91,9 +126,18 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
         x: e.clientX - newPosition.x,
         y: e.clientY - newPosition.y,
       });
-
+    }
+    else if(showMoveRange){
+      setIsDragging(false);
     }
   };
+
+  const onDoubleClick = (e: React.MouseEvent) => {
+    if(e){
+      e.preventDefault();
+      setShowMoveRange(!showMoveRange)
+    }
+  }
 
   //uncomment to use ably updates
   // useEffect(() => {
@@ -102,25 +146,35 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
   // }, [position]);
 
   return (
-    <div
-      draggable={false}
-      ref={divRef}
-      onMouseDown={handleMouseDown}
-      style={{
-        position: 'absolute',
-        left: `${newPosition.x}px`,
-        top: `${newPosition.y}px`,
-        width: '50px',
-        height: '70px',
-        backgroundColor: 'transparent',
-        cursor: 'move',
-      }}
-      className='z-40'
-    >
-      <div className='aragorn'>
-        <div className='relative bottom-12 width text-yellow-400 font-semibold bg-blue-800 rounded-lg flex justify-center'>{`X: ${newPosition.x}px, Y: ${newPosition.y}px, Date&Time: ${newPosition?.dateTime?.toISOString()}`}</div>
+    <>
+      {showMoveRange ? 
+        <Moverange moveRangePosition={moveRangePosition}/>
+        :
+        null
+      }
+
+      <div
+        draggable={false}
+        ref={divRef}
+        onMouseDown={handleMouseDown}
+        onDoubleClick={onDoubleClick}
+        style={{
+          position: 'absolute',
+          left: `${newPosition.x}px`,
+          top: `${newPosition.y}px`,
+          width: '50px',
+          height: '70px',
+          backgroundColor: 'transparent',
+          cursor: 'move',
+        }}
+        className='z-40'
+      >
+          <div className='aragorn '>
+            {/* <div className='relative bottom-12 width text-yellow-400 font-semibold bg-blue-800 rounded-lg flex justify-center'>{`X: ${newPosition.x}px, Y: ${newPosition.y}px, Date&Time: ${newPosition?.dateTime?.toISOString()}`}</div> */}
+          </div>
       </div>
-    </div>
+
+    </>
 
   );
 };

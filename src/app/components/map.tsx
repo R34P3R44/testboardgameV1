@@ -24,14 +24,13 @@ const Map: React.FC = () => {
             console.log(respData)
             const latestPlayerMove = Array.isArray(respData) ? [...respData].sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
             if (latestPlayerMove === undefined || latestPlayerMove === null) {
-              setDBPosition({ x: 0, y: 0, dateTime: new Date() })
+              setDBPosition({ x: 100, y: 100, dateTime: new Date() })
               setShowAragorn(true)
             }
             else {
               console.log(latestPlayerMove)
               setDBPosition({ x: latestPlayerMove[0].x, y: latestPlayerMove[0].y, dateTime: latestPlayerMove[0].dateTime })
               setShowAragorn(true)
-    
             }
           }
           else {
@@ -43,9 +42,6 @@ const Map: React.FC = () => {
         fetchposition()
     
       }, []);
-
-
-
 
     const mapZoom = () => {
         setZoomedMap(!zoomedMap)
@@ -85,7 +81,6 @@ const Map: React.FC = () => {
                 <button className={!zoomedMap80 ? 'p-2 h-12 rounded-md bg-green-700 text-white' : 'p-2 h-12 rounded-md bg-green-700 text-white pointer-events-none'} onClick={mapZoom}>{!zoomedMap ? "Zoom 30%" : "Back"}</button>
                 <button className={!zoomedMap ? 'p-2 h-12 rounded-md bg-green-700 text-white' : 'p-2 h-12 rounded-md bg-green-700 text-white pointer-events-none'} onClick={mapZoom80}>{!zoomedMap80 ? "Zoom 80%" : "Back"}</button>
             </div>
-
             <div className=' mapContainer pt-16'>
                 <div className={zoomedMap || zoomedMap80 ? zoomingFeatureContainer() : "image-container z-30"}>
                     <div className={zoomedMap || zoomedMap80 ? zoomingFeature() : 'img testmap z-30'}></div>
@@ -95,7 +90,6 @@ const Map: React.FC = () => {
                     ) 
                     : 
                 null}
-
             </div>
         </div>
     );
