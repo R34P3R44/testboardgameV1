@@ -17,7 +17,6 @@ const Map: React.FC = () => {
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition>({ x: 0, y: 0, dateTime: new Date(), charId: '' });
 
-    // const { show } = useStore();
 
     useEffect(() => {
         const fetchposition = async () => {
@@ -37,11 +36,6 @@ const Map: React.FC = () => {
                     setShowAragorn(true)
                 }
             }
-            // else {
-            //     setDBPositions({ x: 0, y: 0, dateTime: new Date(), charId: '' })
-            //     setShowAragorn(true)
-            //     setShowAragorn2(true)
-            // }
         }
 
         fetchposition()

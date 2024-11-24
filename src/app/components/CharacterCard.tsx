@@ -3,7 +3,6 @@
 import React from 'react';
 import characterItems from './characters/characterItems'
 import Image from 'next/image';
-// import useStore from '../../pages/Store/useStore';
 
 const CharacterCard: React.FC = () => {
 
