@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Imperator from './characters/imperator';
-import Boxos from './characters/boxos';
 import './Map.css';
-import useStore from '../../pages/Store/useStore';
+// import useStore from '../../pages/Store/useStore';
 
 interface CharacterPosition {
     x: number | null;
@@ -16,10 +15,9 @@ const Map: React.FC = () => {
     const [zoomedMap, setZoomedMap] = useState<boolean>(false);
     const [zoomedMap80, setZoomedMap80] = useState<boolean>(false);
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
-    const [showAragorn2, setShowAragorn2] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition>({ x: 0, y: 0, dateTime: new Date(), charId: '' });
 
-    const { show } = useStore();
+    // const { show } = useStore();
 
     useEffect(() => {
         const fetchposition = async () => {
@@ -33,12 +31,10 @@ const Map: React.FC = () => {
                 if (playerMovesByCharName === undefined || playerMovesByCharName === null) {
                     setDBPositions({ x: 100, y: 100, dateTime: new Date(), charId: '' })
                     setShowAragorn(true)
-                    setShowAragorn2(true)
                 }
                 else {
                     setDBPositions(playerMovesByCharName)
                     setShowAragorn(true)
-                    setShowAragorn2(true)
                 }
             }
             // else {
@@ -51,12 +47,6 @@ const Map: React.FC = () => {
         fetchposition()
 
     }, []);
-
-    useEffect(() => {
-        if (show || dBPositions.dateTime) {
-            setShowAragorn2(true)
-        }
-    }, [show, dBPositions.dateTime]);
 
     const mapZoom = () => {
         setZoomedMap(!zoomedMap)
@@ -102,11 +92,6 @@ const Map: React.FC = () => {
                 </div>
                 {showAragorn ?
                     <Imperator dBPositions={dBPositions} />
-
-                    :
-                    null}
-                {showAragorn2 ?
-                    <Boxos dBPositions={dBPositions} />
                     :
                     null}
             </div>
