@@ -13,13 +13,14 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === "POST") {
-    const { x, y, dateTime } = req.body as Position;
+    const { x, y, dateTime, charId } = req.body as Position;
 
     try {
       const docRef = await addDoc(collection(db, "character-positions"), {
         x,
         y,
         dateTime,
+        charId
       });
       res.status(200).json({ id: docRef.id });
     } catch (error) {

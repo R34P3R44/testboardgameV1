@@ -21,6 +21,7 @@ export default async function handler(
           x: data.x || null,
           y: data.y || null,
           dateTime: data.dateTime || null,
+          charId: data.charId || null
         };
       });
       res.status(200).json({ positions });

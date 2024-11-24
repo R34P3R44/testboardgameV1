@@ -25,20 +25,20 @@ type Offset = {
 
 
 
-type AragornProps = {
+type ImperatorProps = {
   // channelName: string;
-  dBPosition: { x: number | null, y: number | null, dateTime: Date | null }
+  dBPositions: { x: number | null, y: number | null, dateTime: Date | null }
   // getAragornPosition(position: { x: number; y: number }): void;
 }
 
-const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
+const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
 
   //uncomment to use ably updates
   // const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
   // const channel = ably.channels.get(channelName);
   // const { sendMessage, messages } = useAbly('draggable-channel');
 
-  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date() });
+  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), });
   const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
 
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -53,15 +53,15 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
 
 
   useEffect(() => {
-    if (dBPosition.x === null || dBPosition.y === null) {
+    if (dBPositions.x === null || dBPositions.y === null) {
       throw new Error("Invalid position: x or y is null.");
     }
     newMoveRangePosition = {
-      x: dBPosition.x + 100,
-      y: dBPosition.y + 10
+      x: dBPositions.x + 100,
+      y: dBPositions.y + 10
     }
-    if (dBPosition.dateTime) {
-      setNewPosition({ x: dBPosition.x, y: dBPosition.y, dateTime: null })
+    if (dBPositions.dateTime) {
+      setNewPosition({ x: dBPositions.x, y: dBPositions.y, dateTime: null })
       setMoveRangePosition({x: newMoveRangePosition.x, y: newMoveRangePosition.y})
     }
     else {
@@ -76,7 +76,8 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
       const position = {
         x: e.clientX - offset.x,
         y: e.clientY - offset.y,
-        dateTime: new Date()
+        dateTime: new Date(),
+        charId: 'RoadKill1'
       };
       setNewPosition(position)
       // getAragornPosition(newPosition)
@@ -179,4 +180,4 @@ const Aragorn: React.FC<AragornProps> = ({dBPosition }) => {
   );
 };
 
-export default Aragorn;
+export default Imperator;
