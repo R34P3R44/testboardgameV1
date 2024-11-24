@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState} from 'react';
+import React from 'react';
 
 interface MoverangePropps {
     moveRangePosition : {
@@ -8,11 +8,6 @@ interface MoverangePropps {
         y: number | null
     }
 }
-
-type MoveRangePositions = {
-    x: number | null;
-    y: number | null;
-  };
 
 const Moverange: React.FC<MoverangePropps> = ({moveRangePosition}) => { 
 

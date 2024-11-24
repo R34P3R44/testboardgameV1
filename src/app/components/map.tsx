@@ -56,7 +56,7 @@ const Map: React.FC = () => {
         if (show || dBPositions.dateTime) {
             setShowAragorn2(true)
         }
-    }, [show]);
+    }, [show, dBPositions.dateTime]);
 
     const mapZoom = () => {
         setZoomedMap(!zoomedMap)

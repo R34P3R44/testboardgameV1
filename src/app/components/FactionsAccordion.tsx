@@ -7,14 +7,6 @@ import SkillsAccordion from './SkillsAccordion'
 
 const FactionsAccordion: React.FC = () => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [open, setOpen] = useState<boolean>(false);
-
-
-    const onClickParentAccordion = () => {
-        setIsOpen(true)
-    }
-
     return (
         <>
 

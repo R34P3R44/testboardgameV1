@@ -23,8 +23,6 @@ type Offset = {
   y: number;
 };
 
-
-
 type ImperatorProps = {
   // channelName: string;
   dBPositions: { x: number | null, y: number | null, dateTime: Date | null }
@@ -46,13 +44,14 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showMoveRange, setShowMoveRange] = useState<boolean>(false);
 
-  let newMoveRangePosition = {
-    x: 0,
-    y: 0
-  }
+
 
 
   useEffect(() => {
+    let newMoveRangePosition = {
+      x: 0,
+      y: 0
+    }
     if (dBPositions.x === null || dBPositions.y === null) {
       throw new Error("Invalid position: x or y is null.");
     }
@@ -85,6 +84,10 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
   };
 
   useEffect(() => {
+    let newMoveRangePosition = {
+      x: 0,
+      y: 0
+    }
     if(!showMoveRange && newPosition.x && newPosition.y){
       newMoveRangePosition = {
         x: newPosition.x + 100,

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from 'react';
-import CharacterCard from './CharacterCard'
 import FactionsAccordion from './FactionsAccordion'
 
 
@@ -10,12 +9,6 @@ interface FactionsProps {
 }
 
 const Factions: React.FC<FactionsProps> = ({ onCloseModal, activeItem }) => {
-
-  const [isModalOpen, setIsModalOpen] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const closeModal = () => setIsModalOpen(false);
-  const toggleDrawer = () => setIsDrawerOpen((prev) => !prev);
 
   return (
     <div>

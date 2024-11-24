@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import CharacterCard from './CharacterCard'
 import skillsContent from './AllSkills'
 
 const FactionsAccordion: React.FC = () => {
-
-    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     // const onClickChildAccordion = () => {
     //     setIsOpen(true)
