@@ -47,27 +47,23 @@ const Boxos: React.FC<BoxosProps> = ({dBPositions }) => {
   const [showMoveRange, setShowMoveRange] = useState<boolean>(false);
 
   useEffect(() => {
-    let newMoveRangePosition = {
-      x: 0,
-      y: 0
-    }
     if (dBPositions.x === null || dBPositions.y === null) {
       throw new Error("Invalid position: x or y is null.");
     }
-    newMoveRangePosition = {
+  
+    const moveRangePosition = {
       x: dBPositions.x + 100,
-      y: dBPositions.y + 10
-    }
+      y: dBPositions.y + 10,
+    };
+  
     if (dBPositions.dateTime) {
-      setNewPosition({ x: dBPositions.x, y: dBPositions.y, dateTime: null })
-      setMoveRangePosition({x: newMoveRangePosition.x, y: newMoveRangePosition.y})
+      setNewPosition({ x: dBPositions.x, y: dBPositions.y, dateTime: null });
+      setMoveRangePosition(moveRangePosition);
+    } else {
+      setNewPosition({ x: 0, y: 0, dateTime: null });
+      setMoveRangePosition({ x: 0, y: 0 });
     }
-    else {
-      setNewPosition({ x: 0, y: 0, dateTime: null })
-      setMoveRangePosition({x: 0, y: 0})
-    }
-
-  }, []);
+  }, []); 
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging && (offset.x && offset.y)) {
@@ -83,18 +79,12 @@ const Boxos: React.FC<BoxosProps> = ({dBPositions }) => {
   };
 
   useEffect(() => {
-    let newMoveRangePosition = {
-      x: 0,
-      y: 0
-    }
-    if(!showMoveRange && newPosition.x && newPosition.y){
-      newMoveRangePosition = {
+    if (!showMoveRange && newPosition.x && newPosition.y) {
+      setMoveRangePosition({
         x: newPosition.x + 100,
-        y: newPosition.y + 10
-      }
-      setMoveRangePosition({x: newPosition.x, y: newPosition.y})
+        y: newPosition.y + 10,
+      });
     }
-    
   }, [newPosition, showMoveRange]);
 
 
