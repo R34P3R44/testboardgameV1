@@ -22,7 +22,7 @@ const SideBar: React.FC<SideBarProps> = ({onOpenModal}) => {
                             // className={activeItem ? }
                         >
                             <a href="#" className="h-16 flex items-center text-xl hover:bg-red-900">
-                                <span className="icon-[tabler--home] size-15"></span>
+                                <span className=""></span>
                                 {listItem}
                             </a>
                         </li>

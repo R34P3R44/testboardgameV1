@@ -19,5 +19,4 @@ export const sendPosition = async (newPosition: object = {}) => {
         console.log(error)
         console.log("Error adding character position")
       }
-
 }

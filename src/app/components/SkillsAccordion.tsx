@@ -1,14 +1,44 @@
 "use client";
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CharacterCard from './CharacterCard'
 import skillsContent from './AllSkills'
 
+
+type FactionsData = {
+    id: number;
+    active: boolean;
+    charId: string;
+    description: string;
+  }
+
 const FactionsAccordion: React.FC = () => {
 
-    // const onClickChildAccordion = () => {
-    //     setIsOpen(true)
-    // }
+    const [factionsData, setFactionsData] = useState<FactionsData[]>([])
+
+    useEffect(() => {
+        const fetchFactions = async () => {
+            const res = await fetch('/api/get-factions');
+            if(res.ok){
+                const data: FactionsData[] = await res.json();
+                console.log("API Response", data);
+                if(data){
+                    setFactionsData(data)
+                    console.log("API Response SET:", data);
+                }
+                else {
+                    const fallbackFaction: FactionsData = {
+                        id: 0,
+                        active: false,
+                        charId: '',
+                        description: '',
+                    }
+                }
+            }
+        }
+
+        fetchFactions()
+    }, []);
 
 
     return (
@@ -26,7 +56,7 @@ const FactionsAccordion: React.FC = () => {
                             </span>
                         </summary>
                         <div className="gap-8 px-4 flex w-full">
-                            <CharacterCard/>
+                            <CharacterCard factionsData={factionsData}/>
                         </div>
                     </details>
                 </li>

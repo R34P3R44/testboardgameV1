@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import './movableObject.css';
 // import Ably from 'ably';
 // import { Position } from "../../app/data-types/characterType";
-import {sendPosition} from '../../../pages/api/send-position'
+import { CharacterPosition } from "../../../app/data-types/characterType";
+import {sendPosition} from '../../../pages/_restApiFn/send-position'
 import Moverange from '../Moverange'
 
 type Positions = {
@@ -25,7 +26,9 @@ type Offset = {
 
 type ImperatorProps = {
   // channelName: string;
-  dBPositions: { x: number | null, y: number | null, dateTime: Date | null }
+  dBPositions: CharacterPosition[]
+
+  
   // getAragornPosition(position: { x: number; y: number }): void;
 }
 
@@ -44,21 +47,22 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showMoveRange, setShowMoveRange] = useState<boolean>(false);
 
-
-
-
   useEffect(() => {
-    if (dBPositions.x === null || dBPositions.y === null) {
+    if (dBPositions[0].latestPositions?.x === null || dBPositions[0].latestPositions?.y === null) {
+      console.log("Invalid position: x or y is null.")
+
       throw new Error("Invalid position: x or y is null.");
     }
   
-    const moveRangePosition = {
-      x: dBPositions.x + 100,
-      y: dBPositions.y + 10,
-    };
+    if(dBPositions[0].latestPositions?.x && dBPositions[0].latestPositions?.y){
+      const moveRangePosition = {
+        x: dBPositions[0].latestPositions?.x + 100,
+        y: dBPositions[0].latestPositions?.x + 10,
+      };
+    }
   
-    if (dBPositions.dateTime) {
-      setNewPosition({ x: dBPositions.x, y: dBPositions.y, dateTime: null });
+    if (dBPositions[0].latestPositions?.dateTime) {
+      setNewPosition({ x: dBPositions[0].latestPositions?.x, y: dBPositions[0].latestPositions?.y, dateTime: null });
       setMoveRangePosition(moveRangePosition);
     } else {
       setNewPosition({ x: 0, y: 0, dateTime: null });
@@ -141,17 +145,11 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
 
   return (
     <>
-      {showMoveRange ? 
-        <Moverange moveRangePosition={moveRangePosition}/>
-        :
-        null
-      }
-
       <div
         draggable={false}
         ref={divRef}
         onMouseDown={handleMouseDown}
-        onDoubleClick={onDoubleClick}
+        onContextMenu={onDoubleClick}
         style={{
           position: 'absolute',
           left: `${newPosition.x}px`,
@@ -162,10 +160,14 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
           cursor: 'move',
         }}
         className='z-40'
-      >
-          <div className='aragorn '>
-            {/* <div className='relative bottom-12 width text-yellow-400 font-semibold bg-blue-800 rounded-lg flex justify-center'>{`X: ${newPosition.x}px, Y: ${newPosition.y}px, Date&Time: ${newPosition?.dateTime?.toISOString()}`}</div> */}
-          </div>
+      >      
+        <div className='aragorn '>
+        {showMoveRange ? 
+          <Moverange moveRangePosition={moveRangePosition}/>
+          :
+          null
+        }
+        </div>
       </div>
 
     </>

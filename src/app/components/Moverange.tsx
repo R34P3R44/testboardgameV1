@@ -1,6 +1,8 @@
 "use client";
 
 import React from 'react';
+import { updateCharacters } from '../../pages/_restApiFn/send-updateCharacters'
+
 
 interface MoverangePropps {
     moveRangePosition : {
@@ -10,20 +12,27 @@ interface MoverangePropps {
 }
 
 const Moverange: React.FC<MoverangePropps> = ({moveRangePosition}) => { 
-
     
+    const charId = "RoadKill1"
+    const active = false
 
+  const removeCharacter = async () => {
+    await updateCharacters(charId, active)
+
+  }
 
   return (
-    <div className='animate-pulse bg-green-600 w-40 h-40 rounded-full z-30'
-    style={{
-      position: 'relative',
-      left: `${moveRangePosition.x}px`,
-      top: `${moveRangePosition.y}px`,
-    }}
->
-</div>
-)
+    <div className='block z-40'>
+      <ul className=' z-40'>
+        <li>
+          <button className='w-36 h-7 bg-blue-700 text-yellow-500 rounded-lg font-bold m-1'>Profile</button>
+        </li>
+        <li>
+          <button onClick={removeCharacter} className='w-36 h-7 bg-blue-700 text-yellow-500 rounded-lg font-bold m-1 curzor-pointer'>Remove</button>
+        </li>
+      </ul>
+    </div>
+  )
 };
 
 export default Moverange;
