@@ -50,8 +50,9 @@ const Map: React.FC = () => {
                 setDBPositions([fallbackPOsition])
                 setShowAragorn(true)
             }
-            setShowSpinner(false)
         }
+        setShowSpinner(false)
+
     }
 
     useEffect(() => {
