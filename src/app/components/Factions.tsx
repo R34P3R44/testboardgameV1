@@ -10,7 +10,7 @@ interface FactionsProps {
 
 const Factions: React.FC<FactionsProps> = ({ onCloseModal, activeItem }) => {
 
-  const { isCharacterSelected, setCharacterSelected } = useSelectedCharacterHook();
+  const {isCharacterSelected} = useSelectedCharacterHook();
 
   useEffect(() => {
     if(isCharacterSelected) {

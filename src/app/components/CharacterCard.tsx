@@ -17,9 +17,7 @@ interface CharacterCardProps {
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
 
-    // const { setShow } = useStore();
-    const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter>({ charId: '', active: false, id: 0 })
-    const { isCharacterSelected, setCharacterSelected } = useSelectedCharacter();
+    const {setCharacterSelected} = useSelectedCharacter();
     const [isSelected, setIsSelected] = useState<boolean>(false);
 
 
@@ -27,7 +25,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
     useEffect(() => {
         if (isSelected) {
             setCharacterSelected(true)
-            setSelectedCharacter({ charId: '', active: false, id: 0 })
         }
 
     }, [isSelected]);

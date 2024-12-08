@@ -78,7 +78,7 @@ const Map: React.FC = () => {
                 <div className={"image-container z-30"}>
                     <div className={'img testmap z-30'}></div>
                 </div>
-                {dBPositions.length > 0 && dBPositions[0].active === true ?
+                {(dBPositions.length > 0 && dBPositions[0].active === true) || showAragorn ?
                     <Imperator dBPositions={dBPositions} />
                     :
                     null}

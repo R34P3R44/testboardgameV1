@@ -51,14 +51,7 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
 
       throw new Error("Invalid position: x or y is null.");
     }
-  
-    if(dBPositions[0].latestPositions?.x && dBPositions[0].latestPositions?.y){
-      const moveRangePosition = {
-        x: dBPositions[0].latestPositions?.x + 100,
-        y: dBPositions[0].latestPositions?.x + 10,
-      };
-    }
-  
+    
     if (dBPositions[0].latestPositions?.dateTime) {
       setNewPosition({ x: dBPositions[0].latestPositions?.x, y: dBPositions[0].latestPositions?.y, dateTime: null });
       setMoveRangePosition(moveRangePosition);

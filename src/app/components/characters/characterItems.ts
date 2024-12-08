@@ -1,5 +1,3 @@
-import Boomer from '../../../../public/Boomer.png'
-import Nightlizard from '../../../../public/Night-lizard.png'
 import Kamakrazi from '../../../../public/Kamakrazi.png'
 export const characterItems = [
     {

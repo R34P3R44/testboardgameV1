@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
       res.json(uniqueCharacters);
     } catch (error: any) {
+      console.log(error)
       res.status(500).json({ error: "Error retrieving users" });
     }
   } else {

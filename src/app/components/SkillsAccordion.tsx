@@ -31,6 +31,7 @@ const FactionsAccordion: React.FC = () => {
                         charId: '',
                         description: '',
                     }
+                    setFactionsData([fallbackFaction])
                 }
             }
         }

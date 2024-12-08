@@ -12,7 +12,7 @@ interface MoverangeProps {
 
 const Moverange: React.FC<MoverangeProps> = ({dBPositions}) => { 
 
-  const { isCharacterSelected, setCharacterSelected } = useSelectedCharacter();
+  const {setCharacterSelected} = useSelectedCharacter();
     
   const removeCharacter = async () => {
     await updateCharacters(dBPositions[0].charId, false)
