@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import Map from '../Map';
+import Map from '../map';
 import Factions from '../Factions';
 
 interface MaincontentProps {
