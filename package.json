@@ -14,7 +14,6 @@
     "ably": "^2.5.0",
     "autoprefixer": "^10.4.20",
     "firebase": "^11.0.1",
-    "flyonui": "^1.1.0",
     "next": "15.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

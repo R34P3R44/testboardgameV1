@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import characterItems from './characters/characterItems'
-import Image from 'next/image'
 import { updateCharacters } from '../../pages/_restApiFn/send-updateCharacters'
 import { FactionsData } from "../../app/data-types/characterType";
+import { useSelectedCharacter } from '@/pages/Store/useSelectedCharacter';
 
 type SelectedCharacter = {
     charId: string;
@@ -20,17 +19,22 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
 
     // const { setShow } = useStore();
     const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter>({ charId: '', active: false, id: 0 })
+    const { isCharacterSelected, setCharacterSelected } = useSelectedCharacter();
+    const [isSelected, setIsSelected] = useState<boolean>(false);
+
+
 
     useEffect(() => {
-        if (selectedCharacter.charId !== '') {
-            updateCharacters(selectedCharacter.charId, selectedCharacter.active)
+        if (isSelected) {
+            setCharacterSelected(true)
             setSelectedCharacter({ charId: '', active: false, id: 0 })
         }
 
-    }, [selectedCharacter]);
+    }, [isSelected]);
 
-    const onSelectCharacter = (facData: any) => {
-        setSelectedCharacter({charId: facData.charId, active: true, id: facData.id })
+    const onSelectCharacter = async (facData: any) => {
+        await updateCharacters(facData.charId, true)
+        setIsSelected(true)
     }
 
     return (

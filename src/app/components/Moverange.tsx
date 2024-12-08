@@ -2,23 +2,21 @@
 
 import React from 'react';
 import { updateCharacters } from '../../pages/_restApiFn/send-updateCharacters'
+import { CharacterPosition } from "../../app/data-types/characterType";
+import { useSelectedCharacter } from '@/pages/Store/useSelectedCharacter';
 
 
-interface MoverangePropps {
-    moveRangePosition : {
-        x: number | null,
-        y: number | null
-    }
+interface MoverangeProps {
+  dBPositions: CharacterPosition[]
 }
 
-const Moverange: React.FC<MoverangePropps> = ({moveRangePosition}) => { 
+const Moverange: React.FC<MoverangeProps> = ({dBPositions}) => { 
+
+  const { isCharacterSelected, setCharacterSelected } = useSelectedCharacter();
     
-    const charId = "RoadKill1"
-    const active = false
-
   const removeCharacter = async () => {
-    await updateCharacters(charId, active)
-
+    await updateCharacters(dBPositions[0].charId, false)
+    setCharacterSelected(true)
   }
 
   return (

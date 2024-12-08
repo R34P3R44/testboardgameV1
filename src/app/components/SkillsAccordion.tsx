@@ -3,8 +3,6 @@
 import React, {useEffect, useState} from 'react';
 import CharacterCard from './CharacterCard'
 import skillsContent from './AllSkills'
-
-
 type FactionsData = {
     id: number;
     active: boolean;
@@ -61,6 +59,7 @@ const FactionsAccordion: React.FC = () => {
                     </details>
                 </li>
             ))}
+
         </>
     )
 };

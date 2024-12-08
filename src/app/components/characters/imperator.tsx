@@ -18,7 +18,6 @@ type MoveRangePositions = {
   y: number | null;
 };
 
-
 type Offset = {
   x: number;
   y: number;
@@ -28,7 +27,6 @@ type ImperatorProps = {
   // channelName: string;
   dBPositions: CharacterPosition[]
 
-  
   // getAragornPosition(position: { x: number; y: number }): void;
 }
 
@@ -161,9 +159,9 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
         }}
         className='z-40'
       >      
-        <div className='aragorn '>
+        <div className='aragorn'>
         {showMoveRange ? 
-          <Moverange moveRangePosition={moveRangePosition}/>
+          <Moverange dBPositions={dBPositions}/>
           :
           null
         }

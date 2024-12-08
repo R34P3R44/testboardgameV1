@@ -1,3 +1,4 @@
+
 export const updateCharacters = async (charId: string, active: boolean): Promise<void> => {
     try {
       const response = await fetch("/api/update-character", {

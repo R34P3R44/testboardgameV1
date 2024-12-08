@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Imperator from './characters/imperator';
 import './Map.css';
-// import useStore from '../../pages/Store/useStore';
+import { useSelectedCharacter } from '@/pages/Store/useSelectedCharacter';
+import Spinner from './Spinner';
+
 
 type CharacterPosition = {
     charId: string;
@@ -17,41 +19,62 @@ const Map: React.FC = () => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
+    const {isCharacterSelected, setCharacterSelected} = useSelectedCharacter();
+    const [showSpinner, setShowSpinner] = useState<boolean>(false)
+
 
     useEffect(() => {
-        const fetchposition = async () => {
-            const res = await fetch('/api/get-position');
-            if (res.ok) {
-                const data: CharacterPosition[] = await res.json();
-                console.log("API Response:", data);
-                if (data) {
-                    setDBPositions(data)
-                    console.log("API Response SET:", data);
-                }
-                else {
-                    const fallbackPOsition: CharacterPosition = {
-                        charId: '',
-                        active: true,
-                        latestPositions: {
-                            x: 100,
-                            y: 100,
-                            dateTime: new Date().toISOString()
-                        }
-                    }
-                    setDBPositions([fallbackPOsition])
-                    setShowAragorn(true)
-                }
-            }
-        }
-
+        setShowSpinner(true)
         fetchposition()
-
     }, []);
+
+    const fetchposition = async () => {
+        const res = await fetch('/api/get-position');
+        if (res.ok) {
+            const data: CharacterPosition[] = await res.json();
+            console.log("API Response:", data);
+            if (data) {
+                setDBPositions(data)
+                console.log("API Response SET:", data);
+            }
+            else {
+                const fallbackPOsition: CharacterPosition = {
+                    charId: '',
+                    active: true,
+                    latestPositions: {
+                        x: 100,
+                        y: 100,
+                        dateTime: new Date().toISOString()
+                    }
+                }
+                setDBPositions([fallbackPOsition])
+                setShowAragorn(true)
+            }
+            setShowSpinner(false)
+        }
+    }
+
+    useEffect(() => {
+        if(isCharacterSelected) {
+            setShowSpinner(true)
+            fetchposition()
+            setCharacterSelected(false)
+        }
+    }, [isCharacterSelected]);
 
 
     return (
+        <>
+        {showSpinner ? 
+            <div className=''>
+                <Spinner/>
+            </div>
+            :
+            null
+        }
+
         <div className=''>
-            <div className=' mapContainer pt-16'>
+            <div className='mapContainer pt-16'>
                 <div className={"image-container z-30"}>
                     <div className={'img testmap z-30'}></div>
                 </div>
@@ -61,6 +84,8 @@ const Map: React.FC = () => {
                     null}
             </div>
         </div>
+
+        </>
     );
 };
 
