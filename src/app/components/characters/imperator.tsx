@@ -4,7 +4,7 @@ import './movableObject.css';
 // import Ably from 'ably';
 // import { Position } from "../../app/data-types/characterType";
 import { CharacterPosition } from "../../../app/data-types/characterType";
-import {sendPosition} from '../../../pages/_restApiFn/send-position'
+import {sendPosition} from '../../_restApiFn/send-position'
 import Moverange from '../Moverange'
 
 type Positions = {

@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import { updateCharacters } from '../../pages/_restApiFn/send-updateCharacters'
+import { updateCharacters } from '../_restApiFn/send-updateCharacters'
 import { CharacterPosition } from "../../app/data-types/characterType";
-import { useSelectedCharacter } from '@/pages/Store/useSelectedCharacter';
+import { useSelectedCharacter } from '../Store/useSelectedCharacter';
 
 
 interface MoverangeProps {

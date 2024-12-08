@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect} from 'react';
 import FactionsAccordion from './FactionsAccordion'
-import { useSelectedCharacterHook } from '@/pages/_hooks/useSelectedCharacterHook';
+import { useSelectedCharacterHook } from '../_hooks/useSelectedCharacterHook';
 
 interface FactionsProps {
   onCloseModal(): void

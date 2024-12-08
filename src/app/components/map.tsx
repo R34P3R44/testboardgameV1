@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Imperator from './characters/imperator';
 import './Map.css';
-import { useSelectedCharacter } from '@/pages/Store/useSelectedCharacter';
+import { useSelectedCharacter } from '../Store/useSelectedCharacter';
 import Spinner from './Spinner';
 
 
