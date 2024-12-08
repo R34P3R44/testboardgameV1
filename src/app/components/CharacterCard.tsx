@@ -5,11 +5,11 @@ import { updateCharacters } from '../../pages/_restApiFn/send-updateCharacters'
 import { FactionsData } from "../../app/data-types/characterType";
 import { useSelectedCharacter } from '@/pages/Store/useSelectedCharacter';
 
-type SelectedCharacter = {
-    charId: string;
-    active: boolean;
-    id: number
-}
+// type SelectedCharacter = {
+//     charId: string;
+//     active: boolean;
+//     id: number
+// }
 
 interface CharacterCardProps {
     factionsData: FactionsData[]
