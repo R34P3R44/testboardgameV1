@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-// import { useAbly } from '../../app/lib/useAbly';
 import './movableObject.css';
-// import Ably from 'ably';
+import Ably from 'ably';
 // import { Position } from "../../app/data-types/characterType";
 import { CharacterPosition } from "../../../app/data-types/characterType";
-import {sendPosition} from '../../_restApiFn/send-position'
-import Moverange from '../Moverange'
+import { sendPosition } from '../../_restApiFn/send-position'
+import ContextMenu from '../ContextMenu'
 
 type Positions = {
   x: number | null;
@@ -18,121 +17,181 @@ type MoveRangePositions = {
   y: number | null;
 };
 
-type Offset = {
-  x: number;
-  y: number;
-};
-
 type ImperatorProps = {
-  // channelName: string;
-  dBPositions: CharacterPosition[]
-
-  // getAragornPosition(position: { x: number; y: number }): void;
+  dBPositions: CharacterPosition[];
+  isEndTurnClicked: boolean;
+  resetTurnClick(): void;
 }
 
-const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
-
-  //uncomment to use ably updates
-  // const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
-  // const channel = ably.channels.get(channelName);
-  // const { sendMessage, messages } = useAbly('draggable-channel');
-
-  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), });
-  const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
+const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, resetTurnClick }) => {
 
   const divRef = useRef<HTMLDivElement | null>(null);
-  const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
+  const throttledPosition = useRef<Positions | null>(null);
+  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), });
+  const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [showMoveRange, setShowMoveRange] = useState<boolean>(false);
+  const [showContext, setShowContext] = useState<boolean>(false);
+  const [channel, setChannel] = useState<any>(null);
 
   useEffect(() => {
-    if (dBPositions[0].latestPositions?.x === null || dBPositions[0].latestPositions?.y === null) {
-      console.log("Invalid position: x or y is null.")
+    console.log("Effect: 1")
 
+    if (dBPositions[0].latestPositions?.x === null || dBPositions[0].latestPositions?.y === null) {
       throw new Error("Invalid position: x or y is null.");
     }
-    
+
     if (dBPositions[0].latestPositions?.dateTime) {
       setNewPosition({ x: dBPositions[0].latestPositions?.x, y: dBPositions[0].latestPositions?.y, dateTime: null });
-      setMoveRangePosition(moveRangePosition);
     } else {
       setNewPosition({ x: 0, y: 0, dateTime: null });
-      setMoveRangePosition({ x: 0, y: 0 });
     }
   }, []);
 
+  useEffect(() => {
+    if (isEndTurnClicked) {
+      const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
+      const testChannel = ably.channels.get('test-channel');
+      setChannel(testChannel);
+  
+      ably.connection.on('connected', () => console.log('Ably connected'));
+      ably.connection.on('failed', (state) => console.error('Ably connection failed:', state));
+    }
+  }, [isEndTurnClicked]);
+
+
+  useEffect(() => {
+    if(isDragging && newPosition) {
+      console.log("Effect: 2")
+      const handleMouseUp = async () => {
+        setIsDragging(false);
+      };
+  
+      if (isDragging) {
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+  
+      } else {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      }
+  
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, newPosition]);
+
+  useEffect(() => {
+    if (isEndTurnClicked 
+      && channel && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null
+    
+    ) {
+      console.log("Effect: 3")
+
+      sendPosition(newPosition)
+      console.log("Sending position")
+
+      if (!throttledPosition.current || (throttledPosition.current.dateTime !== null ? Date.now() - throttledPosition.current.dateTime.getTime() > 100 : null)) {
+        throttledPosition.current = { ...newPosition, dateTime: new Date() };
+        channel.publish('position-update', throttledPosition.current);
+      }
+      resetTurnClick()
+    }
+  }, [isEndTurnClicked, 
+      newPosition, 
+      channel
+    ]);
+
+    useEffect(() => {
+      if (isEndTurnClicked && channel) {
+        console.log("Effect: 4 - Subscribing to position updates");
+    
+        const handlePositionUpdate = (message: Ably.Message) => {
+          const position = message.data as Positions;
+          console.log("Received position update:", position);
+    
+          if (position.x !== null && position.y !== null) {
+            setNewPosition(position);
+          }
+        };
+    
+        channel.subscribe('position-update', handlePositionUpdate);
+    
+        return () => {
+          console.log("Effect: 4 - Unsubscribing from position updates");
+          channel.unsubscribe('position-update', handlePositionUpdate);
+        };
+      }
+    }, [isEndTurnClicked, channel]);
+
+  // useEffect(() => {
+  //   if(channel && isEndTurnClicked){
+  //     console.log("Effect: 5")
+  //     const onConnectionStateChange = (stateChange: Ably.ConnectionStateChange) => {
+  //       console.log("Connection state changed:", stateChange.current)
+  //     }
+  //       channel.connection.on(onConnectionStateChange);
+  //     return () => {
+  //       channel.connection.off(onConnectionStateChange);
+  //     }  
+  //   }
+  // }, [
+  //     channel, 
+  //     isEndTurnClicked
+  //   ]);
+
+    useEffect(() => {
+      if (isEndTurnClicked) {
+        const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
+        setChannel(ably.channels.get('test-channel'));
+    
+        const onConnectionStateChange = (stateChange: Ably.ConnectionStateChange) => {
+          console.log("Connection state changed:", stateChange.current);
+        };
+    
+        ably.connection.on(onConnectionStateChange);
+    
+        return () => {
+          ably.connection.off(onConnectionStateChange);
+        };
+      }
+    }, [isEndTurnClicked]);
+
   const handleMouseMove = (e: MouseEvent) => {
-    if (isDragging && (offset.x && offset.y)) {
+    if (isDragging) {
       const position = {
-        x: e.clientX - offset.x,
-        y: e.clientY - offset.y,
+        x: e.clientX,
+        y: e.clientY,
         dateTime: new Date(),
         charId: 'RoadKill1'
       };
       setNewPosition(position)
-      // getAragornPosition(newPosition)
     }
   };
-
-  useEffect(() => {
-    if (!showMoveRange && newPosition.x && newPosition.y) {
-      setMoveRangePosition({
-        x: newPosition.x + 100,
-        y: newPosition.y + 10,
-      });
-    }
-  }, [newPosition, showMoveRange]);
-
-
-  useEffect(() => {
-    const handleMouseUp = async () => {
-      setIsDragging(false);
-
-      sendPosition(newPosition)
-    };
-
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-
-    } else {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, newPosition]);
 
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (newPosition.x !== null && newPosition.y !== null) {
-      // e.preventDefault();
+    if (newPosition.x !== null && newPosition.y !== null && e.nativeEvent.button === 0 && !showContext) {
+      e.preventDefault();
       setIsDragging(true);
-      setOffset({
-        x: e.clientX - newPosition.x,
-        y: e.clientY - newPosition.y,
-      });
     }
-    else if(showMoveRange){
+    else if (showContext) {
       setIsDragging(false);
     }
   };
 
-  const onDoubleClick = (e: React.MouseEvent) => {
-    if(e){
-      e.preventDefault();
-      setShowMoveRange(!showMoveRange)
-    }
+  const closeContextMenu = () => {
+    setShowContext(false)
   }
 
-  //uncomment to use ably updates
-  // useEffect(() => {
-  //   // Publish the new position to Ably
-  //   channel.publish('position-update', position);
-  // }, [position]);
+  const onRightClick = (e: React.MouseEvent) => {
+    setIsDragging(false);
+    if (e) {
+      e.preventDefault();
+      setShowContext(!showContext)
+    }
+  }
 
   return (
     <>
@@ -140,7 +199,7 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
         draggable={false}
         ref={divRef}
         onMouseDown={handleMouseDown}
-        onContextMenu={onDoubleClick}
+        onContextMenu={onRightClick}
         style={{
           position: 'absolute',
           left: `${newPosition.x}px`,
@@ -151,13 +210,13 @@ const Imperator: React.FC<ImperatorProps> = ({dBPositions }) => {
           cursor: 'move',
         }}
         className='z-40'
-      >      
+      >
         <div className='aragorn'>
-        {showMoveRange ? 
-          <Moverange dBPositions={dBPositions}/>
-          :
-          null
-        }
+          {showContext && moveRangePosition ?
+            <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu}/>
+            :
+            null
+          }
         </div>
       </div>
 
