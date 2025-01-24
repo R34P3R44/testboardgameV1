@@ -47,9 +47,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
                         <h4 className="mb-1 text-xl font-semibold text-slate-800">
                             {facData.charId}
                         </h4>
-                        {/* <p className="text-base text-slate-600 mt-4 font-light ">
-                            {facData.description}
-                        </p> */}
                     </div>
                     <div className="flex justify-center p-6 pt-2 gap-7">
                         <button

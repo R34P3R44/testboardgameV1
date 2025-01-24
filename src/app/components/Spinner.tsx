@@ -12,7 +12,7 @@ const Spinner: React.FC = () => {
     {/* Content */}
     <div className=" place-items-center overflow-x-scroll">
         <svg
-            className="w-16 h-16 animate-spin text-blue-900/100"
+            className="w-16 h-16 animate-spin text-blue-200/100"
             viewBox="0 0 64 64"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ const Spinner: React.FC = () => {
                 strokeWidth="5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-yellow-500"
+                className="text-yellow-600"
             ></path>
         </svg>
     </div>

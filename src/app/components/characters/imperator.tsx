@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import './movableObject.css';
-import Ably from 'ably';
-// import { Position } from "../../app/data-types/characterType";
 import { CharacterPosition } from "../../../app/data-types/characterType";
 import { sendPosition } from '../../_restApiFn/send-position'
 import ContextMenu from '../ContextMenu'
@@ -12,10 +10,10 @@ type Positions = {
   dateTime: Date | null
 };
 
-type MoveRangePositions = {
-  x: number | null;
-  y: number | null;
-};
+// type MoveRangePositions = {
+//   x: number | null;
+//   y: number | null;
+// };
 
 type ImperatorProps = {
   dBPositions: CharacterPosition[];
@@ -26,12 +24,10 @@ type ImperatorProps = {
 const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, resetTurnClick }) => {
 
   const divRef = useRef<HTMLDivElement | null>(null);
-  const throttledPosition = useRef<Positions | null>(null);
   const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), });
-  const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
+  // const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showContext, setShowContext] = useState<boolean>(false);
-  const [channel, setChannel] = useState<any>(null);
 
   useEffect(() => {
     console.log("Effect: 1")
@@ -46,17 +42,6 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
       setNewPosition({ x: 0, y: 0, dateTime: null });
     }
   }, []);
-
-  useEffect(() => {
-    if (isEndTurnClicked) {
-      const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
-      const testChannel = ably.channels.get('test-channel');
-      setChannel(testChannel);
-  
-      ably.connection.on('connected', () => console.log('Ably connected'));
-      ably.connection.on('failed', (state) => console.error('Ably connection failed:', state));
-    }
-  }, [isEndTurnClicked]);
 
 
   useEffect(() => {
@@ -83,80 +68,16 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
   }, [isDragging, newPosition]);
 
   useEffect(() => {
-    if (isEndTurnClicked 
-      && channel && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null
-    
+    if (isEndTurnClicked && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null
     ) {
       console.log("Effect: 3")
 
       sendPosition(newPosition)
       console.log("Sending position")
 
-      if (!throttledPosition.current || (throttledPosition.current.dateTime !== null ? Date.now() - throttledPosition.current.dateTime.getTime() > 100 : null)) {
-        throttledPosition.current = { ...newPosition, dateTime: new Date() };
-        channel.publish('position-update', throttledPosition.current);
-      }
       resetTurnClick()
     }
-  }, [isEndTurnClicked, 
-      newPosition, 
-      channel
-    ]);
-
-    useEffect(() => {
-      if (isEndTurnClicked && channel) {
-        console.log("Effect: 4 - Subscribing to position updates");
-    
-        const handlePositionUpdate = (message: Ably.Message) => {
-          const position = message.data as Positions;
-          console.log("Received position update:", position);
-    
-          if (position.x !== null && position.y !== null) {
-            setNewPosition(position);
-          }
-        };
-    
-        channel.subscribe('position-update', handlePositionUpdate);
-    
-        return () => {
-          console.log("Effect: 4 - Unsubscribing from position updates");
-          channel.unsubscribe('position-update', handlePositionUpdate);
-        };
-      }
-    }, [isEndTurnClicked, channel]);
-
-  // useEffect(() => {
-  //   if(channel && isEndTurnClicked){
-  //     console.log("Effect: 5")
-  //     const onConnectionStateChange = (stateChange: Ably.ConnectionStateChange) => {
-  //       console.log("Connection state changed:", stateChange.current)
-  //     }
-  //       channel.connection.on(onConnectionStateChange);
-  //     return () => {
-  //       channel.connection.off(onConnectionStateChange);
-  //     }  
-  //   }
-  // }, [
-  //     channel, 
-  //     isEndTurnClicked
-  //   ]);
-
-    useEffect(() => {
-      if (isEndTurnClicked) {
-        const ably = new Ably.Realtime({ key: process.env.NEXT_PUBLIC_ABLY_API_KEY });
-        setChannel(ably.channels.get('test-channel'));
-    
-        const onConnectionStateChange = (stateChange: Ably.ConnectionStateChange) => {
-          console.log("Connection state changed:", stateChange.current);
-        };
-    
-        ably.connection.on(onConnectionStateChange);
-    
-        return () => {
-          ably.connection.off(onConnectionStateChange);
-        };
-      }
-    }, [isEndTurnClicked]);
+  }, [isEndTurnClicked, newPosition]);
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
@@ -212,7 +133,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
         className='z-40'
       >
         <div className='aragorn'>
-          {showContext && moveRangePosition ?
+          {showContext ?
             <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu}/>
             :
             null

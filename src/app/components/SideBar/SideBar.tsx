@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface SideBarProps {
     onOpenModal: (faction: string) => void;
@@ -10,6 +10,16 @@ const SideBar: React.FC<SideBarProps> = ({onOpenModal}) => {
 
     const sidebarList = ['Map', 'World', 'Players', 'Factions', 'Rules']
 
+        // This ensures the component is only rendered once the component is mounted on the client
+        const [isClient, setIsClient] = useState(false);
+
+        useEffect(() => {
+            setIsClient(true);  // This will trigger only after the component has mounted on the client
+        }, []);
+    
+        if (!isClient) {
+            return null; // Optionally render nothing on the server-side
+        }
 
     return (
         <div className="relative group w-10 flex flex-col z-50 duration-200 cursor-pointer h-full rounded-r-full bg-yellow-600 hover:rounded-none hover:mx-0 hover:w-1/6 hover:h-screen hover:bg-gray-800 ease-linear">

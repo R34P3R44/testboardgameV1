@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/Mtailwind.jsx"
-  ],
+, "firebase.js"  ],
   "exclude": [
     "node_modules"
   ]
