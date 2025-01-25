@@ -1,8 +1,8 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import CharacterCard from './CharacterCard'
-import skillsContent from './AllSkills'
+import CharacterCard from '../characters/CharacterCard';
+import skillsContent from '../AllSkills'
 type FactionsData = {
     id: number;
     active: boolean;

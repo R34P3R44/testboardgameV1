@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import allfactions from './characters/AllFactions'
+import allfactions from '../characters/AllFactions'
 import Image from 'next/image';
 import SkillsAccordion from './SkillsAccordion'
 

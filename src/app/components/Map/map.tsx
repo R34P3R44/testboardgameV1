@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Imperator from './characters/imperator';
+import Imperator from '../characters/imperator';
 import './Map.css';
-import { useSelectedCharacter } from '../Store/useSelectedCharacter';
-import Spinner from './Spinner';
+import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
+import Spinner from '../Misc/Spinner';
 
 type CharacterPosition = {
     charId: string;
@@ -14,7 +14,11 @@ type CharacterPosition = {
     } | null;
 };
 
-const Map: React.FC = () => {
+interface MapProps {
+    activeMenuItem: string | null
+}
+
+const Map: React.FC<MapProps> = ({activeMenuItem}) => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
@@ -23,9 +27,13 @@ const Map: React.FC = () => {
     const [isEndTurnClicked, setIsEndTurnClicked] = useState<boolean>(false);
 
     useEffect(() => {
-        setShowSpinner(true)
-        if(!isEndTurnClicked){
+        if(activeMenuItem === 'Load game'){
+            setShowSpinner(true)
             fetchposition()
+        }
+        else if(activeMenuItem === 'New game'){
+            //WIP call API to deactivate all characters for player based on player ID
+            console.log("this is a new game")
         }
     }, []);
 
@@ -77,21 +85,22 @@ const Map: React.FC = () => {
 
     return (
         <>
-            {showSpinner ?
-                <div className=''>
+            {showSpinner && 
+                <div className='flex items-center justify-center h-screen'>
                     <Spinner />
                 </div>
-                :
-                null
             }
 
-            <div className=''>
-                <div className='flex w-12 bg-yellow-400'>
+            <React.Fragment>
+                {activeMenuItem === 'New game' && 
+                    <div className='pl-32'>This is a new game</div>
+                }
+                <div className=''>
                     <button onClick={onClickEndTurn} className="fixed left-80 h-10 w-24 top-2 font-extrabold text-black bg-yellow-700 rounded-md border py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-black-900 hover:text-white hover:bg-green-800 hover:border-white-800 focus:text-yellow focus:bg-green-800 focus:border-white-800 active:border-slate-800 active:text-white active:bg-white-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                         End turn
                     </button>                    
                 </div>
-                <div className=''>
+                <React.Fragment>
                     <div className={"image-container z-30"}>
                         <div className={'img testmap z-30'}></div>
                     </div>
@@ -99,8 +108,8 @@ const Map: React.FC = () => {
                         <Imperator dBPositions={dBPositions} isEndTurnClicked={isEndTurnClicked} resetTurnClick={resetTurnClick}/>
                         :
                         null}
-                </div>
-            </div>
+                </React.Fragment>
+            </React.Fragment>
 
         </>
     );

@@ -2,18 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import './movableObject.css';
 import { CharacterPosition } from "../../../app/data-types/characterType";
 import { sendPosition } from '../../_restApiFn/send-position'
-import ContextMenu from '../ContextMenu'
+import ContextMenu from '../Misc/ContextMenu';
 
 type Positions = {
   x: number | null;
   y: number | null;
   dateTime: Date | null
 };
-
-// type MoveRangePositions = {
-//   x: number | null;
-//   y: number | null;
-// };
 
 type ImperatorProps = {
   dBPositions: CharacterPosition[];

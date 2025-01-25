@@ -1,15 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { updateCharacters } from '../_restApiFn/send-updateCharacters'
-import { FactionsData } from "../../app/data-types/characterType";
-import { useSelectedCharacter } from '../Store/useSelectedCharacter';
-
-// type SelectedCharacter = {
-//     charId: string;
-//     active: boolean;
-//     id: number
-// }
+import { updateCharacters } from '../../_restApiFn/send-updateCharacters'
+import { FactionsData } from "../../../app/data-types/characterType";
+import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 
 interface CharacterCardProps {
     factionsData: FactionsData[]

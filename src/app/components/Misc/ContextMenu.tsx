@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import { updateCharacters } from '../_restApiFn/send-updateCharacters'
-import { CharacterPosition } from "../data-types/characterType";
-import { useSelectedCharacter } from '../Store/useSelectedCharacter';
+import { updateCharacters } from '../../_restApiFn/send-updateCharacters'
+import { CharacterPosition } from "../../data-types/characterType";
+import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 
 
 interface ContextMenuProps {
