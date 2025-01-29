@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
-import Map from '../Map/map';
 import Factions from '../SideBar/Factions';
+import MapContainer from '../Map/MapContainer';
 
 interface MaincontentProps {
   activeItem: string | null;
@@ -16,7 +16,7 @@ const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isA
   return (
     <React.Fragment>
       {!showGameMenu && 
-        <Map activeMenuItem={activeMenuItem}/>
+        <MapContainer activeMenuItem={activeMenuItem}/>
       }
       {isActiveModal && activeItem === 'Factions' ?
         <Factions onCloseModal={onCloseModal} activeItem={activeItem} />

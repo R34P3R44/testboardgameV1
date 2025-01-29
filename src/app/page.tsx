@@ -4,11 +4,6 @@ import Main from './components/Main';
 
 const Landing: React.FC = ({ }) => {
 
-  // useEffect(() => {
-    
-  // }, []);
-
-
   return (
     <div className="">
         <Main/>

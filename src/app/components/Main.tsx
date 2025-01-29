@@ -40,7 +40,7 @@ const Main: React.FC = ({ }) => {
   }
 
   return (
-    <div className="flex flex-row h-screen">
+    <div className="flex h-screen w-screen">
       {showGameMenu && 
         <GameMenu 
           onOpenGameMenu={onOpenGameMenu} 

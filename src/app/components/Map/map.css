@@ -1,13 +1,13 @@
-.image-container {
-  overflow: hidden;             /* Ensures the image doesn't overflow when zoomed */
-  position: absolute;
-  left: 480px;
+/* .image-container {
+  overflow: hidden;            
+  position: fixed;
+  left: 130px;
   bottom: 0px;
-  width: 1400px
-}
+  width: 1400px;
+} */
 
-.zoomedImage-container {
-  overflow: auto;             /* Ensures the image doesn't overflow when zoomed */
+/* .zoomedImage-container {
+  overflow: auto;            
   position: absolute;
   left: 480px;
   bottom: 0px;
@@ -15,45 +15,32 @@
 }
 
 .zoomedImage80-container {
-  overflow: auto;             /* Ensures the image doesn't overflow when zoomed */
+  overflow: auto;             
   position: absolute;
   left: 480px;
   bottom: 0px;
   width: 1400px;
-}
+} */
 
-.zoomedImage {
+/* .zoomedImage {
   transition: transform 5s ease; 
   transform-origin: 0 0;
   transform: scale(2);  
-}
+} */
 
-.zoomedImg80 {
+/* .zoomedImg80 {
   transition: transform 5s ease; 
   transform-origin: 0 0;
   transform: scale(6);  
-}
+} */
 
-.img{
+/* .img{
   transition: transform 3s ease; 
   transform-origin: 1 1;
-  transform: scale(1);  
+  transform: scale(1);
+} */
 
-}
 
-.mapContainer{
-  padding-top: 0.5%;
-}
-
-.testmap{
-  background: url('/SwordCoastMapHighRes.jpg'); 
-  background-size:contain;
-  background-position: center; 
-  background-repeat: no-repeat;
-  width: 1300px;
-  height: 1000px;
-  opacity: 0.8;
-}
 
 .zoomButtonStyles{
   padding: 10px;
@@ -62,6 +49,7 @@
   background-color: #4FC08D;
   cursor: pointer;
   color: #FFFFFF;
+  z-index: 100;
 }
 
 .disabledZoomButtonStyles{
@@ -72,5 +60,17 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+  z-index: 100;
+
+}
+
+.testmap{
+  background: url('/Balins_Tomb_noback_upscaled.png');
+  background-size: contain;  
+  background-repeat: no-repeat;  
+  background-position: center; 
+  width: 100vw;
+  height: 100vh;
+  scale: 1.4;
 }
 

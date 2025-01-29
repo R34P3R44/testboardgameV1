@@ -77,8 +77,8 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
       const position = {
-        x: e.clientX,
-        y: e.clientY,
+        x: e.pageX,
+        y: e.pageY,
         dateTime: new Date(),
         charId: 'RoadKill1'
       };
@@ -111,30 +111,33 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
   return (
     <>
-      <div
-        draggable={false}
-        ref={divRef}
-        onMouseDown={handleMouseDown}
-        onContextMenu={onRightClick}
-        style={{
-          position: 'absolute',
-          left: `${newPosition.x}px`,
-          top: `${newPosition.y}px`,
-          width: '50px',
-          height: '70px',
-          backgroundColor: 'transparent',
-          cursor: 'move',
-        }}
-        className='z-40'
-      >
-        <div className='aragorn'>
+      {/* <div > */}
+        <div         
+          draggable={false}
+          ref={divRef}
+          onMouseDown={handleMouseDown}
+          onContextMenu={onRightClick}
+          style={{
+            position: 'absolute',
+            left: `${newPosition.x}px`,
+            top: `${newPosition.y}px`,
+            background: `url('/Moria_Goblin_Spear.png')`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat', 
+            backgroundPosition: 'center', 
+            width: '78px',  
+            height: '85px',
+            zIndex: 100,
+            cursor: 'move'
+          }}
+        >
           {showContext ?
             <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu}/>
             :
             null
           }
         </div>
-      </div>
+      {/* </div> */}
 
     </>
 
