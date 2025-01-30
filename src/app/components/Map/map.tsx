@@ -84,6 +84,7 @@ const Map: React.FC<MapProps> = ({activeMenuItem}) => {
     }
 
     return (
+<<<<<<< Updated upstream
         <>
             {showSpinner && 
                 <div className='flex items-center justify-center h-screen'>
@@ -114,6 +115,11 @@ const Map: React.FC<MapProps> = ({activeMenuItem}) => {
         </>
     );
 };
+=======
+        <div className='testmap '></div>
+    )
+}
+>>>>>>> Stashed changes
 
 export default Map;
 

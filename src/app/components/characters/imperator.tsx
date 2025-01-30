@@ -23,6 +23,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
   // const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showContext, setShowContext] = useState<boolean>(false);
+  const [enableMoving, setEnableMoving] = useState<boolean>(false)
 
   useEffect(() => {
     console.log("Effect: 1")
@@ -88,17 +89,28 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (newPosition.x !== null && newPosition.y !== null && e.nativeEvent.button === 0 && !showContext) {
+    if (enableMoving && newPosition.x !== null && newPosition.y !== null && e.nativeEvent.button === 0 && !showContext) {
       e.preventDefault();
       setIsDragging(true);
     }
     else if (showContext) {
       setIsDragging(false);
     }
+    else{
+      return
+    }
   };
 
   const closeContextMenu = () => {
     setShowContext(false)
+  }
+
+  const onClickMove = () => {
+    setEnableMoving(true)
+  }
+
+  const onClickLock = () => {
+    setEnableMoving(false)
   }
 
   const onRightClick = (e: React.MouseEvent) => {
@@ -111,6 +123,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
   return (
     <>
+<<<<<<< Updated upstream
       <div
         draggable={false}
         ref={divRef}
@@ -128,14 +141,39 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
         className='z-40'
       >
         <div className='aragorn'>
+=======
+{/* the potential fix for the moving character whilst scrolling is to turn on and off the character move from right click menu. */}
+        <div         
+          draggable={false}
+          ref={divRef}
+          onMouseDown={handleMouseDown}
+          onContextMenu={onRightClick}
+          style={{
+            position: 'absolute',
+            left: `${newPosition.x}px`,
+            top: `${newPosition.y}px`,
+            background: `url('/Moria_Goblin_Spear.png')`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat', 
+            backgroundPosition: 'center', 
+            width: '78px',  
+            height: '85px',
+            zIndex: 100,
+            cursor: 'move'
+          }}
+        >
+>>>>>>> Stashed changes
           {showContext ?
-            <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu}/>
+            <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu} onClickMove={onClickMove} onClickLock={onClickLock}  enableMoving={enableMoving}/>
             :
             null
           }
         </div>
+<<<<<<< Updated upstream
       </div>
 
+=======
+>>>>>>> Stashed changes
     </>
 
   );
