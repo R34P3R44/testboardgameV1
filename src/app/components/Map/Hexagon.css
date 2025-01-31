@@ -1,126 +1,13 @@
-/* .mainCont {
-  display: flex;
-  --s: 110px;
-  --m: 5px;
-  --f: calc(1.732 * var(--s) + 4 * var(--m) - 3px);
-  --iS: 78px;
-  --iM: 1.5px;
-}
-
-.container123 {
-  font-size: 0;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  background-color: transparent
-}
-
-.container123::before {
-  content: "";
-  width: calc(var(--s)/4 + var(--m));
-  float: left;
-  height: 120%;
-  shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px),
-      #000 0 var(--f));
-  opacity: 1;
-}
-
-.container123 div {
-  width: var(--s);
-  margin: var(--m);
-  height: calc(var(--s)*1.1547);
-  display: inline-block;
-  font-size: initial;
-  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-  margin-bottom: calc(var(--m) - var(--s)*0.2885);
-  opacity: 1;
-  position: relative;
-  right: 0.5px;
-  bottom: 0.5px;
-}
-
-.container123 div:nth-child(odd) {
-  stroke: black; 
-  fill: red;
-  opacity: 1;
-}
-
-.hexagon-icon {
-  width: 100%;
-  height: 100%; 
-  cursor: pointer;
-  cursor: pointer;
-}
-
-.hexagon-icon svg path:hover {
-  fill: #000;
-  background-color: red;
-}
-
-.hexagon-icon svg path{
-  stroke: black; 
-  fill: transparent;
-  background-color: transparent;
-} 
-
-
-
-
-/* .container123 div {
-  width: var(--s);
-  margin: var(--m);
-  height: calc(var(--s)*1.1547);
-  display: inline-block;
-  font-size: initial;
-  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-  stroke: black; 
-  fill: red;
-  margin-bottom: calc(var(--m) - var(--s)*0.54);
-  opacity: 1;
-} */
- 
-/* .main321 {
-  display: flex;
-  --s: 100px;
-  --m: 0.5px;
-  --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-}
-
-.container123 div {
-  width: var(--s);
-  margin: var(--m);
-  height: calc(var(--s)*1.1547);
-  display: inline-block;
-  font-size: initial;
-  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-  background: rgb(178, 116, 116);
-  margin-bottom: calc(var(--m) - var(--s)*0.35);
-}
-
-.container123 div:nth-child(odd) {
-  background: rgb(178, 116, 116);
-}
-
-.container123::before {
-  content: "";
-  width: calc(var(--s)/2 + var(--m));
-  float: left;
-  height: 120%;
-  shape-outside: repeating-linear-gradient( #0000 0 calc(var(--f) - 3px), #000 0 var(--f));
-} */
 
 :root {
   --s: 100px;
   --gap: 1px;
   --hex-height: calc(var(--s) * 1.1547);
+  /* overflow: hidden; */
 }
 
 .main321 {
   display: flex;
-  overflow: hidden;
   height: 100vh;
   width: 100vw;
 }
@@ -153,12 +40,51 @@
   stroke: aqua;
 }
 
-/* .hexagon-icon svg path{
-  stroke: red; 
-  fill: red;
-  background-color: red;
-}  */
-
 .offset {
   transform: translateX(calc(var(--s) / 2 - 10px)); /* Adjust offset for perfect alignment */
+}
+
+
+/* ✅ Small Screens (Tablets, Phones) */
+@media (max-width: 1200px) {
+  :root {
+    --s: 85px; /* Medium screens (laptops, smaller desktops) */
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --s: 55px; /* Small screens (tablets) */
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --s: 45px; /* Extra small screens (phones) */
+  }
+}
+
+/* ✅ Large Screens (4K Monitors, Projectors, Ultra-Wide Displays) */
+@media (min-width: 1600px) {
+  :root {
+    --s: 115px; /* Large desktop screens */
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --s: 135px; /* 4K screens or larger */
+  }
+}
+
+@media (min-width: 3000px) {
+  :root {
+    --s: 165px; /* Ultra-wide monitors, projectors */
+  }
+}
+
+@media (min-width: 4000px) {
+  :root {
+    --s: 195px; /* Extreme large displays */
+  }
 }

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Imperator from '../characters/imperator';
 import './Map.css';
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 import Spinner from '../Misc/Spinner';
-import Map from './Map';
+import Map from './map';
 import HoneycombGrid from './HexagonGrid';
 
 type CharacterPosition = {
@@ -24,7 +23,7 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
-    const {isCharacterSelected, setCharacterSelected } = useSelectedCharacter();
+    const {isCharacterSelected, setIsCharacterSelected } = useSelectedCharacter();
     const [showSpinner, setShowSpinner] = useState<boolean>(false);
     const [isEndTurnClicked, setIsEndTurnClicked] = useState<boolean>(false);
     const [showGrid, setShowGrid] = useState<boolean>(false)
@@ -44,13 +43,13 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
         if (isCharacterSelected) {
             setShowSpinner(true)
             fetchposition()
-            setCharacterSelected(false)
+            setIsCharacterSelected(false)
         }
         else if (isEndTurnClicked) {
             setShowSpinner(true)
             fetchposition()
         }
-    }, [isCharacterSelected, isEndTurnClicked]);
+    }, [isCharacterSelected, isEndTurnClicked, setIsCharacterSelected]);
 
     const fetchposition = async () => {
         const res = await fetch('/api/get-position');
@@ -93,7 +92,7 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
     return (
         <>
             {showSpinner &&
-                <div className=' h-screen'>
+                <div className=''>
                     <Spinner />
                 </div>
             }
@@ -108,26 +107,19 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
                     </button>
                 </div>
 
-                <div className='flex overflow-hidden'>
+                <div className='overflow-auto'>
                     <div className='z-30'>
-                        <Map/> 
+                        <Map resetTurnClick={resetTurnClick} isEndTurnClicked={isEndTurnClicked} showAragorn={showAragorn} dBPositions={dBPositions}/> 
                     </div>
 
                     {showGrid ? 
-                        <div className='z-40 absolute'>
+                        <div className='z-40 absolute '>
                             <HoneycombGrid/>
                         </div>
                         :
                         null
                     }
                     
-                    {(dBPositions.length > 0 && dBPositions[0].active === true) || showAragorn ?
-                        <div className='z-50 '>
-                            <Imperator dBPositions={dBPositions} isEndTurnClicked={isEndTurnClicked} resetTurnClick={resetTurnClick} />
-                        </div>
-                        :
-                        null
-                    }
                 </div>
             </React.Fragment>
 

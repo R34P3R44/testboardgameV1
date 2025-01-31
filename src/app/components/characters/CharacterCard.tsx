@@ -11,14 +11,14 @@ interface CharacterCardProps {
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
 
-    const {setCharacterSelected} = useSelectedCharacter();
+    const {setIsCharacterSelected} = useSelectedCharacter();
     const [isSelected, setIsSelected] = useState<boolean>(false);
 
 
 
     useEffect(() => {
         if (isSelected) {
-            setCharacterSelected(true)
+            setIsCharacterSelected(true)
         }
 
     }, [isSelected]);

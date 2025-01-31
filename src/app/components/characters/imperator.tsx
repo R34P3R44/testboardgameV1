@@ -7,22 +7,27 @@ import ContextMenu from '../Misc/ContextMenu';
 type Positions = {
   x: number | null;
   y: number | null;
-  dateTime: Date | null
+  dateTime: Date | null;
+  charId: string | null
 };
 
 type ImperatorProps = {
   dBPositions: CharacterPosition[];
   isEndTurnClicked: boolean;
   resetTurnClick(): void;
+  mapRef: React.RefObject<HTMLDivElement>
 }
 
-const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, resetTurnClick }) => {
+const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, resetTurnClick, mapRef }) => {
 
   const divRef = useRef<HTMLDivElement | null>(null);
-  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), });
+  const offsetX = useRef(0);  // Store offset between cursor and character
+  const offsetY = useRef(0);
+  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), charId: '' });
   // const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showContext, setShowContext] = useState<boolean>(false);
+  const [enableMoving, setEnableMoving] = useState<boolean>(false)
 
   useEffect(() => {
     console.log("Effect: 1")
@@ -32,39 +37,14 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
     }
 
     if (dBPositions[0].latestPositions?.dateTime) {
-      setNewPosition({ x: dBPositions[0].latestPositions?.x, y: dBPositions[0].latestPositions?.y, dateTime: null });
+      setNewPosition({ x: dBPositions[0].latestPositions?.x, y: dBPositions[0].latestPositions?.y, dateTime: null, charId: dBPositions[0].charId });
     } else {
-      setNewPosition({ x: 0, y: 0, dateTime: null });
+      setNewPosition({ x: 0, y: 0, dateTime: null, charId: dBPositions[0].charId });
     }
   }, []);
 
-
   useEffect(() => {
-    if(isDragging && newPosition) {
-      console.log("Effect: 2")
-      const handleMouseUp = async () => {
-        setIsDragging(false);
-      };
-  
-      if (isDragging) {
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
-  
-      } else {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
-      }
-  
-      return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [isDragging, newPosition]);
-
-  useEffect(() => {
-    if (isEndTurnClicked && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null
-    ) {
+    if (isEndTurnClicked && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null) {
       console.log("Effect: 3")
 
       sendPosition(newPosition)
@@ -74,31 +54,52 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
     }
   }, [isEndTurnClicked, newPosition]);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isDragging) {
-      const position = {
-        x: e.pageX,
-        y: e.pageY,
-        dateTime: new Date(),
-        charId: 'RoadKill1'
+  const handleMouseDown = (event: React.MouseEvent) => {
+    event.preventDefault();
+
+    if (!divRef.current && event.button !== 2) return;
+    else if (!showContext && event.button === 0 && divRef.current && enableMoving && newPosition.x && newPosition.y) {
+      const rect = divRef.current.getBoundingClientRect();
+
+      const offsetX = (event.clientX - rect.left) / 2;
+      const offsetY = (event.clientY - rect.top) / 2;
+
+      const startX = event.clientX;
+      const startY = event.clientY;
+      const startLeft = newPosition.x;
+      const startTop = newPosition.y;
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const position = {
+          x: startLeft + (e.clientX - startX) - offsetX,
+          y: startTop + (e.clientY - startY) - offsetY,
+          dateTime: new Date(),
+          charId: 'RoadKill1'
+        };
+        setNewPosition(position);
       };
-      setNewPosition(position)
-    }
-  };
 
+      const handleMouseUp = () => {
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (newPosition.x !== null && newPosition.y !== null && e.nativeEvent.button === 0 && !showContext) {
-      e.preventDefault();
-      setIsDragging(true);
-    }
-    else if (showContext) {
-      setIsDragging(false);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     }
   };
 
   const closeContextMenu = () => {
     setShowContext(false)
+  }
+
+  const onClickMove = () => {
+    setEnableMoving(true)
+    setTimeout(() => setShowContext(false), 500)
+  }
+
+  const onClickLock = () => {
+    setEnableMoving(false)
   }
 
   const onRightClick = (e: React.MouseEvent) => {
@@ -111,34 +112,31 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
   return (
     <>
-      {/* <div > */}
-        <div         
-          draggable={false}
-          ref={divRef}
-          onMouseDown={handleMouseDown}
-          onContextMenu={onRightClick}
-          style={{
-            position: 'absolute',
-            left: `${newPosition.x}px`,
-            top: `${newPosition.y}px`,
-            background: `url('/Moria_Goblin_Spear.png')`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat', 
-            backgroundPosition: 'center', 
-            width: '78px',  
-            height: '85px',
-            zIndex: 100,
-            cursor: 'move'
-          }}
-        >
-          {showContext ?
-            <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu}/>
-            :
-            null
-          }
-        </div>
-      {/* </div> */}
-
+      <div
+        draggable={false}
+        ref={divRef}
+        onMouseDown={handleMouseDown}
+        onContextMenu={onRightClick}
+        style={{
+          position: 'absolute',
+          left: `${newPosition.x}px`,
+          top: `${newPosition.y}px`,
+          background: `url('/Moria_Goblin_Spear.png')`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          width: '78px',
+          height: '85px',
+          zIndex: 100,
+          cursor: 'move'
+        }}
+      >
+        {showContext ?
+          <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu} onClickMove={onClickMove} onClickLock={onClickLock} enableMoving={enableMoving} />
+          :
+          null
+        }
+      </div>
     </>
 
   );

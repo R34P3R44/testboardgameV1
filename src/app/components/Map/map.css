@@ -1,76 +1,40 @@
-/* .image-container {
-  overflow: hidden;            
-  position: fixed;
-  left: 130px;
-  bottom: 0px;
-  width: 1400px;
-} */
 
-/* .zoomedImage-container {
-  overflow: auto;            
-  position: absolute;
-  left: 480px;
-  bottom: 0px;
-  width: 1400px
+.maps-container {
+  position: relative;  /* So child elements (like the character) can be positioned absolutely */
+  width: 3000px;       /* Large enough for scrolling */
+  height: 2000px; 
+  overflow: auto;      /* Enables scrolling */
+  display: flex;
+  flex-direction: column;
 }
 
-.zoomedImage80-container {
-  overflow: auto;             
-  position: absolute;
-  left: 480px;
-  bottom: 0px;
-  width: 1400px;
-} */
-
-/* .zoomedImage {
-  transition: transform 5s ease; 
-  transform-origin: 0 0;
-  transform: scale(2);  
-} */
-
-/* .zoomedImg80 {
-  transition: transform 5s ease; 
-  transform-origin: 0 0;
-  transform: scale(6);  
-} */
-
-/* .img{
-  transition: transform 3s ease; 
-  transform-origin: 1 1;
-  transform: scale(1);
-} */
-
-
-
-.zoomButtonStyles{
-  padding: 10px;
-  height: 50px;
-  border-radius: 7px;
-  background-color: #4FC08D;
-  cursor: pointer;
-  color: #FFFFFF;
-  z-index: 100;
-}
-
-.disabledZoomButtonStyles{
-  padding: 10px;
-  height: 50px;
-  border-radius: 7px;
-  background-color: #4FC08D;
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-  z-index: 100;
-
-}
-
-.testmap{
-  background: url('/Balins_Tomb_noback_upscaled.png');
-  background-size: contain;  
-  background-repeat: no-repeat;  
+.testmap {
+  position: absolute;  /* Make sure it stays inside maps-container */
+  top: 0;
+  left: 0;
+  width: 100%;        /* Full size of maps-container */
+  height: 100%;
+  background-size: cover; /* Cover the entire container */
+  background-repeat: no-repeat;
   background-position: center; 
-  width: 100vw;
-  height: 100vh;
-  scale: 1.4;
 }
 
+
+.testmap2 {
+  position: absolute;  /* Make sure it stays inside maps-container */
+  top: 1585px;
+  left: 0;
+  width: 100%;        /* Full size of maps-container */
+  height: 100%;
+  background-size: cover; /* Cover the entire container */
+  background-repeat: no-repeat;
+  background-position: center; 
+}
+
+.testmap {
+  background-image: url('/Balins_Tomb_noback_upscaled_1.png');
+}
+
+.testmap2 {
+  background-image: url('/Balins_Tomb_noback_upscaled_1 copy.png');
+}
