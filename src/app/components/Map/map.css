@@ -1,32 +1,32 @@
 
 .maps-container {
-  position: relative;  /* So child elements (like the character) can be positioned absolutely */
-  width: 3000px;       /* Large enough for scrolling */
-  height: 2000px; 
-  overflow: auto;      /* Enables scrolling */
+  position: relative;  
+  width: 3238px;       
+  height: 2360px;
+  overflow: auto;     
   display: flex;
   flex-direction: column;
 }
 
 .testmap {
-  position: absolute;  /* Make sure it stays inside maps-container */
+  position: absolute;  
   top: 0;
   left: 0;
-  width: 100%;        /* Full size of maps-container */
-  height: 100%;
-  background-size: cover; /* Cover the entire container */
+  width: 3238px;        
+  height: 2360px;
+  background-size: cover; 
   background-repeat: no-repeat;
   background-position: center; 
 }
 
 
 .testmap2 {
-  position: absolute;  /* Make sure it stays inside maps-container */
+  position: absolute;  
   top: 1585px;
   left: 0;
-  width: 100%;        /* Full size of maps-container */
-  height: 100%;
-  background-size: cover; /* Cover the entire container */
+  width: 3238px;       
+  height: 2360px;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center; 
 }

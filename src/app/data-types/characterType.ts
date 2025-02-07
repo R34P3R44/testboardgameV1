@@ -26,3 +26,16 @@ export interface Position {
       dateTime: string | null;
     } | null;
   };
+
+  export type CharacterAttributes = {
+    charId: string;
+    move: number;
+    attack: number;
+    defend: number;
+    wounds: number
+  }
+
+  export type AlertTypes ={
+    success: boolean;
+    fail: boolean;
+  }

@@ -11,6 +11,7 @@ type Positions = {
   charId: string | null
 };
 
+
 type ImperatorProps = {
   dBPositions: CharacterPosition[];
   isEndTurnClicked: boolean;
@@ -31,6 +32,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
   useEffect(() => {
     console.log("Effect: 1")
+    console.log("height:", window.innerHeight, "width:", window.innerWidth)
 
     if (dBPositions[0].latestPositions?.x === null || dBPositions[0].latestPositions?.y === null) {
       throw new Error("Invalid position: x or y is null.");

@@ -9,13 +9,12 @@ export const sendPosition = async (newPosition: object = {}) => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data)
         } else {
           const errorData = await response.json();
-          console.log(errorData)
           console.log("Error adding character position")
         }
-      } catch (error) {
+      } 
+      catch (error) {
         console.log(error)
         console.log("Error adding character position")
       }

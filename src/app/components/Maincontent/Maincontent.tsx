@@ -4,7 +4,7 @@ import Factions from '../SideBar/Factions';
 import MapContainer from '../Map/MapContainer';
 
 interface MaincontentProps {
-  activeItem: string | null;
+  activeItem: string;
   onCloseModal: () => void;
   isActiveModal: boolean;
   showGameMenu: boolean;
@@ -12,6 +12,7 @@ interface MaincontentProps {
 }
 
 const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isActiveModal, showGameMenu, activeMenuItem }) => {
+  
 
   return (
     <React.Fragment>

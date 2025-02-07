@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import FactionsAccordion from './FactionsAccordion'
 import { useSelectedCharacterHook } from '../../_hooks/useSelectedCharacterHook';
 
@@ -10,16 +10,15 @@ interface FactionsProps {
 
 const Factions: React.FC<FactionsProps> = ({ onCloseModal, activeItem }) => {
 
-  const {isCharacterSelected} = useSelectedCharacterHook();
+  const { isCharacterSelected } = useSelectedCharacterHook();
 
   useEffect(() => {
-    if(isCharacterSelected) {
+    if (isCharacterSelected) {
       onCloseModal()
     }
   }, [isCharacterSelected]);
 
   return (
-    <div>
       <div
         data-dialog-backdrop="dialog xxl"
         data-dialog-backdrop-close="true"
@@ -32,16 +31,16 @@ const Factions: React.FC<FactionsProps> = ({ onCloseModal, activeItem }) => {
           </div>
           <div className="p-4 h-full flex flex-col">
             <div className="flex flex-col border bg-gray-200 w-full h-full">
-              <div className="px-4 py-5 flex-1 overflow-auto"> 
+              <div className="px-4 py-5 flex-1 overflow-auto">
                 <ul className="space-y-1 pb-10">
-                  <FactionsAccordion/>
+                  <FactionsAccordion />
                 </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 

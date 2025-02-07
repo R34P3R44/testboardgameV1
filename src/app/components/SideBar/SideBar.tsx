@@ -12,8 +12,8 @@ const SideBar: React.FC<SideBarProps> = ({ handleItemClick }) => {
 
     return (
         <React.Fragment>
-                <div className="fixed group w-10 flex flex-col z-50 duration-200 cursor-pointer h-full rounded-r-full bg-yellow-600 hover:rounded-none hover:mx-0 hover:w-1/6 hover:h-screen hover:bg-gray-800 ease-linear">
-                    <div className="absolute top-0 left-0 w-full h-full hidden group-hover:block bg-gray-900 p-4 text-white ease-linear duration-200">
+                <div className="fixed group w-10 flex flex-col z-50 duration-200 cursor-pointer h-full rounded-r-full bg-yellow-600 hover:rounded-none hover:mx-0 hover:w-52 hover:h-screen hover:bg-gray-900 ease-linear">
+                    <div className="absolute top-0 left-0 w-auto h-full hidden group-hover:block bg-gray-900 p-4 text-white ease-linear duration-200">
                         <ul className="menu">
                             {sidebarList.map((listItem) => (
                                 <li

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../app/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
+
 type CharacterData = {
   charId: string;
   active: boolean;

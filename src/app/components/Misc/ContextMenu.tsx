@@ -1,11 +1,14 @@
 "use client";
 
-import React from 'react';
+import React, {useState} from 'react';
 import { updateCharacters } from '../../_restApiFn/send-updateCharacters'
 import { CharacterPosition } from "../../data-types/characterType";
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 import { GiPadlock } from "react-icons/gi";
 import { GiPadlockOpen } from "react-icons/gi";
+import { useNavigation } from '../../Store/useNavigation';
+import CharacterSheet from '../CharacterSheet/CharatcerSheet';
+
 
 interface ContextMenuProps {
   dBPositions: CharacterPosition[];
@@ -18,6 +21,8 @@ interface ContextMenuProps {
 const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu, onClickMove, enableMoving, onClickLock }) => {
 
   const { setIsCharacterSelected } = useSelectedCharacter();
+  const { isCharSheetShown, setIsCharSheetShown } = useNavigation();
+
 
   const removeCharacter = async () => {
     await updateCharacters(dBPositions[0].charId, false)
@@ -40,7 +45,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu
       </div>
       <ul className='flex-col justify-items-center z-40 p-2'>
         <li>
-          <button className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 hover:text-yellow-100'>Character Sheet</button>
+          <button onClick={() => setIsCharSheetShown(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 hover:text-yellow-100'>Character Sheet</button>
         </li>
         <li>
           <button onClick={onMoveClick} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Move</button>
@@ -52,7 +57,12 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu
           <button onClick={removeCharacter} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Remove</button>
         </li>
       </ul>
+      {isCharSheetShown && 
+      <CharacterSheet setIsCharSheetShown={setIsCharSheetShown} dBPositions={dBPositions} isCharSheetShown={isCharSheetShown}/>
+      }
+
     </div>
+
   )
 };
 

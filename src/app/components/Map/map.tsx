@@ -4,6 +4,7 @@ import React, {useRef} from 'react';
 import './Map.css';
 import Imperator from '../characters/imperator';
 
+
 interface MapProps {
     dBPositions: CharacterPosition[];
     showAragorn: boolean;
@@ -23,8 +24,7 @@ type CharacterPosition = {
 
 const Map: React.FC<MapProps> = ({isEndTurnClicked, resetTurnClick, showAragorn, dBPositions}) => {
 
-      const mapRef = useRef<HTMLDivElement | null>(null);
-    
+    const mapRef = useRef<HTMLDivElement | null>(null);
 
     return (
         <div className='maps-container' ref={mapRef}>

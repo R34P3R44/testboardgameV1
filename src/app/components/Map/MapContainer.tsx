@@ -34,7 +34,6 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
             fetchposition()
         }
         else if (activeMenuItem === 'New game') {
-            //WIP call API to deactivate all characters for player based on player ID
             console.log("this is a new game")
         }
     }, []);
@@ -102,9 +101,9 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
                     <button onClick={onClickEndTurn} className="z-50 fixed left-72 h-10 w-24 top-2 font-extrabold text-black bg-yellow-700 rounded-md border py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-black-900 hover:text-white hover:bg-green-800 hover:border-white-800 focus:text-yellow focus:bg-green-800 focus:border-white-800 active:border-slate-800 active:text-white active:bg-white-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                         End turn
                     </button>
-                    <button onClick={() => setShowGrid(!showGrid)} className="z-50 fixed left-24 h-10 w-auto top-2 font-extrabold text-black bg-yellow-700 rounded-md border py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-black-900 hover:text-white hover:bg-green-800 hover:border-white-800 focus:text-yellow focus:bg-green-800 focus:border-white-800 active:border-slate-800 active:text-white active:bg-white-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                    {/* <button onClick={() => setShowGrid(!showGrid)} className="z-50 fixed left-24 h-10 w-auto top-2 font-extrabold text-black bg-yellow-700 rounded-md border py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-black-900 hover:text-white hover:bg-green-800 hover:border-white-800 focus:text-yellow focus:bg-green-800 focus:border-white-800 active:border-slate-800 active:text-white active:bg-white-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                         Show Grid
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className='overflow-auto'>
@@ -112,13 +111,13 @@ const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
                         <Map resetTurnClick={resetTurnClick} isEndTurnClicked={isEndTurnClicked} showAragorn={showAragorn} dBPositions={dBPositions}/> 
                     </div>
 
-                    {showGrid ? 
+                    {/* {showGrid ? 
                         <div className='z-40 absolute '>
                             <HoneycombGrid/>
                         </div>
                         :
                         null
-                    }
+                    } */}
                     
                 </div>
             </React.Fragment>
