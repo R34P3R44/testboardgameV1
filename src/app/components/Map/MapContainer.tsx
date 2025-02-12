@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Map.css';
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 import Spinner from '../Misc/Spinner';
-import Map from './map';
+import Map from './Map';
 // import HoneycombGrid from './HexagonGrid';
 import Dice from '../Dice/Dice';
 import { CharacterTurn } from '@/app/data-types/characterType';
