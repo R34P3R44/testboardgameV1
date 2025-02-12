@@ -3,7 +3,6 @@
   position: relative;  
   width: 3238px;       
   height: 2360px;
-  overflow: auto;     
   display: flex;
   flex-direction: column;
 }

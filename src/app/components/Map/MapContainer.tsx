@@ -22,11 +22,11 @@ type CharacterPosition = {
 
 
 
-interface MapProps {
+interface MapContainerProps {
     activeMenuItem: string | null
 }
 
-const MapContainer: React.FC<MapProps> = ({ activeMenuItem }) => {
+const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
