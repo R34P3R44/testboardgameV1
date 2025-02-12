@@ -1,3 +1,5 @@
+import { ComponentType } from 'react';  
+
 export interface Position {
     x: number;
     y: number;
@@ -35,7 +37,18 @@ export interface Position {
     wounds: number
   }
 
-  export type AlertTypes ={
+  export type AlertTypes = {
     success: boolean;
     fail: boolean;
+  }
+
+  export type CharacterTurn = {
+    enemy: boolean;
+    friendly: boolean;
+    className: string;
+  }
+
+  export type Dice = {
+    key: number;
+    value: ComponentType<{ size: number; className?: string }>;
   }

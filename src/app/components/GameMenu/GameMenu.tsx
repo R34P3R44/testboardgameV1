@@ -29,9 +29,9 @@ const GameMenu: React.FC<GameMenuProps> = ({onOpenGameMenu}) => {
                         {gameMenuList.map((gameMenuListItem) => (
                             <li
                                 key={gameMenuListItem}
-                                onClick={() => onOpenGameMenu(gameMenuListItem)}
+                                onClick={gameMenuListItem === "Rules" ? (e) => e.preventDefault() : () => onOpenGameMenu(gameMenuListItem)}
                             >
-                                <a href={`#${gameMenuListItem}`} className="h-16 flex items-center text-xl hover:bg-gray-900 hover:border-l-4 hover:border-red-900 hover:border-r-4">
+                                <a href={`#${gameMenuListItem}`}  className={gameMenuListItem === "Rules" ? "opacity-60 h-16 flex items-center text-xl" :"h-16 flex items-center text-xl hover:bg-gray-900 hover:border-l-4 hover:border-red-900 hover:border-r-4"}>
                                     {gameMenuListItem} 
                                 </a>
                             </li>

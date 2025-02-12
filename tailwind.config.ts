@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        enemyDice: "#8a2422",
+        friendlyDice: "#183f92",
+      },
       animation: {
         'bounce-top': 'bounceTop 3s ease-in-out',  
       },

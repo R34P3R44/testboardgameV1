@@ -4,7 +4,7 @@ import Factions from '../SideBar/Factions';
 import MapContainer from '../Map/MapContainer';
 
 interface MaincontentProps {
-  activeItem: string;
+  activeItem: string | null;
   onCloseModal: () => void;
   isActiveModal: boolean;
   showGameMenu: boolean;
