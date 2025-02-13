@@ -37,7 +37,7 @@ const GameMenu: React.FC<GameMenuProps> = ({onOpenGameMenu}) => {
                             </li>
                         ))}
                     </ul>
-                    <div className='fixed bottom-5 pl-10'>
+                    <div className='fixed bottom-5 text-sm '>
                         © 2024 All rights reserved.
                     </div>
                 </div>
