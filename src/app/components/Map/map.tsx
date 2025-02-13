@@ -27,16 +27,17 @@ const Map: React.FC<MapProps> = ({isEndTurnClicked, resetTurnClick, showAragorn,
     const mapRef = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div className='maps-container' ref={mapRef}>
+        // <div className='maps-container' ref={mapRef}>
+        <>
             <div className='testmap'></div>
-            <div className='testmap2'></div>
+            {/* <div className='testmap2'></div> */}
             {(dBPositions.length > 0 && dBPositions[0].active === true) || showAragorn ?
                 <Imperator dBPositions={dBPositions} isEndTurnClicked={isEndTurnClicked} resetTurnClick={resetTurnClick} mapRef={mapRef} />
                 :
                 null
             }
 
-        </div>
+        </>
     )
 }
 
