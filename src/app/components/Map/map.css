@@ -44,7 +44,8 @@
   left: 0;
   width: 100%;
   height: 100vh;  /* Ensures it takes the full viewport height */
-  background-image: url('/Balins_Tomb_v1.png');
+  /* background-image: url('/Balins_Tomb_v1.png'); */
+  background-image: url('/Balins_Tomb_noback_upscaled_1.png');
   background-size: contain;  /* Ensures the full image is visible */
   background-repeat: no-repeat;
   background-position: center top; /* Aligns image to the top */
