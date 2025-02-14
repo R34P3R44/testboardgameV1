@@ -5,6 +5,7 @@ import SideBar from './SideBar/SideBar';
 import Maincontent from './Maincontent/Maincontent';
 import GameMenu from './GameMenu/GameMenu';
 
+
 const Main: React.FC = ({ }) => {
 
   const [activeItem, setActiveItem] = useState<string | null>(null)
@@ -13,12 +14,12 @@ const Main: React.FC = ({ }) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string | null>(null)
 
   const handleItemClick = (listItem: string) => {
-    if(listItem === "Main menu"){
+    if(listItem === "6"){
       setActiveMenuItem(null)
       setActiveItem(listItem)
       setShowGameMenu(true)
     }
-    else if(listItem !== "Main menu"){
+    else if(listItem !== "6"){
         onOpenModal(listItem)
     }  
   }

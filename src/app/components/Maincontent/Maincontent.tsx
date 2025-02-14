@@ -19,7 +19,7 @@ const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isA
       {!showGameMenu && 
         <MapContainer activeMenuItem={activeMenuItem}/>
       }
-      {isActiveModal && activeItem === 'Factions' ?
+      {isActiveModal && activeItem === '4' ?
         <Factions onCloseModal={onCloseModal} activeItem={activeItem} />
         :
         null

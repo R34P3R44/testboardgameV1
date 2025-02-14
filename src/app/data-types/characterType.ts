@@ -52,3 +52,9 @@ export interface Position {
     key: number;
     value: ComponentType<{ size: number; className?: string }>;
   }
+
+  export type SideMenuItems = {
+    key: number;
+    value: ComponentType<{ size: number}>;
+    tooltip: string
+  }
