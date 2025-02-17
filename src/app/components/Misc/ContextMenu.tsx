@@ -8,6 +8,7 @@ import { GiPadlock } from "react-icons/gi";
 import { GiPadlockOpen } from "react-icons/gi";
 import { useNavigation } from '../../Store/useNavigation';
 import CharacterSheet from '../CharacterSheet/CharatcerSheet';
+import CharacterInventory from '../CharacterInventory/CharacterInventory';
 
 
 interface ContextMenuProps {
@@ -16,9 +17,11 @@ interface ContextMenuProps {
   onClickMove(): void;
   onClickLock(): void;
   enableMoving: boolean;
+  setShowInventory: (value: boolean) => void;
+  showInventory: boolean;
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu, onClickMove, enableMoving, onClickLock }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu, onClickMove, enableMoving, onClickLock, setShowInventory, showInventory }) => {
 
   const { setIsCharacterSelected } = useSelectedCharacter();
   const { isCharSheetShown, setIsCharSheetShown } = useNavigation();
@@ -29,13 +32,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu
     setIsCharacterSelected(true)
   }
 
-  const onMoveClick = () => {
-    onClickMove()
-  }
 
-  const onLockClick = () => {
-    onClickLock()
-  }
 
   return (
     <div className='w-44 block z-40 relative left-12 bg-gray-900 rounded-lg'>
@@ -48,17 +45,23 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu
           <button onClick={() => setIsCharSheetShown(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 hover:text-yellow-100'>Character Sheet</button>
         </li>
         <li>
-          <button onClick={onMoveClick} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Move</button>
+          <button onClick={() => setShowInventory(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Inventory</button>
         </li>
         <li>
-          <button onClick={onLockClick} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Lock</button>
+          <button onClick={() => onClickMove()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Move</button>
+        </li>
+        <li>
+          <button onClick={() => onClickLock()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Lock</button>
         </li>
         <li>
           <button onClick={removeCharacter} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Remove</button>
         </li>
       </ul>
       {isCharSheetShown && 
-      <CharacterSheet setIsCharSheetShown={setIsCharSheetShown} dBPositions={dBPositions} isCharSheetShown={isCharSheetShown}/>
+        <CharacterSheet setIsCharSheetShown={setIsCharSheetShown} dBPositions={dBPositions} isCharSheetShown={isCharSheetShown}/>
+      }
+      {showInventory && 
+        <CharacterInventory setShowInventory={setShowInventory}/>
       }
 
     </div>

@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             await updateDoc(docRef, {wounds});
 
-            res.setMaxListeners(200).json({success: true});
+            res.status(200).json({success: true});
         } catch (error) {
             console.log('Error updating character', error)
             res.status(500).json({ error: "Failed to update character" });      

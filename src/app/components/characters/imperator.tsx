@@ -29,6 +29,8 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showContext, setShowContext] = useState<boolean>(false);
   const [enableMoving, setEnableMoving] = useState<boolean>(false)
+  const [showInventory, setShowInventory] = useState<boolean>(false)
+
 
   useEffect(() => {
     console.log("Effect: 1")
@@ -112,6 +114,8 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
     }
   }
 
+
+
   return (
     <>
       <div
@@ -123,7 +127,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
           position: 'absolute',
           left: `${newPosition.x}px`,
           top: `${newPosition.y}px`,
-          background: `url('/Moria_Goblin_Spear.png')`,
+          background: `url('/Moria_Goblin_Spear_upscaled.png')`,
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
@@ -134,7 +138,15 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
         }}
       >
         {showContext ?
-          <ContextMenu dBPositions={dBPositions} closeContextMenu={closeContextMenu} onClickMove={onClickMove} onClickLock={onClickLock} enableMoving={enableMoving} />
+          <ContextMenu 
+            dBPositions={dBPositions} 
+            closeContextMenu={closeContextMenu} 
+            onClickMove={onClickMove} 
+            onClickLock={onClickLock} 
+            enableMoving={enableMoving} 
+            setShowInventory={setShowInventory}
+            showInventory={showInventory}
+          />
           :
           null
         }

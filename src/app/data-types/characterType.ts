@@ -58,3 +58,37 @@ export interface Position {
     value: ComponentType<{ size: number}>;
     tooltip: string
   }
+
+
+  export type ItemAttributes = {
+    itemData: {
+      id: number;
+      visible: boolean;
+      type: string;
+      item: string;
+      description: string;
+      weight: number;
+      qty: number;
+      isJunk: boolean;
+      positionX: number;
+      positionY: number;
+    }
+    charId: string
+  }
+
+
+  export type InventoryAttributes = {
+    itemData: {
+      id: number;
+      visible: boolean;
+      type: string;
+      item: string;
+      description: string;
+      weight: number;
+      qty: number;
+      isJunk: boolean;
+      positionX: number;
+      positionY: number;
+    }
+    charId: string
+  }

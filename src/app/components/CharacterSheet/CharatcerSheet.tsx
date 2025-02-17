@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { updateCharacterWounds } from '@/app/_restApiFn/send-updateCharacterWounds';
 import { INCREMENT, DECREMENT } from '../../data-types/constants'
-// import { SUCCESS, FAIL } from '../../data-types/constants'
 import { CharacterPosition } from "../../data-types/characterType";
 import { useCharacterAttributes } from '@/app/Store/useCharacterAttributes';
 import { getCharacterAttributes } from '@/app/_restApiFn/getCharacterAttributes';
@@ -37,7 +36,7 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ setIsCharSheetShown, dB
       setLoading(true)
       if ((!characterAttributes || Object.keys(characterAttributes).length === 0)) {
         try {
-          const data: CharacterAttributes = await getCharacterAttributes()
+          const data: CharacterAttributes = await getCharacterAttributes(dBPositions[0].charId)
           setCharacterAttributes(data)
         }
         catch (error) {

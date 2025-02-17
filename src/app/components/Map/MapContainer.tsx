@@ -138,7 +138,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
             }
 
             <React.Fragment>
-                <div className='z-50 absolute left-56 top-5 h-14 flex justify-around w-96 items-center'>
+                <div className='z-50 absolute left-24 top-5 h-14 flex justify-around w-96 items-center'>
                     <div className='w-24 h-12'>
                         <button onClick={onClickEndTurn} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
                             End turn

@@ -16,7 +16,7 @@ const FactionsAccordion: React.FC = () => {
                     <details className="group [&_summary::-webkit-details-marker]:hidden">
                         <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                             <span className="text-sm font-medium">
-                                <Image key={fac.id} src={fac.picture} alt={fac.name} height={50} width={50}/>
+                                {/* <Image key={fac.id} src={fac.picture} alt={fac.name} height={50} width={50}/> */}
                             </span>
                             <span>
                                 {fac.name}
