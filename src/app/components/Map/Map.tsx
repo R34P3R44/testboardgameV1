@@ -1,7 +1,7 @@
 "use client"
 
 import React, {useRef} from 'react';
-import './Map.css';
+import './MapStyle.css';
 import Imperator from '../characters/imperator';
 
 

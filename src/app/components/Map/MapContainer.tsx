@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Map.css';
+import './MapStyle.css';
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 import Spinner from '../Misc/Spinner';
 import Map from './Map';
