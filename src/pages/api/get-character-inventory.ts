@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../app/lib/firebase";
+import { db } from "@/app/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { InventoryAttributes } from "@/app/data-types/characterType";
 

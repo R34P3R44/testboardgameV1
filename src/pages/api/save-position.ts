@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../app/lib/firebase";
+import { db } from "@/app/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { Position } from "../../app/data-types/characterType";
 
