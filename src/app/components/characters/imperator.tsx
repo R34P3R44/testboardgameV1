@@ -114,8 +114,6 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
     }
   }
 
-
-
   return (
     <>
       <div
@@ -146,6 +144,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
             enableMoving={enableMoving} 
             setShowInventory={setShowInventory}
             showInventory={showInventory}
+            contextMenuType={"Character"}
           />
           :
           null

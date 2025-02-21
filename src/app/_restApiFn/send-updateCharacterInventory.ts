@@ -1,11 +1,11 @@
-export const updateCharacterInventory = async (charId: string, item: object): Promise<any> => {
+export const updateCharacterInventory = async (charId: string, itemData: object): Promise<any> => {
     try{
-        const response = await fetch("api/update-character-inventory", {
+        const response = await fetch("/api/update-character-inventory", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({charId, item}),
+            body: JSON.stringify({charId, itemData}),
         });
 
         if(response.ok){

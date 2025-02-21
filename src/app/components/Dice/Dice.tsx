@@ -21,16 +21,6 @@ const Dice: React.FC<DiceProps> = ({ dice, currentDiceNumber, isRolling }) => {
                     className: dice.className
                 })}
             </div>
-            {/* {currentDiceNumber && dice.friendly ? (
-                <div className="text-white ">
-                    {React.createElement(currentDiceNumber.value, {
-                        size: 50,
-                        className: dice.className
-                    })}
-                </div>)
-                :
-                null
-            } */}
         </>
     )
 };

@@ -19,7 +19,7 @@ import { AlertTypes } from '../../data-types/characterType';
 
 interface CharacterSheetProps {
   setIsCharSheetShown: (value: boolean) => void;
-  dBPositions: CharacterPosition[];
+  dBPositions?: CharacterPosition[];
   isCharSheetShown: boolean
 }
 
@@ -34,7 +34,7 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ setIsCharSheetShown, dB
   useEffect(() => {
     const getCharAttr = async () => {
       setLoading(true)
-      if ((!characterAttributes || Object.keys(characterAttributes).length === 0)) {
+      if (dBPositions && (!characterAttributes || Object.keys(characterAttributes).length === 0)) {
         try {
           const data: CharacterAttributes = await getCharacterAttributes(dBPositions[0].charId)
           setCharacterAttributes(data)
@@ -72,17 +72,19 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ setIsCharSheetShown, dB
       }
       setCharacterAttributes(updatedAttr)
     }
-    try {
-      const response = await updateCharacterWounds(dBPositions[0].charId, wounds)
-      if (response.success) {
-        setAlert({ success: true, fail: false })
+    if(dBPositions) {
+      try {
+        const response = await updateCharacterWounds(dBPositions[0].charId, wounds)
+        if (response.success) {
+          setAlert({ success: true, fail: false })
+        }
+        else {
+          setAlert({ success: false, fail: true })
+        }
       }
-      else {
-        setAlert({ success: false, fail: true })
-      }
-    }
-    catch (error) {
-      console.error("Error updating character wounds:", error);
+      catch (error) {
+        console.error("Error updating character wounds:", error);
+      }  
     }
     setTimeout(() => setAlert({ success: false, fail: false }), 3000)
     setLoading(false)
@@ -110,7 +112,7 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ setIsCharSheetShown, dB
           <dialog open className="modal rounded-md">
             <div className="bg-gray-200 rounded-md w-5/12 min-w-40">
               <div className='flex justify-between pl-4 pt-2 pb-2'>
-                <h2 className="font-bold text-2xl">{`${dBPositions[0].charId}`}</h2>
+                <h2 className="font-bold text-2xl">{`${dBPositions && dBPositions[0].charId}`}</h2>
                 <button className="hover:text-3xl hover:text-black transform transition-all flex w-10 h-10 bg-transparent justify-center items-center text-2xl font-extrabold cursor-pointer mr-1" data-dialog-close="true" type="button" onClick={() => setIsCharSheetShown(false)}>X</button>
               </div>
               <div className="flex justify-evenly bg-gray-100 ml-4 mr-4 rounded-md">

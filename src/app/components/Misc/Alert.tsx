@@ -16,7 +16,7 @@ interface FailAlertProps {
 export const SuccesAlert: React.FC<SuccesAlertProps> = ({ alert }) => {
 
     return (
-        <div className='flex items-center justify-center' >
+        <div className='flex items-center justify-center text-white font-bold' >
             {alert.success ? (
                 <div role="alert" className="alert alert-success ">
                     <svg
@@ -44,7 +44,7 @@ export const FailAlert: React.FC<FailAlertProps> = ({ alert }) => {
     return (
         <>
             {alert.fail ? (
-                <div role="alert" className="alert alert-error animate-slide-in-out">
+                <div role="alert" className="alert alert-error animate-slide-in-out text-white font-bold">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6 shrink-0 stroke-current"
@@ -56,7 +56,7 @@ export const FailAlert: React.FC<FailAlertProps> = ({ alert }) => {
                             strokeWidth="2"
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>Error! Task failed successfully.</span>
+                    <span>Error! Task failed.</span>
                 </div>
             ) : null}
         </>

@@ -11,7 +11,7 @@ type Data = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
     if(req.method === "PATCH"){
-        const {charId, itemData} = req.body as ItemAttributes
+        const {charId, itemData} = req.body
         
         if(!charId || !(itemData && typeof itemData === "object")){
             return res.status(400).json({error: "Invalid request data"})
@@ -19,17 +19,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         try {
             const charCollection = collection(db, "character-inventory");
-            const q = query(charCollection, where("charId", "==", charId));
+            const q = query(charCollection);
             const querySnapshot = await getDocs(q);
 
             if(querySnapshot.empty){
+                console.log(querySnapshot, "querySnapshotquerySnapshotquerySnapshotquerySnapshot")
                 return res.status(400).json({error: "Character not found"})
             }
 
             const docId = querySnapshot.docs[0].id;
             const docRef = doc(db, "character-inventory", docId);
 
-            await updateDoc(docRef, {itemData});
+            await updateDoc(docRef, { inventoryItems: itemData });
             res.status(200).json({success: true})
         }
         catch (error) {

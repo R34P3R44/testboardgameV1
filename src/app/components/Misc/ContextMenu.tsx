@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { updateCharacters } from '../../_restApiFn/send-updateCharacters'
 import { CharacterPosition } from "../../data-types/characterType";
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
@@ -9,59 +9,77 @@ import { GiPadlockOpen } from "react-icons/gi";
 import { useNavigation } from '../../Store/useNavigation';
 import CharacterSheet from '../CharacterSheet/CharatcerSheet';
 import CharacterInventory from '../CharacterInventory/CharacterInventory';
+import { ContextMenuProps } from '@/app/data-types/contextMenu.types';
+import { useCharacterInventory } from '@/app/Store/useCharacterInventory';
 
 
-interface ContextMenuProps {
-  dBPositions: CharacterPosition[];
-  closeContextMenu(): void;
-  onClickMove(): void;
-  onClickLock(): void;
-  enableMoving: boolean;
-  setShowInventory: (value: boolean) => void;
-  showInventory: boolean;
-}
-
-const ContextMenu: React.FC<ContextMenuProps> = ({ dBPositions, closeContextMenu, onClickMove, enableMoving, onClickLock, setShowInventory, showInventory }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({
+  dBPositions, 
+  closeContextMenu, 
+  onClickMove, 
+  enableMoving, 
+  onClickLock, 
+  setShowInventory, 
+  showInventory, 
+  contextMenuType, 
+  onClickPickup,
+  currentItem,
+  indexId
+}) => {
 
   const { setIsCharacterSelected } = useSelectedCharacter();
   const { isCharSheetShown, setIsCharSheetShown } = useNavigation();
 
-
   const removeCharacter = async () => {
-    await updateCharacters(dBPositions[0].charId, false)
-    setIsCharacterSelected(true)
+    if (dBPositions) {
+      await updateCharacters(dBPositions[0].charId, false)
+      setIsCharacterSelected(true)
+    }
   }
 
-
-
   return (
-    <div className='w-44 block z-40 relative left-12 bg-gray-900 rounded-lg'>
-      <div className='flex justify-between font-extrabold'>
-          {enableMoving ? <GiPadlockOpen className='pt-1 ps-2' color='#48bb78' size={30} /> : <GiPadlock className='pt-1 ps-2' color='#f56565' size={30}/>}
-        <button onClick={closeContextMenu} className='text-yellow-500 pt-1 pe-2 hover:text-yellow-100'>X</button>
+    <div key={indexId} className={contextMenuType === "Character" ? 'w-44  z-40 bg-gray-900 rounded-lg relative left-12' : 'w-44  z-40 bg-gray-900 rounded-lg absolute left-12'}>
+      <div className='flex justify-between font-extrabold items-center pe-2 ps-2 pt-1'>
+        {contextMenuType === "Character" ? 
+        <div>
+          {enableMoving ? <GiPadlockOpen className='pt-1 ps-2' color='#48bb78' size={30} /> : <GiPadlock className='pt-1 ps-2' color='#f56565' size={30} />}
+        </div>
+        :
+        <div className='text-gray-200'>{currentItem ? `${currentItem.itemData.item}` : ""}</div>
+        }     
+        <button onClick={closeContextMenu} className='text-yellow-500 hover:text-yellow-100'>X</button>
       </div>
-      <ul className='flex-col justify-items-center z-40 p-2'>
-        <li>
-          <button onClick={() => setIsCharSheetShown(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 hover:text-yellow-100'>Character Sheet</button>
-        </li>
-        <li>
-          <button onClick={() => setShowInventory(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Inventory</button>
-        </li>
-        <li>
-          <button onClick={() => onClickMove()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Move</button>
-        </li>
-        <li>
-          <button onClick={() => onClickLock()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Lock</button>
-        </li>
-        <li>
-          <button onClick={removeCharacter} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Remove</button>
-        </li>
-      </ul>
-      {isCharSheetShown && 
-        <CharacterSheet setIsCharSheetShown={setIsCharSheetShown} dBPositions={dBPositions} isCharSheetShown={isCharSheetShown}/>
+      {contextMenuType === "Character" ?
+        <ul className='flex-col justify-items-center z-40 p-2'>
+          <li>
+            <button onClick={() => setIsCharSheetShown && setIsCharSheetShown(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 hover:text-yellow-100'>Character Sheet</button>
+          </li>
+          <li>
+            <button onClick={() => setShowInventory && setShowInventory(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Inventory</button>
+          </li>
+          <li>
+            <button onClick={() => onClickMove && onClickMove()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Move</button>
+          </li>
+          <li>
+            <button onClick={() => onClickLock && onClickLock()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Lock</button>
+          </li>
+          <li>
+            <button onClick={removeCharacter} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Remove</button>
+          </li>
+        </ul>
+        :
+        <ul className='flex-col justify-items-center z-40 p-2'>
+          <li>
+            <button onClick={() => onClickPickup && onClickPickup()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Pick up</button>
+          </li>
+        </ul>
       }
-      {showInventory && 
-        <CharacterInventory setShowInventory={setShowInventory}/>
+
+      {isCharSheetShown &&
+        <CharacterSheet setIsCharSheetShown={setIsCharSheetShown} dBPositions={dBPositions} isCharSheetShown={isCharSheetShown} />
+      }
+      {showInventory &&
+        <CharacterInventory setShowInventory={setShowInventory} dBPositions={dBPositions} />
       }
 
     </div>

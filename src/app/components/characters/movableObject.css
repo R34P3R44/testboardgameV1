@@ -1,11 +1,11 @@
-.aragorn{
-  background: url('/Moria_Goblin_Spear_upscaled.png');
+/* .aragorn{
+  background: url('/Moria_Goblin_Spear.png');
   background-repeat: no-repeat;  
   background-position: center; 
-  width: 100%;  
-  height: 100%; 
+  width: 100px;  
+  height: 100px; 
   cursor: 'move';
-}
+} */
 
 .width{
   width: 450px;

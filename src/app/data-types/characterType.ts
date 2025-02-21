@@ -61,8 +61,9 @@ export interface Position {
 
 
   export type ItemAttributes = {
+    id: number;
+    charId: string;
     itemData: {
-      id: number;
       visible: boolean;
       type: string;
       item: string;
@@ -73,22 +74,21 @@ export interface Position {
       positionX: number;
       positionY: number;
     }
-    charId: string
   }
 
 
-  export type InventoryAttributes = {
-    itemData: {
-      id: number;
-      visible: boolean;
-      type: string;
-      item: string;
-      description: string;
-      weight: number;
-      qty: number;
-      isJunk: boolean;
-      positionX: number;
-      positionY: number;
-    }
-    charId: string
-  }
+  // export type InventoryAttributes = {
+  //   id: number;
+  //   charId: string
+  //   itemData: {
+  //     visible: boolean;
+  //     type: string;
+  //     item: string;
+  //     description: string;
+  //     weight: number;
+  //     qty: number;
+  //     isJunk: boolean;
+  //     positionX: number;
+  //     positionY: number;
+  //   }
+  // }
