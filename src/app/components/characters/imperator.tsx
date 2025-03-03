@@ -125,12 +125,12 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
           position: 'absolute',
           left: `${newPosition.x}px`,
           top: `${newPosition.y}px`,
-          background: `url('/Moria_Goblin_Spear_upscaled.png')`,
-          backgroundSize: 'contain',
+          background: `url('/Moria_Goblin_Spear.png')`,
+          backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          width: '78px',
-          height: '85px',
+          width: '50px',
+          height: '50px',
           zIndex: 100,
           cursor: 'move'
         }}

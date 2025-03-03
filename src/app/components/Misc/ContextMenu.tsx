@@ -70,7 +70,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         :
         <ul className='flex-col justify-items-center z-40 p-2'>
           <li>
-            <button onClick={() => onClickPickup && onClickPickup()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Pick up</button>
+            <button onClick={() => onClickPickup && onClickPickup(indexId ?? 999)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Pick up</button>
           </li>
         </ul>
       }

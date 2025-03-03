@@ -4,16 +4,19 @@ import Image from "next/image";
 import ContextMenu from "../Misc/ContextMenu";
 import { updateCharacterInventory } from "@/app/_restApiFn/send-updateCharacterInventory";
 import { useCharacterInventory } from "@/app/Store/useCharacterInventory";
+import { useMapItems } from '@/app/Store/useMapItems';
+
 
 interface ItemProps {
   currentItem: ItemAttributes | null;
   charId: string;
-  indexId: string
 }
 
-const Item: React.FC<ItemProps> = ({ currentItem, charId, indexId }) => {
+const Item: React.FC<ItemProps> = ({ currentItem, charId }) => {
   const [showContext, setShowContext] = useState<boolean>(false);
   const { characterInventory, setCharacterInventory } = useCharacterInventory();
+  const {mapItems, setMapItems } = useMapItems();
+
 
   const onRightClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -24,34 +27,27 @@ const Item: React.FC<ItemProps> = ({ currentItem, charId, indexId }) => {
     setShowContext(false);
   };
 
-const onClickPickup = async () => {
+const onClickPickup = async (indexId: number) => {
+    console.log(indexId)
     if (!currentItem) return;
 
-    const newCurrentItem = {
-      id: currentItem.id,
-      charId: charId,
-      itemData: {
-        visible: false,
-        type: currentItem.itemData.type,
-        item: currentItem.itemData.item,
-        description: currentItem.itemData.description,
-        weight: currentItem.itemData.weight,
-        qty: currentItem.itemData.qty,
-        isJunk: currentItem.itemData.isJunk,
-        positionX: 0,
-        positionY: 0,
-      }
-    }
-  
-    const updatedInventory = [...characterInventory, newCurrentItem];
-    setCharacterInventory(updatedInventory);
+    const itemToAddInventory = mapItems.find((item: ItemAttributes) => item.id === indexId)
+    if (!itemToAddInventory) return;
+
+    setCharacterInventory([...characterInventory, itemToAddInventory]);
+
+    const newMapItems = mapItems.filter((item: ItemAttributes) => item.id !== indexId);
+    if (!newMapItems) return;
+
+    setMapItems(newMapItems)
+
     setShowContext(false)    
   };
 
   return (
     <div
       onContextMenu={onRightClick}
-      key={indexId}
+      key={currentItem?.id}
       style={{
         position: "absolute",
         left: `${currentItem?.itemData.positionX}px`,
@@ -69,7 +65,7 @@ const onClickPickup = async () => {
       {showContext && (
         <div className="z-50 relative right-2 bottom-5">
           <ContextMenu
-            indexId={indexId}
+            indexId={currentItem?.id}
             contextMenuType={"Item"}
             closeContextMenu={closeContextMenu}
             onClickPickup={onClickPickup}

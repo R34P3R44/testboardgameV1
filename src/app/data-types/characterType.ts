@@ -23,10 +23,10 @@ export interface Position {
     charId: string;
     active: boolean;
     latestPositions: {
-      x: number | null;
-      y: number | null;
-      dateTime: string | null;
-    } | null;
+      x: number ;
+      y: number ;
+      dateTime: string;
+    };
   };
 
   export type CharacterAttributes = {

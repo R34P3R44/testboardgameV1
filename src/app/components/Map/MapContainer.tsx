@@ -11,17 +11,18 @@ import { useCharacterInventory } from '@/app/Store/useCharacterInventory';
 import { updateCharacterInventory } from '@/app/_restApiFn/send-updateCharacterInventory';
 import { SuccesAlert, FailAlert } from '../Misc/Alert';
 import { AlertTypes } from '../../data-types/characterType';
+import { CharacterPosition } from '@/app/data-types/characterType';
 
 
-type CharacterPosition = {
-    charId: string;
-    active: boolean;
-    latestPositions: {
-        x: number | null;
-        y: number | null;
-        dateTime: string | null;
-    } | null;
-};
+// type CharacterPosition = {
+//     charId: string;
+//     active: boolean;
+//     latestPositions: {
+//         x: number | null;
+//         y: number | null;
+//         dateTime: string | null;
+//     } | null;
+// };
 
 interface MapContainerProps {
     activeMenuItem: string | null
@@ -161,11 +162,11 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                 </div>
             )}
 
-            {showSpinner &&
+            {/* {showSpinner &&
                 <div className=''>
                     <Spinner />
                 </div>
-            }
+            } */}
 
             <React.Fragment>
                 <div className='z-50 absolute left-24 top-5 h-14 flex justify-around w-96 items-center'>

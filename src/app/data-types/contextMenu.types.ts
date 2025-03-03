@@ -4,7 +4,7 @@ import { CharacterPosition, ItemAttributes } from "./characterType";
 export type ContextMenuBaseTypes = {
     closeContextMenu?: () => void;
     contextMenuType?: string;
-    indexId?: string;
+    indexId?: number;
 }
 
 export type ContextMenuCharTypes = {
@@ -17,7 +17,7 @@ export type ContextMenuCharTypes = {
 }
 
 export type ContextMenuItemTypes = {
-    onClickPickup?: () => void;
+    onClickPickup?: (value: number) => void;
     currentItem?: ItemAttributes; 
 }
 

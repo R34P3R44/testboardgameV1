@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GiAxeSword } from "react-icons/gi";
 import { GiCheckedShield } from "react-icons/gi";
 import { GiCoins } from "react-icons/gi";
@@ -10,12 +10,30 @@ import { DiRuby } from "react-icons/di";
 import { ItemAttributes } from "@/app/data-types/characterType";
 import { ImBin2 } from "react-icons/im";
 import sumBy from "lodash/sumBy";
+import { useCharacterInventory } from "@/app/Store/useCharacterInventory";
+import Spinner from '../Misc/Spinner';
+
 
 interface InventoryTableProps {
-  inventoryItems: ItemAttributes[] | null
+  inventoryItems: ItemAttributes[] | null;
+  onRemoveItem: (value: ItemAttributes) => void;
 }
 
-const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems }) => {
+const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems, onRemoveItem }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [currentInventoryItems, setCurrentInventoryItems] = useState<ItemAttributes[]>([]);
+  const { characterInventory, setCharacterInventory } = useCharacterInventory();
+  
+
+  useEffect(() => {
+    if (characterInventory.length !== currentInventoryItems.length) {
+      setLoading(true)
+      let invItems = [];
+      invItems = characterInventory.map((item, index) => item);
+      setCurrentInventoryItems(invItems)
+      setLoading(false)
+    }
+  }, [characterInventory]);
 
   const itemTypeIcons = [
     { key: 1, value: GiAxeSword, type: "CCW" },
@@ -35,51 +53,60 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems }) => {
 
   return (
     <>
-      {inventoryItems && inventoryItems.length ?
-        <table className="table">
-          <thead >
-            <tr className='border-1 border-slate-900'>
-              <th className='w-5'>Type</th>
-              <th className='w-auto'>Item</th>
-              <th className='w-auto'>Description</th>
-              <th className='w-auto'>{`Weight (
-            ${sumBy(inventoryItems || [], item => item.itemData.weight)}kg)`}</th>
-              <th className='w-5'>Qty</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {(inventoryItems ?? []).map((item, index) => (
-              <tr key={`inventory-item-${index}`} className='w-auto border-1 border-slate-900'>
-                <td className='border-1 border-slate-900'>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle">
-                        {getItemIcon(item)}
+      {loading ? 
+      <>
+        <Spinner/>
+      </>
+        :
+        null
+
+      }
+      <>
+        {currentInventoryItems && currentInventoryItems.length ?
+          <table className="table">
+            <thead >
+              <tr className='border-1 border-slate-900'>
+                <th className='w-5'>Type</th>
+                <th className='w-auto'>Item</th>
+                <th className='w-auto'>Description</th>
+                <th className='w-auto'>{`Weight (
+              ${sumBy(currentInventoryItems || [], item => item.itemData.weight).toFixed(1)}kg)`}</th>
+                <th className='w-5'>Qty</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {(currentInventoryItems ?? []).map((item, index) => (
+                <tr key={`inventory-item-${item.id}`} className='w-auto border-1 border-slate-900'>
+                  <td className='border-1 border-slate-900'>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle">
+                          {getItemIcon(item)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  {item.itemData.item}
-                </td>
-                <td>
-                  {item.itemData.description}
-                </td>
-                <td>
-                  {`${item.itemData.weight} kg`}
-                </td>
-                <td>
-                  {item.itemData.qty === 0 ? 0 : item.itemData.qty}
-                </td>
-                <td>
-                  <button><ImBin2 /></button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        :
+                  </td>
+                  <td>
+                    {item.itemData.item}
+                  </td>
+                  <td>
+                    {item.itemData.description}
+                  </td>
+                  <td>
+                    {`${item.itemData.weight} kg`}
+                  </td>
+                  <td>
+                    {item.itemData.qty === 0 ? 0 : item.itemData.qty}
+                  </td>
+                  <td>
+                    <button onClick={() => onRemoveItem(item)}><ImBin2 /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          :
           <table className="table">
             <tbody>
               <tr className="flex justify-center">
@@ -87,7 +114,9 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems }) => {
               </tr>
             </tbody>
           </table>
-      }
+        }
+      </>
+
     </>
 
   )
