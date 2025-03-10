@@ -22,8 +22,6 @@ type ImperatorProps = {
 const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, resetTurnClick, mapRef }) => {
 
   const divRef = useRef<HTMLDivElement | null>(null);
-  const offsetX = useRef(0);  // Store offset between cursor and character
-  const offsetY = useRef(0);
   const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), charId: '' });
   // const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -33,9 +31,6 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
 
   useEffect(() => {
-    console.log("Effect: 1")
-    console.log("height:", window.innerHeight, "width:", window.innerWidth)
-
     if (dBPositions[0].latestPositions?.x === null || dBPositions[0].latestPositions?.y === null) {
       throw new Error("Invalid position: x or y is null.");
     }
@@ -49,11 +44,7 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
   useEffect(() => {
     if (isEndTurnClicked && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null) {
-      console.log("Effect: 3")
-
       sendPosition(newPosition)
-      console.log("Sending position")
-
       resetTurnClick()
     }
   }, [isEndTurnClicked, newPosition]);
@@ -129,8 +120,8 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          width: '50px',
-          height: '50px',
+          width: '80px',
+          height: '80px',
           zIndex: 100,
           cursor: 'move'
         }}

@@ -63,9 +63,9 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems, onRemov
       }
       <>
         {currentInventoryItems && currentInventoryItems.length ?
-          <table className="table">
+          <table className="table text-gray-900">
             <thead >
-              <tr className='border-1 border-slate-900'>
+              <tr className='border-1 border-slate-900 text-gray-900'>
                 <th className='w-5'>Type</th>
                 <th className='w-auto'>Item</th>
                 <th className='w-auto'>Description</th>
@@ -109,7 +109,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems, onRemov
           :
           <table className="table">
             <tbody>
-              <tr className="flex justify-center">
+              <tr className="flex justify-center text-gray-900">
                 <td>{"NO ITEMS"}</td>
               </tr>
             </tbody>

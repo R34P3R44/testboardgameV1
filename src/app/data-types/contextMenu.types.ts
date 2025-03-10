@@ -1,4 +1,4 @@
-import { CharacterPosition, ItemAttributes } from "./characterType";
+import { CharacterPosition, ItemAttributes, EnemyPosition } from "./characterType";
 
 
 export type ContextMenuBaseTypes = {
@@ -9,6 +9,7 @@ export type ContextMenuBaseTypes = {
 
 export type ContextMenuCharTypes = {
     dBPositions?: CharacterPosition[];
+    enemyPositions?: EnemyPosition[];
     onClickMove?: () => void;
     onClickLock?: () => void;
     enableMoving?: boolean;

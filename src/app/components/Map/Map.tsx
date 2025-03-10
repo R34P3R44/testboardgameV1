@@ -9,8 +9,9 @@ import { useCharacterInventory } from '@/app/Store/useCharacterInventory';
 import { getCharacterInventory } from '@/app/_restApiFn/getCharacterInventory';
 import { useMapItems } from '@/app/Store/useMapItems';
 import Spinner from '../Misc/Spinner';
-import { CharacterPosition } from '@/app/data-types/characterType';
-
+import { CharacterPosition, EnemyPosition } from '@/app/data-types/characterType';
+import Enemy from '../Enemy/Enemy';
+import HoneycombGrid from './HexagonGrid';
 
 
 interface MapProps {
@@ -18,25 +19,19 @@ interface MapProps {
   showAragorn: boolean;
   isEndTurnClicked: boolean;
   resetTurnClick(): void;
+  mapIdRef: string;
+  enemyPositions: EnemyPosition[]
+  showGrid: boolean
 }
 
-// type CharacterPosition = {
-//   charId: string;
-//   active: boolean;
-//   latestPositions: {
-//     x: number | null;
-//     y: number | null;
-//     dateTime: string | null;
-//   } | null;
-// };
-
-const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn, dBPositions }) => {
+const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn, dBPositions, mapIdRef, enemyPositions, showGrid }) => {
 
   const { characterInventory, setCharacterInventory } = useCharacterInventory();
   const { mapItems, setMapItems } = useMapItems();
   const [loading, setLoading] = useState<boolean>(false)
   const mapRef = useRef<HTMLDivElement | null>(null);
-
+      // const [showGrid, setShowGrid] = useState<boolean>(false)
+  
 
   useEffect(() => {
     if (mapItems.length && characterInventory.length) {
@@ -44,6 +39,7 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
       setInterval(() => setLoading(false), 1000)
     }
   }, [mapItems, characterInventory]);
+  
 
   return (
     <>
@@ -55,7 +51,7 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
         null
       }
       <>
-        <div className='testmap'></div>
+        <div key={mapIdRef} className='testmap'></div>
         {/* <div className='testmap2'></div> */}
         {(dBPositions.length > 0 && dBPositions[0].active === true) || showAragorn ?
           <Imperator
@@ -67,6 +63,30 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
           :
           null
         }
+
+        {showGrid ?
+            <div className='z-40 '>
+                <HoneycombGrid />
+            </div>
+            :
+            null
+        }
+
+        {enemyPositions && enemyPositions.map((item) => (
+          <Enemy
+            key={item.latestPositions.y * Math.random()}
+            currentEnemy={{
+                latestPositions: item.latestPositions,
+                charId: item.charId,
+                active: item.active,
+              }
+            }
+            enemyPositions={enemyPositions}
+            isEndTurnClicked={isEndTurnClicked}
+            resetTurnClick={resetTurnClick}
+            mapRef={mapRef}
+          />
+        ))}
 
         {dBPositions[0] && mapItems.map((item) => (
           item.itemData.visible && <Item key={item.id} currentItem={item} charId={dBPositions[0].charId} />

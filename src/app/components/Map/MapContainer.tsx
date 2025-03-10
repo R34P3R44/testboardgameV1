@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './MapStyle.css';
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
-import Spinner from '../Misc/Spinner';
+// import Spinner from '../Misc/Spinner';
 import Map from './Map';
 // import HoneycombGrid from './HexagonGrid';
 import Dice from '../Dice/Dice';
@@ -12,17 +12,10 @@ import { updateCharacterInventory } from '@/app/_restApiFn/send-updateCharacterI
 import { SuccesAlert, FailAlert } from '../Misc/Alert';
 import { AlertTypes } from '../../data-types/characterType';
 import { CharacterPosition } from '@/app/data-types/characterType';
-
-
-// type CharacterPosition = {
-//     charId: string;
-//     active: boolean;
-//     latestPositions: {
-//         x: number | null;
-//         y: number | null;
-//         dateTime: string | null;
-//     } | null;
-// };
+import { useHexagonItems } from "@/app/Store/useHexagonItems";
+import { postHexagonItems } from '@/app/_restApiFn/post-hexagonItems';
+import { getHexLayerEnemies } from '@/app/_restApiFn/getHexLayerEnemies';
+import { EnemyPosition } from '@/app/data-types/characterType';
 
 interface MapContainerProps {
     activeMenuItem: string | null
@@ -36,11 +29,14 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
     const { characterInventory } = useCharacterInventory();
     const [showSpinner, setShowSpinner] = useState<boolean>(false);
     const [isEndTurnClicked, setIsEndTurnClicked] = useState<boolean>(false);
-    // const [showGrid, setShowGrid] = useState<boolean>(false)
+    const [showGrid, setShowGrid] = useState<boolean>(false)
     const [turn, setTurn] = useState<CharacterTurn>({ enemy: false, friendly: false, className: '' })
     const [currentDiceNumber, setCurrentDiceNumber] = useState<Dice | null>(null)
     const [isRolling, setIsRolling] = useState<boolean>(false)
     const [alert, setAlert] = useState<AlertTypes>({ success: false, fail: false })
+    const { hexagonItems, setHexagonItems } = useHexagonItems();
+    const mapIdRef = useRef<string>("BalinsTomb");
+    const [enemyPositions, setEnemyPositions] = useState<EnemyPosition[]>([]);
 
 
     const dicesArray: Dice[] = [
@@ -52,19 +48,17 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
         { key: 6, value: BsDice6 }
     ]
 
-
     useEffect(() => {
         if (activeMenuItem && activeMenuItem === 'Load game') {
             setShowSpinner(true)
             fetchposition()
+            fetchEnemyPositions()
         }
         // else if (activeMenuItem && activeMenuItem === 'New game') {
         //     console.log("this is a new game")
         // }
         setTurn({ enemy: true, friendly: false, className: `fill-current ${'bg-enemyDice'} rounded-lg` })
-
         // setTurn({enemy: true, friendly: false, className: `fill-current ${'bg-friendlyDice'} rounded-lg`})
-
     }, []);
 
     useEffect(() => {
@@ -105,6 +99,23 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
         setShowSpinner(false)
     }
 
+    const fetchEnemyPositions = async () => {
+        const res = await fetch(`/api/get-hexLayer-enemies?mapId=${encodeURIComponent(mapIdRef.current)}`);
+        if (res.ok) {
+            const data: EnemyPosition[] = await res.json();
+            console.log("API Response:", data);
+            if (data) {
+                setEnemyPositions(data)
+                console.log("API Response SET:", data);
+            }
+            else {
+                setEnemyPositions([])
+            }
+        }
+        setShowSpinner(false)
+    }
+
+
     const onClickEndTurn = async () => {
         setIsEndTurnClicked(true)
         await saveInventory()
@@ -121,7 +132,6 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
             setCurrentDiceNumber(diceObject)
             setIsRolling(false)
         }, 600)
-
     }
 
     const generateRandomNumber = (): Dice | null => {
@@ -130,9 +140,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
         return diceObject
     }
 
-
     const saveInventory = async () => {
-
         if (dBPositions[0].charId) {
             try {
                 const response = await updateCharacterInventory(dBPositions[0].charId, characterInventory);
@@ -150,10 +158,33 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
         setTimeout(() => setAlert({ success: false, fail: false }), 3000);
     };
 
+    const saveHexgonItems = async () => {
+        if (mapIdRef.current && hexagonItems) {
+            try {
+                console.log(mapIdRef.current, hexagonItems, "ITEMS TO UPLOAD")
+                const response = await postHexagonItems(mapIdRef.current, hexagonItems);
+                if (response.success) {
+                    setAlert({ success: true, fail: false })
+                }
+                else {
+                    setAlert({ success: false, fail: true })
+                }
+            }
+            catch (error) {
+                console.error("Error posting items");
+            }
+        }
+        else {
+            console.error("Character inventory is empty.");
+        }
+        setTimeout(() => setAlert({ success: false, fail: false }), 3000);
+    }
+
+    const showHexGrid = () => {
+        setShowGrid(!showGrid)
+    }
 
     return (
-
-
         <>
             {(alert.success || alert.fail) && (
                 <div className="fixed top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 animate-bounce-top">
@@ -169,9 +200,9 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
             } */}
 
             <React.Fragment>
-                <div className='z-50 absolute left-24 top-5 h-14 flex justify-around w-96 items-center'>
+                <div className='z-50 fixed left-24 top-5 h-14 flex justify-around w-96 items-center overflow-auto'>
                     <div className='w-24 h-12'>
-                        <button onClick={onClickEndTurn} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                        <button onClick={() => onClickEndTurn()} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
                             End turn
                         </button>
                     </div>
@@ -195,23 +226,36 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                         />
                     </div>
                 </div>
-
+                <div className='z-50 fixed right-24 top-5 h-14 flex justify-around w-72 items-cente'>
+                    <button onClick={() => showHexGrid()} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                        Hex grid
+                    </button>
+                    <button onClick={() => saveHexgonItems()} className="z-50 h-10 w-36 top-10 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                        Upload hex data
+                    </button>
+                </div>
                 <div className='overflow-auto'>
                     <div className='z-30'>
-                        <Map resetTurnClick={resetTurnClick} isEndTurnClicked={isEndTurnClicked} showAragorn={showAragorn} dBPositions={dBPositions} />
+                        <Map
+                            mapIdRef={mapIdRef.current}
+                            resetTurnClick={resetTurnClick}
+                            isEndTurnClicked={isEndTurnClicked}
+                            showAragorn={showAragorn}
+                            dBPositions={dBPositions}
+                            enemyPositions={enemyPositions}
+                            showGrid={showGrid}
+                        />
                     </div>
 
-                    {/* {showGrid ? 
-                        <div className='z-40 absolute '>
-                            <HoneycombGrid/>
+                    {/* {showGrid ?
+                        <div className='z-40 w-full h-full'>
+                            <HoneycombGrid />
                         </div>
                         :
                         null
                     } */}
-
                 </div>
             </React.Fragment>
-
         </>
     );
 };

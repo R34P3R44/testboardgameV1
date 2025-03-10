@@ -1,90 +1,98 @@
 
 :root {
-  --s: 100px;
-  --gap: 1px;
-  --hex-height: calc(var(--s) * 1.1547);
+  --s: 72px;
+  --gap: 0.5px;
+  --hex-height: 83.1384px;
   /* overflow: hidden; */
 }
 
 .main321 {
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  /* height: 100vh;
+  width: 100vw; */
+  overflow: hidden;
+  /* transform: rotate(90deg); */
+
 }
 
 .container123 {
   display: flex;
   flex-direction: column;
-  position: fixed;
-  bottom: 20px;
-
+  /* height: 100vh;
+  width: 140vw; */
+  /* transform: rotate(90deg); */
 }
 
+/* Brings rows closer */
 .hex-row {
   display: flex;
-  margin-bottom: calc(-1 * var(--s) * 0.49); /* Pull rows closer */
+  margin-bottom: calc(var(--hex-height) * -0.567); 
+}
+
+.offset {
+  transform: translateX(calc(var(--s) / 1.14)); /* Adjust offset for perfect alignment */
 }
 
 .hex-icon {
   width: var(--s);
   height: var(--hex-height);
-  color: rgb(0, 0, 0);
+  color: rgb(227, 227, 227);
   font-size: var(--s);
-  margin: 0 calc(-5.2 * var(--s) * 0.02); /* Pull columns closer */
-  opacity: 0.8;
+  margin: 0 calc(var(--s) * 0.376);
+  opacity: 0.2;
+  transform: rotate(90deg);
+  clip-path: polygon(
+    50% 0%, 
+    100% 25%, 
+    100% 75%, 
+    50% 100%, 
+    0% 75%, 
+    0% 25%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.hex-icon:hover{
-  fill: red;
-  cursor: pointer;
-  stroke: aqua;
-}
 
-.offset {
-  transform: translateX(calc(var(--s) / 2 - 10px)); /* Adjust offset for perfect alignment */
-}
-
-
-/* ✅ Small Screens (Tablets, Phones) */
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   :root {
-    --s: 85px; /* Medium screens (laptops, smaller desktops) */
+    --s: 85px; 
   }
 }
 
 @media (max-width: 900px) {
   :root {
-    --s: 55px; /* Small screens (tablets) */
+    --s: 55px; 
   }
 }
 
 @media (max-width: 600px) {
   :root {
-    --s: 45px; /* Extra small screens (phones) */
+    --s: 45px; 
   }
 }
 
-/* ✅ Large Screens (4K Monitors, Projectors, Ultra-Wide Displays) */
 @media (min-width: 1600px) {
   :root {
-    --s: 115px; /* Large desktop screens */
+    --s: 115px; 
   }
 }
 
 @media (min-width: 2200px) {
   :root {
-    --s: 135px; /* 4K screens or larger */
+    --s: 135px; 
   }
 }
 
 @media (min-width: 3000px) {
   :root {
-    --s: 165px; /* Ultra-wide monitors, projectors */
+    --s: 165px; 
   }
 }
 
 @media (min-width: 4000px) {
   :root {
-    --s: 195px; /* Extreme large displays */
+    --s: 195px;
   }
-}
+} */

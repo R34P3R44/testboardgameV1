@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             else {
                 res.status(404).json({ error: "No character attributes found" });
             }
-        } catch (error: any) {
+        } catch (error) {
             console.log(error)
             res.status(500).json({ error: "Error retrieving attributes"})
         }

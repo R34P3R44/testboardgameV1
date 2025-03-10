@@ -29,6 +29,16 @@ export interface Position {
     };
   };
 
+  export type EnemyPosition = {
+    charId: string;
+    active: boolean;
+    latestPositions: {
+      x: number ;
+      y: number ;
+      dateTime: string;
+    };
+  };
+
   export type CharacterAttributes = {
     charId: string;
     move: number;
@@ -75,20 +85,3 @@ export interface Position {
       positionY: number;
     }
   }
-
-
-  // export type InventoryAttributes = {
-  //   id: number;
-  //   charId: string
-  //   itemData: {
-  //     visible: boolean;
-  //     type: string;
-  //     item: string;
-  //     description: string;
-  //     weight: number;
-  //     qty: number;
-  //     isJunk: boolean;
-  //     positionX: number;
-  //     positionY: number;
-  //   }
-  // }

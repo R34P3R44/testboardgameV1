@@ -26,17 +26,16 @@ const SideBar: React.FC<SideBarProps> = ({ handleItemClick }) => {
 
     return (
         <React.Fragment>
-            {/* <div className="fixed w-10 flex flex-col z-50 cursor-pointer h-full bg-yellow-600 "> */}
-            <div className="w-8 sm:w-9 md:w-10 lg:w-12 xl:w-auto p-1 absolute top-0 left-0 h-full group-hover:block bg-gray-900 text-white ease-linear duration-200">
+            <div className="min-h-full h-auto w-8 sm:w-9 md:w-10 lg:w-12 xl:w-auto p-1 fixed top-0 left-0 group-hover:block bg-trasparent text-white ease-linear duration-200">
                 <ul className="menu p-0 sm:h-64 md:h-72 md:w-16 lg:h-96 lg:w-16 xl:h-screen xl:w-16 ">
                     {sidebarList.map((listItem) => (
                         <li
                             key={listItem.key}
                             onClick={() => handleItemClick && handleItemClick(String(listItem.key))}
-                            className='h-6 sm:h-7 sm:w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 xl:h-16 xl:w-16'
+                            className='h-6 sm:h-7 sm:w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 xl:h-16 xl:w-16 '
                         >
                             <div className="tooltip tooltip-right p-2" data-tip={listItem.tooltip}>
-                                <a href={`#${listItem.key}`} className="md:text-lg lg:text-3xl xl:text-5xl h-16 w-12  flex items-center text-yellow-600 hover:text-yellow-200">
+                                <a href={`#${listItem.key}`} className="md:text-lg lg:text-3xl xl:text-5xl h-16 w-12 flex items-center text-yellow-600 hover:text-yellow-200">
                                     {React.createElement(listItem.value)}
                                 </a>
                             </div>

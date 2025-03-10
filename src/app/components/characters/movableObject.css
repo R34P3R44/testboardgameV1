@@ -7,11 +7,6 @@
   cursor: 'move';
 } */
 
-.width{
-  width: 450px;
-}
-
-
 /* ✅ Small Screens (Phones, Tablets) */
 @media (max-width: 1200px) {
   .aragorn {

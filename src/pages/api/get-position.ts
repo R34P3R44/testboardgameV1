@@ -1,16 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "@/app/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { CharacterPosition } from "@/app/data-types/characterType";
 
-type CharacterData = {
-  charId: string;
-  active: boolean;
-  latestPositions: {
-    x: number | null;
-    y: number | null;
-    dateTime: string | null;
-  } | null;
-};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
@@ -21,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const positionsSnapshot = await getDocs(collection(db, "character-positions"));
       const positions = positionsSnapshot.docs.map((doc: any) =>  doc.data());
 
-      const uniqueCharacters: CharacterData[] = characters.map((character) => {
+      const uniqueCharacters: CharacterPosition[] = characters.map((character) => {
         const charPositions = positions
         .filter((pos: any) => pos.charId === character.charId)
         .sort((a,b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());

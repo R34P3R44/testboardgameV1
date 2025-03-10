@@ -15,7 +15,7 @@ const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isA
   
 
   return (
-    <React.Fragment>
+    <div className=''>
       {!showGameMenu && 
         <MapContainer activeMenuItem={activeMenuItem}/>
       }
@@ -24,7 +24,7 @@ const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isA
         :
         null
       }
-    </React.Fragment>
+    </div>
   )
 };
 

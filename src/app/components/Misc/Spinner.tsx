@@ -6,7 +6,7 @@ const Spinner: React.FC = () => {
 
     return (
         <div className="relative flex items-center justify-center h-screen w-screen z-50">
-            <div className="absolute inset-0 backdrop-blur-md bg-black/50 "></div>
+            {/* <div className="absolute inset-0 backdrop-blur-md bg-black/50 "></div> */}
             <div className=" place-items-center overflow-x-scroll">
                 <svg
                     className="w-16 h-16 animate-spin text-blue-200/100"
