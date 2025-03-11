@@ -1,15 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import './movableObject.css';
-import { CharacterPosition } from "../../../app/data-types/characterType";
+import { CharacterPosition, Positions } from "../../../app/data-types/characterType";
 import { sendPosition } from '../../_restApiFn/send-position'
 import ContextMenu from '../Misc/ContextMenu';
-
-type Positions = {
-  x: number | null;
-  y: number | null;
-  dateTime: Date | null;
-  charId: string | null
-};
+import Moverange from '../Moverange/Moverange';
 
 
 type ImperatorProps = {
@@ -23,11 +17,11 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
 
   const divRef = useRef<HTMLDivElement | null>(null);
   const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), charId: '' });
-  // const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showContext, setShowContext] = useState<boolean>(false);
   const [enableMoving, setEnableMoving] = useState<boolean>(false)
   const [showInventory, setShowInventory] = useState<boolean>(false)
+  const [showCharMoveRange, setShowCharMoveRange] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -91,9 +85,11 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
   const onClickMove = () => {
     setEnableMoving(true)
     setTimeout(() => setShowContext(false), 500)
+    setShowCharMoveRange(!showCharMoveRange)
   }
 
   const onClickLock = () => {
+    setShowCharMoveRange(false)
     setEnableMoving(false)
   }
 
@@ -138,9 +134,18 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
             contextMenuType={"Character"}
           />
           :
-          null
+            null
         }
       </div>
+      {/* {showCharMoveRange ? 
+        <Moverange 
+          newPosition={newPosition} 
+          showCharMoveRange={showCharMoveRange} 
+          contextMenuType={"Character"}
+        /> 
+        : 
+          null
+      } */}
     </>
 
   );

@@ -11,9 +11,15 @@ module.exports = {
         friendlyDice: "#183f92",
       },
       animation: {
-        'bounce-top': 'bounceTop 3s ease-in-out',  
+        'bounce-top': 'bounceTop 3s ease-in-out',
+        "wave-effect": "waveExpand 2s ease-out infinite",
       },
+      
       keyframes: {
+        waveExpand: {
+          "0%": { transform: "scale(0)", opacity: "1" },
+          "100%": { transform: "scale(1)", opacity: "0" },
+        },
         bounceTop: {
           '0%': { transform: 'translateY(-500px)' },  // Start 50px above the screen
           '30%': { transform: 'translateY(10px)' },  // Move slightly down

@@ -21,12 +21,13 @@ interface MapContainerProps {
     activeMenuItem: string | null
 }
 
+
 const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
-    const { isCharacterSelected, setIsCharacterSelected } = useSelectedCharacter();
-    const { characterInventory } = useCharacterInventory();
+    const {isCharacterSelected, setIsCharacterSelected } = useSelectedCharacter();
+    const {characterInventory } = useCharacterInventory();
     const [showSpinner, setShowSpinner] = useState<boolean>(false);
     const [isEndTurnClicked, setIsEndTurnClicked] = useState<boolean>(false);
     const [showGrid, setShowGrid] = useState<boolean>(false)

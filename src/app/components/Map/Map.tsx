@@ -13,7 +13,6 @@ import { CharacterPosition, EnemyPosition } from '@/app/data-types/characterType
 import Enemy from '../Enemy/Enemy';
 import HoneycombGrid from './HexagonGrid';
 
-
 interface MapProps {
   dBPositions: CharacterPosition[];
   showAragorn: boolean;
@@ -24,13 +23,13 @@ interface MapProps {
   showGrid: boolean
 }
 
+
 const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn, dBPositions, mapIdRef, enemyPositions, showGrid }) => {
 
   const { characterInventory, setCharacterInventory } = useCharacterInventory();
   const { mapItems, setMapItems } = useMapItems();
   const [loading, setLoading] = useState<boolean>(false)
   const mapRef = useRef<HTMLDivElement | null>(null);
-      // const [showGrid, setShowGrid] = useState<boolean>(false)
   
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
 
         {showGrid ?
             <div className='z-40 '>
-                <HoneycombGrid />
+                <HoneycombGrid/>
             </div>
             :
             null

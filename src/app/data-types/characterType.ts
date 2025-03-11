@@ -85,3 +85,16 @@ export interface Position {
       positionY: number;
     }
   }
+
+
+export type MoveRangePositions = {
+  x: number | null;
+  y: number | null;
+};
+
+export type Positions = {
+  x: number;
+  y: number;
+  dateTime: Date | null;
+  charId: string | null
+};
