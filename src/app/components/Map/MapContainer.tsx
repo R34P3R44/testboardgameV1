@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './MapStyle.css';
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
-// import Spinner from '../Misc/Spinner';
+import Spinner from '../Misc/Spinner';
 import Map from './Map';
-// import HoneycombGrid from './HexagonGrid';
 import Dice from '../Dice/Dice';
 import { CharacterTurn } from '@/app/data-types/characterType';
 import { BsDice1, BsDice2, BsDice3, BsDice4, BsDice5, BsDice6 } from "react-icons/bs";
@@ -194,11 +193,11 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                 </div>
             )}
 
-            {/* {showSpinner &&
+            {showSpinner &&
                 <div className=''>
                     <Spinner />
                 </div>
-            } */}
+            }
 
             <React.Fragment>
                 <div className='z-50 fixed left-24 top-5 h-14 flex justify-around w-96 items-center overflow-auto'>
@@ -247,14 +246,6 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                             showGrid={showGrid}
                         />
                     </div>
-
-                    {/* {showGrid ?
-                        <div className='z-40 w-full h-full'>
-                            <HoneycombGrid />
-                        </div>
-                        :
-                        null
-                    } */}
                 </div>
             </React.Fragment>
         </>

@@ -43,7 +43,6 @@ const SideBar: React.FC<SideBarProps> = ({ handleItemClick }) => {
                     ))}
                 </ul>
             </div>
-            {/* </div> */}
 
         </React.Fragment>
 

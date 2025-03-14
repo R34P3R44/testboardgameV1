@@ -32,23 +32,23 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
   const mapRef = useRef<HTMLDivElement | null>(null);
   
 
-  useEffect(() => {
-    if (mapItems.length && characterInventory.length) {
-      setLoading(true)
-      setInterval(() => setLoading(false), 1000)
-    }
-  }, [mapItems, characterInventory]);
+  // useEffect(() => {
+  //   if (mapItems.length && characterInventory.length) {
+  //     setLoading(true)
+  //     setInterval(() => setLoading(false), 1000)
+  //   }
+  // }, [mapItems, characterInventory]);
   
 
   return (
     <>
-      {loading ?
+      {/* {loading ?
         <div className='z-50'>
           <Spinner />
         </div>
         :
         null
-      }
+      } */}
       <>
         <div key={mapIdRef} className='testmap'></div>
         {/* <div className='testmap2'></div> */}
