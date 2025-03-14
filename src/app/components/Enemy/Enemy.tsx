@@ -17,35 +17,36 @@ type EnemyProps = {
   isEndTurnClicked: boolean;
   resetTurnClick(): void;
   mapRef: React.RefObject<HTMLDivElement>;
-  currentEnemy: EnemyPosition
+  currentEnemy: EnemyPosition;
+  enemy: EnemyPosition
 }
 
-const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTurnClick, mapRef, currentEnemy }) => {
+const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTurnClick, mapRef, currentEnemy, enemy }) => {
 
   const divRef = useRef<HTMLDivElement | null>(null);
-  const [newPosition, setNewPosition] = useState<Positions[]>([]);
+  const [newPosition, setNewPosition] = useState<Positions>({ x: 0, y: 0, dateTime: new Date(), charId: '' });
   // const [moveRangePosition, setMoveRangePosition] = useState<MoveRangePositions>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [showContext, setShowContext] = useState<boolean>(false);
   const [enableMoving, setEnableMoving] = useState<boolean>(false)
 
-  useEffect(() => {
-    if (enemyPositions[0]?.latestPositions?.x === null || enemyPositions[0]?.latestPositions?.y === null) {
-      throw new Error("Invalid position: x or y is null.");
-    }
+  // useEffect(() => {
+  //   if (enemyPositions[0]?.latestPositions?.x === null || enemyPositions[0]?.latestPositions?.y === null) {
+  //     throw new Error("Invalid position: x or y is null.");
+  //   }
 
-    if (currentEnemy.latestPositions?.dateTime) {
-      setNewPosition(enemyPositions.map((position) => ({
-        x: position.latestPositions.x, 
-        y: position.latestPositions.y, 
-        dateTime: null, 
-        charId: position.charId 
-      })));
-    } 
+  //   if (currentEnemy.latestPositions?.dateTime) {
+  //     setNewPosition(enemyPositions.map((position) => ({
+  //       x: position.latestPositions.x, 
+  //       y: position.latestPositions.y, 
+  //       dateTime: position.latestPositions.dateTime, 
+  //       charId: position.charId 
+  //     })));
+  //   } 
     // else {
     //   setNewPosition({ x: 550, y: 400, dateTime: null, charId: enemyPositions[0]?.charId });
     // }
-  }, []);
+  // }, []);
 
   // useEffect(() => {
   //   if (isEndTurnClicked && newPosition.x !== null && newPosition.y !== null && newPosition.dateTime !== null) {
@@ -95,22 +96,34 @@ const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTu
     setShowContext(false)
   }
 
-  const onClickMove = () => {
-    setEnableMoving(true)
-    setTimeout(() => setShowContext(false), 500)
-  }
+  // const onClickMove = () => {
+  //   setEnableMoving(true)
+  //   setTimeout(() => setShowContext(false), 500)
+  // }
 
-  const onClickLock = () => {
-    setEnableMoving(false)
-  }
+  // const onClickLock = () => {
+  //   setEnableMoving(false)
+  // }
 
   const onRightClick = (e: React.MouseEvent) => {
     setIsDragging(false);
-    if (e) {
+    if(e) {
       e.preventDefault();
       setShowContext(!showContext)
     }
   }
+
+  // const getEnemyPicture = () => {
+  //     if(enemy.category === "D1") {
+  //       return '/Guard.png'
+  //     }
+  //     else if(enemy.category === "B1") {
+  //       return '/Guard2.png' 
+  //     }
+  //     else {
+  //       return '/Guard3.png'
+  //     }
+  // }
 
   return (
     <>
@@ -123,12 +136,13 @@ const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTu
           position: 'absolute',
           left: `${currentEnemy.latestPositions.x}px`,
           top: `${currentEnemy.latestPositions.y}px`,
-          background: `url('/Guard.png')`,
-          backgroundSize: '105%',
+          background: `url(/Guard_Spear_Demo.png)`,
+          // background: `url(${getEnemyPicture()})`,
+          backgroundSize: '100%',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'bottom',
-          width: '70px',
-          height: '70px',
+          width: '80px',
+          height: '80px',
           cursor: 'move',
           backgroundColor: '#ffffff',
           borderRadius: '50%',
@@ -138,8 +152,8 @@ const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTu
           <ContextMenu 
             enemyPositions={enemyPositions} 
             closeContextMenu={closeContextMenu} 
-            onClickMove={onClickMove} 
-            onClickLock={onClickLock} 
+            // onClickMove={onClickMove} 
+            // onClickLock={onClickLock} 
             enableMoving={enableMoving} 
             contextMenuType={"Enemy"}
           />

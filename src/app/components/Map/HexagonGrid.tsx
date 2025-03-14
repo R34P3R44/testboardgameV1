@@ -34,8 +34,8 @@ const HoneycombGrid: React.FC = ({}) => {
     if (!hexagon) return;
     const hexagonCoordinates = hexagon.getBoundingClientRect()
     const item = {
-      x: hexagonCoordinates.left + window.scrollX + hexagonCoordinates.width / 12, //horizontal
-      y: hexagonCoordinates.top + window.scrollY + hexagonCoordinates.height / 36,
+      x: hexagonCoordinates.left + window.scrollX + hexagonCoordinates.width / 51, //horizontal
+      y: hexagonCoordinates.top + window.scrollY - hexagonCoordinates.height / 18,
       selectedType: e.target.value, 
     }
     setHexagonItems([...hexagonItems, item])
@@ -50,7 +50,7 @@ const HoneycombGrid: React.FC = ({}) => {
             {Array.from({ length: gridSize.hexPerRow }).map((_, colIndex) => (
               <div key={`${rowIndex}-${colIndex}`} className={`hexContainer ${rowIndex % 2 !== 0 ? "offset" : ""}`}>
                 <div data-id={`${rowIndex}-${colIndex}`} className={"hex-icon hover:opacity-80 hover:cursor-pointer bg-white"}>
-                  <select defaultValue='' onChange={(e) => onSelectItem(e,)} className="bg-transparent rounded-md w-14 font-extrabold text-xl text-red-500 uppercase rotate-[-90deg] absolute right-4 hover:cursor-pointer hover:bg-gray-200">
+                  <select defaultValue='' onChange={(e) => onSelectItem(e,)} className="bg-transparent  rounded-md w-14 font-extrabold text-xl text-black uppercase rotate-[-90deg] absolute right-4 hover:cursor-pointer hover:bg-gray-200">
                     <option>{""}</option>
                     {hexDropdownItems.map((item) => (
                       <option key={item.id}>{item.value}</option>

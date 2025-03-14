@@ -73,13 +73,16 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
 
         {enemyPositions && enemyPositions.map((item) => (
           <Enemy
-            key={item.latestPositions.y * Math.random()}
+            key={item.id}
             currentEnemy={{
                 latestPositions: item.latestPositions,
                 charId: item.charId,
                 active: item.active,
+                category: item.category,
+                id: item.id
               }
             }
+            enemy={item}
             enemyPositions={enemyPositions}
             isEndTurnClicked={isEndTurnClicked}
             resetTurnClick={resetTurnClick}

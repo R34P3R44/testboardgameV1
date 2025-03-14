@@ -23,7 +23,6 @@ const GameMenu: React.FC<GameMenuProps> = ({onOpenGameMenu}) => {
                     <Spinner/>
                 </div>
             }
-            <div className={"gameMenuBackground"}> 
                 <div className="w-full h-full group-hover:block bg-gray-900 p-4 text-white ease-linear duration-200 fixed right-0 sm:w-48 md:w-48 lg:w-52 xl:w-[208px]">
                     <ul className="menu">
                         {gameMenuList.map((gameMenuListItem) => (
@@ -41,7 +40,7 @@ const GameMenu: React.FC<GameMenuProps> = ({onOpenGameMenu}) => {
                         © 2024 All rights reserved.
                     </div>
                 </div>
-            </div>
+                <div className={"gameMenuBackground"}></div>
 
         </React.Fragment>
     )

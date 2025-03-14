@@ -1,41 +1,29 @@
-/* .gameMenuBackground{
-    background: url('/mainMenubackground.jpg'); 
-    background-size:contain;
+
+  .gameMenuBackground {
+    background: url('/mainMenubackground2_cropped.jpg');
+    background-size:contain; 
     background-position: left; 
     background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
     opacity: 1;
     display: flex;
-  } */
-
-
-  .gameMenuBackground {
-    background: url('/mainMenubackground.jpg');
-    background-size: cover; /* Use 'cover' for better responsiveness */
-    background-position: center; /* Adjust background to be centered */
-    background-repeat: no-repeat;
-    width: 100vw;
-    height: 100vh;
-    opacity: 1;
-    display: flex;
     justify-content: start;
-    align-items: center; /* Center the content if needed */
+    align-items: left;
+    background-attachment: fixed;
 }
 
-/* Optional: Add media query for small screens */
 @media (max-width: 768px) {
     .gameMenuBackground {
-        background-size: cover; /* Maintain good background scaling on smaller screens */
-        background-position: center; /* Keep the background centered */
+        background-size: cover;
+        background-position: center;
     }
 }
 
-/* Optional: Add media query for very small screens (mobile phones) */
 @media (max-width: 480px) {
     .gameMenuBackground {
-        background-size: cover; /* Keep background fully covered */
-        background-position: center; /* Keep the background centered */
-        height: 100vh; /* Ensure it takes full screen height */
+        background-size: cover;
+        background-position: center; 
+        height: 100vh; 
     }
 }

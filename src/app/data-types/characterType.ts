@@ -30,8 +30,10 @@ export interface Position {
   };
 
   export type EnemyPosition = {
+    id: number,
     charId: string;
     active: boolean;
+    category: string;
     latestPositions: {
       x: number ;
       y: number ;
