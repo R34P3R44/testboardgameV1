@@ -34,8 +34,8 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ setIsCharSheetShown, dB
 
   useEffect(() => {
     const getCharAttr = async () => {
-      setLoading(true)
       if (dBPositions && (!characterAttributes || Object.keys(characterAttributes).length === 0)) {
+        setLoading(true)
         try {
           const data: CharacterAttributes = await getCharacterAttributes(dBPositions[0].charId)
           setCharacterAttributes(data)

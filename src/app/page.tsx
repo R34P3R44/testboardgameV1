@@ -1,4 +1,4 @@
-"use client"; // This directive makes the component a client component
+"use client"; 
 import React from 'react';
 import Main from './components/Main';
 

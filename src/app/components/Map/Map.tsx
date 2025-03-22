@@ -1,17 +1,15 @@
 "use client"
 
-import React, { useRef, useState, useEffect, memo } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './MapStyle.css';
 import Imperator from '../characters/imperator';
 import Item from '../Item/Item';
-import { ItemAttributes } from '@/app/data-types/characterType';
-import { useCharacterInventory } from '@/app/Store/useCharacterInventory';
-import { getCharacterInventory } from '@/app/_restApiFn/getCharacterInventory';
 import { useMapItems } from '@/app/Store/useMapItems';
-import Spinner from '../Misc/Spinner';
 import { CharacterPosition, EnemyPosition } from '@/app/data-types/characterType';
-import Enemy from '../Enemy/Enemy';
+import Enemy from '../characters/Enemy/Enemy';
 import HoneycombGrid from './HexagonGrid';
+import Image from 'next/image';
+
 
 interface MapProps {
   dBPositions: CharacterPosition[];
@@ -23,79 +21,74 @@ interface MapProps {
   showGrid: boolean
 }
 
-
 const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn, dBPositions, mapIdRef, enemyPositions, showGrid }) => {
 
-  const { characterInventory, setCharacterInventory } = useCharacterInventory();
-  const { mapItems, setMapItems } = useMapItems();
-  const [loading, setLoading] = useState<boolean>(false)
+  const { mapItems } = useMapItems();
   const mapRef = useRef<HTMLDivElement | null>(null);
-  
 
-  // useEffect(() => {
-  //   if (mapItems.length && characterInventory.length) {
-  //     setLoading(true)
-  //     setInterval(() => setLoading(false), 1000)
-  //   }
-  // }, [mapItems, characterInventory]);
-  
+  const viewableScreenHeight = window.innerHeight;
+  const viewableScreenWidth = window.innerWidth;
+
+  document.documentElement.style.setProperty('--screen-height', viewableScreenHeight.toString());
+  document.documentElement.style.setProperty('--screen-width', viewableScreenWidth.toString())
+
+  const pixelRatio = window.devicePixelRatio || 1;
+  document.documentElement.style.setProperty('--pixel-ratio', pixelRatio.toString());
+
 
   return (
-    <>
-      {/* {loading ?
-        <div className='z-50'>
-          <Spinner />
-        </div>
+
+    <div className='map-container'>
+      <Image
+        key={mapIdRef}
+        className='testmap'
+        src={"/Field_Demo.jpg"}
+        alt="Map"
+        width={6000}
+        height={5000}
+      />
+
+      {enemyPositions && enemyPositions.map((item) => (
+        <Enemy
+          key={item.id}
+          currentEnemy={{
+            latestPositions: item.latestPositions,
+            charId: item.charId,
+            active: item.active,
+            category: item.category,
+            id: item.id
+          }}
+          enemy={item}
+          enemyPositions={enemyPositions}
+          isEndTurnClicked={isEndTurnClicked}
+          resetTurnClick={resetTurnClick}
+          mapRef={mapRef}
+        />
+      ))}
+
+      {(dBPositions.length > 0 && dBPositions[0].active === true) || showAragorn ?
+        <Imperator
+          dBPositions={dBPositions}
+          isEndTurnClicked={isEndTurnClicked}
+          resetTurnClick={resetTurnClick}
+          mapRef={mapRef}
+        />
         :
         null
-      } */}
-      <>
-        <div key={mapIdRef} className='testmap'></div>
-        {/* <div className='testmap2'></div> */}
-        {(dBPositions.length > 0 && dBPositions[0].active === true) || showAragorn ?
-          <Imperator
-            dBPositions={dBPositions}
-            isEndTurnClicked={isEndTurnClicked}
-            resetTurnClick={resetTurnClick}
-            mapRef={mapRef}
-          />
-          :
-          null
-        }
+      }
 
-        {showGrid ?
-            <div className='z-40 '>
-                <HoneycombGrid/>
-            </div>
-            :
-            null
-        }
+      {dBPositions.length > 0 && mapItems.length > 0 && mapItems.map((item) => (
+        item.itemData.visible && <Item key={item.id} currentItem={item} charId={dBPositions[0].charId} />
+      ))}
 
-        {enemyPositions && enemyPositions.map((item) => (
-          <Enemy
-            key={item.id}
-            currentEnemy={{
-                latestPositions: item.latestPositions,
-                charId: item.charId,
-                active: item.active,
-                category: item.category,
-                id: item.id
-              }
-            }
-            enemy={item}
-            enemyPositions={enemyPositions}
-            isEndTurnClicked={isEndTurnClicked}
-            resetTurnClick={resetTurnClick}
-            mapRef={mapRef}
-          />
-        ))}
+      {/* <img key={mapIdRef} className='testmap' src="/Field_Demo.jpg" alt="Map"></img> */}
 
-        {dBPositions[0] && mapItems.map((item) => (
-          item.itemData.visible && <Item key={item.id} currentItem={item} charId={dBPositions[0].charId} />
-        ))}
-      </>
-
-    </>
+      {showGrid ?
+        <HoneycombGrid />
+        :
+        null
+      }
+    </div>
   )
 }
 

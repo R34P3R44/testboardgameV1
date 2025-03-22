@@ -15,18 +15,19 @@ import { useHexagonItems } from "@/app/Store/useHexagonItems";
 import { postHexagonItems } from '@/app/_restApiFn/post-hexagonItems';
 import { getHexLayerEnemies } from '@/app/_restApiFn/getHexLayerEnemies';
 import { EnemyPosition } from '@/app/data-types/characterType';
+import SideBar from '../SideBar/SideBar';
+
 
 interface MapContainerProps {
     activeMenuItem: string | null
 }
 
-
 const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
-    const {isCharacterSelected, setIsCharacterSelected } = useSelectedCharacter();
-    const {characterInventory } = useCharacterInventory();
+    const { isCharacterSelected, setIsCharacterSelected } = useSelectedCharacter();
+    const { characterInventory } = useCharacterInventory();
     const [showSpinner, setShowSpinner] = useState<boolean>(false);
     const [isEndTurnClicked, setIsEndTurnClicked] = useState<boolean>(false);
     const [showGrid, setShowGrid] = useState<boolean>(false)
@@ -58,7 +59,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
         //     console.log("this is a new game")
         // }
         setTurn({ enemy: true, friendly: false, className: `fill-current ${'bg-enemyDice'} rounded-lg` })
-        // setTurn({enemy: true, friendly: false, className: `fill-current ${'bg-friendlyDice'} rounded-lg`})
+        // setTurn({enemy: true, friendly: false, className: `fill-current ${'bg-friendlyDice'} rounded-lg`})      
     }, []);
 
     useEffect(() => {
@@ -194,27 +195,23 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
             )}
 
             {showSpinner &&
-                <div className=''>
+                <React.Fragment>
                     <Spinner />
-                </div>
+                </React.Fragment>
             }
 
             <React.Fragment>
-                <div className='z-50 fixed left-24 top-5 h-14 flex justify-around w-96 items-center overflow-auto'>
-                    <div className='w-24 h-12'>
-                        <button onClick={() => onClickEndTurn()} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                <div className='z-50 absolute left-0 top-2/4 h-48 flex flex-col justify-between w-auto'>
+                        <button onClick={() => onClickEndTurn()} className="z-50 h-10 w-24 top-2 p-1 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
                             End turn
                         </button>
-                    </div>
-                    <div className='w-24 h-12'>
                         <button
-                            className={isRolling ? " w-24 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 opacity-50 cursor-not-allowed pointer-events-none" : "w-24 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900"}
+                            className={isRolling ? "w-24 p-1 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 opacity-50 cursor-not-allowed pointer-events-none" : "w-24 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900"}
                             onClick={() => onClickRoll()}
                         >
                             New roll
                         </button>
-                    </div>
-                    <div className='z-50 rounded-lg w-12 h-12'>
+                    <div className='z-50 rounded-lg w-12 h-12 relative left-5'>
                         <Dice
                             currentDiceNumber={currentDiceNumber}
                             isRolling={isRolling}
@@ -226,16 +223,22 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                         />
                     </div>
                 </div>
-                <div className='z-50 fixed right-24 top-5 h-14 flex justify-around w-72 items-cente'>
+                <div className='z-50 absolute left-0 top-3/4 h-28 flex flex-col justify-between w-auto'>
                     <button onClick={() => showHexGrid()} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
                         Hex grid
                     </button>
-                    <button onClick={() => saveHexgonItems()} className="z-50 h-10 w-36 top-10 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
-                        Upload hex data
+                    <button onClick={() => saveHexgonItems()} className="z-50 h-10 w-auto top-10 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                        Upload data
                     </button>
                 </div>
-                <div className='overflow-auto'>
-                    <div className='z-30'>
+                <div className='testmapContainer'>
+                    <>
+                        <div className=''>
+                            <SideBar
+                                // handleItemClick={handleItemClick}
+                            />
+                        </div>
+                        <div >
                         <Map
                             mapIdRef={mapIdRef.current}
                             resetTurnClick={resetTurnClick}
@@ -245,7 +248,8 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                             enemyPositions={enemyPositions}
                             showGrid={showGrid}
                         />
-                    </div>
+                        </div>
+                    </>
                 </div>
             </React.Fragment>
         </>

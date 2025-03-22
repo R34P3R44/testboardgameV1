@@ -3,13 +3,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 6000px;
-  height: 5000px;  /* Ensures it takes the full viewport height */
-  /* background-image: url('/Balins_Tomb_v1.png'); */
-  background-image: url('/Field_Demo.jpg');
-  background-size: contain;  /* Ensures the full image is visible */
-  background-repeat: no-repeat;
-  background-position: center top; /* Aligns image to the top */
-  /* scale: 0.8; */
-  overflow: auto !important;
+  width: auto;
+  min-width: calc(6000px / var(--pixel-ratio));  
+  height: calc(5000px / var(--pixel-ratio)); 
+}
+
+.map-container {
+  width: var(--screen-width);  
+  height: var(--screen-height); 
+  position: absolute;
+  top:0;
+  left: 0
 }

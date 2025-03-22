@@ -1,66 +1,39 @@
-/* .aragorn{
-  background: url('/Moria_Goblin_Spear.png');
-  background-repeat: no-repeat;  
-  background-position: center; 
-  width: 100px;  
-  height: 100px; 
-  cursor: 'move';
-} */
-
-/* ✅ Small Screens (Phones, Tablets) */
-@media (max-width: 1200px) {
-  .aragorn {
-    background-size: 75%; /* Adjust image size */
-    width: 75%;
-    height: 75%;
-  }
+.enemyCharacter {
+  position: absolute;
+  background: url('/Spearman_Demo.png');
+  background-repeat: no-repeat;
+  width: calc(177px / var(--pixel-ratio));
+  height: calc(177px / var(--pixel-ratio));  
+  cursor: move;
+  background-color: transparent;
+  border-radius: 50%;
+  background-size: 100%;
+  z-index: 999;
 }
 
-@media (max-width: 900px) {
-  .aragorn {
-    background-size: 65%;
-    width: 65%;
-    height: 65%;
-  }
+.thiefCharacter {
+  position: absolute;
+  background: url('/MasterThief_Demo.png');
+  background-repeat: no-repeat;
+  width: calc(177px / var(--pixel-ratio));
+  height: calc(177px / var(--pixel-ratio));  
+  cursor: move;
+  background-color: transparent;
+  border-radius: 50%;
+  background-size: 100%;
+  z-index: 999;
+
 }
 
-@media (max-width: 600px) {
-  .aragorn {
-    background-size: 45%;
-    width: 45%;
-    height: 45%;
-  }
-}
 
-/* ✅ Large Screens (4K Monitors, Projectors) */
-@media (min-width: 1600px) {
-  .aragorn {
-    background-size: 115%;
-    width: 115%;
-    height: 115%;
-  }
-}
+.mapItem {
+  position: absolute;
+  background: url('/bag-of-coins-upscaled-noback2.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 40px;
+  height: 40px;  
+  cursor: pointer;
+  z-index: 999;
 
-@media (min-width: 2200px) {
-  .aragorn {
-    background-size: 135%;
-    width: 135%;
-    height: 135%;
-  }
-}
-
-@media (min-width: 3000px) {
-  .aragorn {
-    background-size: 165%;
-    width: 165%;
-    height: 165%;
-  }
-}
-
-@media (min-width: 4000px) {
-  .aragorn {
-    background-size: 195%;
-    width: 195%;
-    height: 195%;
-  }
 }

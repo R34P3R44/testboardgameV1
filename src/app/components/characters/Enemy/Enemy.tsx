@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { sendPosition } from '../../_restApiFn/send-position'
-import ContextMenu from '../Misc/ContextMenu';
+import { sendPosition } from '../../../_restApiFn/send-position'
+import ContextMenu from '../../Misc/ContextMenu';
 import { EnemyPosition } from '@/app/data-types/characterType';
+import '../movableObject.css';
 
 
 type Positions = {
@@ -92,6 +93,7 @@ const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTu
   //   }
   // };
 
+
   const closeContextMenu = () => {
     setShowContext(false)
   }
@@ -129,23 +131,13 @@ const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTu
     <>
       <div
         draggable={false}
+        className='enemyCharacter'
         ref={divRef}
         // onMouseDown={handleMouseDown}
         onContextMenu={onRightClick}
         style={{
-          position: 'absolute',
           left: `${currentEnemy.latestPositions.x}px`,
           top: `${currentEnemy.latestPositions.y}px`,
-          background: `url(/Guard_Spear_Demo.png)`,
-          // background: `url(${getEnemyPicture()})`,
-          backgroundSize: '100%',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'bottom',
-          width: '80px',
-          height: '80px',
-          cursor: 'move',
-          backgroundColor: '#ffffff',
-          borderRadius: '50%',
         }}
       >
         {showContext ?

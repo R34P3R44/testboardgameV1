@@ -108,17 +108,10 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
         ref={divRef}
         onMouseDown={handleMouseDown}
         onContextMenu={onRightClick}
+        className='thiefCharacter'
         style={{
-          position: 'absolute',
           left: `${newPosition.x}px`,
           top: `${newPosition.y}px`,
-          background: `url('/Thief_Dagger_Demo.png')`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          width: '80px',
-          height: '80px',
-          cursor: 'move'
         }}
       >
         {showContext ?

@@ -1,36 +1,31 @@
 
 :root {
-  --s: 72px;
+  --s: 90.5px;
   --gap: 0.5px;
-  --hex-height: 83.1384px;
-  /* overflow: hidden; */
+  --hex-height: 103px;
+  --muiltiplier: 20px
 }
 
 .main321 {
   display: flex;
-  /* height: 100vh;
-  width: 100vw; */
   overflow: hidden;
-  /* transform: rotate(90deg); */
-
+  position: absolute;
+  left: -300px;
 }
 
 .container123 {
   display: flex;
   flex-direction: column;
-  /* height: 100vh;
-  width: 140vw; */
-  /* transform: rotate(90deg); */
 }
 
 /* Brings rows closer */
 .hex-row {
   display: flex;
-  margin-bottom: calc(var(--hex-height) * -0.567); 
+  margin-top: calc(var(--gap) * -113); 
 }
 
 .offset {
-  transform: translateX(calc(var(--s) / 1.14)); /* Adjust offset for perfect alignment */
+  transform: translateX(calc(var(--muiltiplier) / 0.251)); /* Adjust offset for perfect alignment */
 }
 
 .hex-icon {
@@ -38,8 +33,8 @@
   height: var(--hex-height);
   color: rgb(227, 227, 227);
   font-size: var(--s);
-  margin: 0 calc(var(--s) * 0.376);
-  opacity: 0.2;
+  margin: 0 calc(var(--s) * 0.380);
+  opacity: 0.5;
   transform: rotate(90deg);
   clip-path: polygon(
     50% 0%, 

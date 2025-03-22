@@ -14,14 +14,14 @@ const Main: React.FC = ({ }) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string | null>(null)
 
   const handleItemClick = (listItem: string) => {
-    if(listItem === "6"){
+    if (listItem === "6") {
       setActiveMenuItem(null)
       setActiveItem(listItem)
       setShowGameMenu(true)
     }
-    else if(listItem !== "6"){
-        onOpenModal(listItem)
-    }  
+    else if (listItem !== "6") {
+      onOpenModal(listItem)
+    }
   }
 
   const onOpenModal = (listItem: string) => {
@@ -41,27 +41,31 @@ const Main: React.FC = ({ }) => {
   }
 
   return (
-    <div className="flex h-full w-screen">
-      {showGameMenu && 
-        <GameMenu 
-          onOpenGameMenu={onOpenGameMenu} 
+    <>
+      {showGameMenu &&
+        <GameMenu
+          onOpenGameMenu={onOpenGameMenu}
         />
       }
       {(activeMenuItem === 'Load game' || activeMenuItem === 'New game') &&
-        <React.Fragment>
-          <Maincontent
-            showGameMenu={showGameMenu}
-            activeItem={activeItem} 
-            onCloseModal={onCloseModal}
-            isActiveModal={isActiveModal}
-            activeMenuItem={activeMenuItem}
-          />
-          <SideBar 
-            handleItemClick={handleItemClick} 
-          />
-        </React.Fragment>
+        <>
+          <>
+            <Maincontent
+              showGameMenu={showGameMenu}
+              activeItem={activeItem}
+              onCloseModal={onCloseModal}
+              isActiveModal={isActiveModal}
+              activeMenuItem={activeMenuItem}
+            />
+          </>
+          {/* <>
+            <SideBar
+              handleItemClick={handleItemClick}
+            />
+          </> */}
+        </>
       }
-    </div>
+    </>
   );
 };
 

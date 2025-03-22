@@ -10,16 +10,17 @@ const HoneycombGrid: React.FC = ({}) => {
 
   useEffect(() => {
     const calculateGrid = () => {
-      const hexSize = 72; 
+      const hexSize = 88; 
       const hexHeight = hexSize * 1.1547;
       const gap = 1;
 
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
 
-      const hexPerRow = (Math.floor((screenWidth / (hexSize + gap)) * 2)) / 3;
-      const hexPerColumn = (Math.floor((screenHeight / (hexHeight * 0.75 + gap)) * 2)) * 2;
+      const hexPerRow = (Math.floor((screenWidth / (hexSize + gap)) * 2)) / 2;
+      const hexPerColumn = (Math.floor((screenHeight / (hexHeight * 0.75 + gap)) * 2)) * 2.29;
 
+      console.log("hexPerRow:", hexPerRow, "hexPerColumn:", hexPerColumn)
       setGridSize({ hexPerRow, hexPerColumn });
     };
 
@@ -50,7 +51,7 @@ const HoneycombGrid: React.FC = ({}) => {
             {Array.from({ length: gridSize.hexPerRow }).map((_, colIndex) => (
               <div key={`${rowIndex}-${colIndex}`} className={`hexContainer ${rowIndex % 2 !== 0 ? "offset" : ""}`}>
                 <div data-id={`${rowIndex}-${colIndex}`} className={"hex-icon hover:opacity-80 hover:cursor-pointer bg-white"}>
-                  <select defaultValue='' onChange={(e) => onSelectItem(e,)} className="bg-transparent  rounded-md w-14 font-extrabold text-xl text-black uppercase rotate-[-90deg] absolute right-4 hover:cursor-pointer hover:bg-gray-200">
+                  <select defaultValue='' onChange={(e) => onSelectItem(e,)} className="bg-transparent rounded-md w-14 font-extrabold text-xl text-black uppercase rotate-[-90deg] absolute right-5 hover:cursor-pointer hover:bg-gray-200">
                     <option>{""}</option>
                     {hexDropdownItems.map((item) => (
                       <option key={item.id}>{item.value}</option>

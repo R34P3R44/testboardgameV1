@@ -5,6 +5,7 @@ import ContextMenu from "../Misc/ContextMenu";
 import { updateCharacterInventory } from "@/app/_restApiFn/send-updateCharacterInventory";
 import { useCharacterInventory } from "@/app/Store/useCharacterInventory";
 import { useMapItems } from '@/app/Store/useMapItems';
+import '../characters/movableObject.css';
 
 
 interface ItemProps {
@@ -15,7 +16,7 @@ interface ItemProps {
 const Item: React.FC<ItemProps> = ({ currentItem, charId }) => {
   const [showContext, setShowContext] = useState<boolean>(false);
   const { characterInventory, setCharacterInventory } = useCharacterInventory();
-  const {mapItems, setMapItems } = useMapItems();
+  const { mapItems, setMapItems } = useMapItems();
 
 
   const onRightClick = (e: React.MouseEvent) => {
@@ -27,7 +28,7 @@ const Item: React.FC<ItemProps> = ({ currentItem, charId }) => {
     setShowContext(false);
   };
 
-const onClickPickup = async (indexId: number) => {
+  const onClickPickup = async (indexId: number) => {
     console.log(indexId)
     if (!currentItem) return;
 
@@ -41,27 +42,19 @@ const onClickPickup = async (indexId: number) => {
 
     setMapItems(newMapItems)
 
-    setShowContext(false)    
+    setShowContext(false)
   };
 
   return (
     <div
+      className="mapItem"
       onContextMenu={onRightClick}
       key={currentItem?.id}
       style={{
-        position: "absolute",
         left: `${currentItem?.itemData.positionX}px`,
         top: `${currentItem?.itemData.positionY}px`,
-        cursor: "pointer",
-        zIndex: 40,
       }}
     >
-      <Image
-        src={"/bag-of-coins-upscaled-noback2.png"}
-        alt={`${currentItem?.itemData.description}`}
-        height={40}
-        width={40}
-      />
       {showContext && (
         <div className="z-50 relative right-2 bottom-5">
           <ContextMenu

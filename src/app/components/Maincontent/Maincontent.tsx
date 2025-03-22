@@ -13,9 +13,8 @@ interface MaincontentProps {
 
 const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isActiveModal, showGameMenu, activeMenuItem }) => {
   
-
   return (
-    <div className=''>
+    <>
       {!showGameMenu && 
         <MapContainer activeMenuItem={activeMenuItem}/>
       }
@@ -24,7 +23,7 @@ const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isA
         :
         null
       }
-    </div>
+    </>
   )
 };
 
