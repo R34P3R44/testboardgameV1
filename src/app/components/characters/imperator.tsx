@@ -23,7 +23,6 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
   const [showInventory, setShowInventory] = useState<boolean>(false)
   const [showCharMoveRange, setShowCharMoveRange] = useState<boolean>(false);
 
-
   useEffect(() => {
     if (dBPositions[0].latestPositions?.x === null || dBPositions[0].latestPositions?.y === null) {
       throw new Error("Invalid position: x or y is null.");
@@ -50,8 +49,8 @@ const Imperator: React.FC<ImperatorProps> = ({ dBPositions, isEndTurnClicked, re
     else if (!showContext && event.button === 0 && divRef.current && enableMoving && newPosition.x && newPosition.y) {
       const rect = divRef.current.getBoundingClientRect();
 
-      const offsetX = (event.clientX - rect.left) / 2;
-      const offsetY = (event.clientY - rect.top) / 2;
+      const offsetX = (event.clientX - rect.left) / 4;
+      const offsetY = (event.clientY - rect.top) / 4;
 
       const startX = event.clientX;
       const startY = event.clientY;

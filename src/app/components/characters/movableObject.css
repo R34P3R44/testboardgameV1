@@ -1,6 +1,6 @@
 .enemyCharacter {
   position: absolute;
-  background: url('/Spearman_Demo.png');
+  background: url('/Spearman_Demo_v1.png');
   background-repeat: no-repeat;
   width: calc(177px / var(--pixel-ratio));
   height: calc(177px / var(--pixel-ratio));  
@@ -8,12 +8,12 @@
   background-color: transparent;
   border-radius: 50%;
   background-size: 100%;
-  z-index: 999;
+  z-index: 49;
 }
 
 .thiefCharacter {
   position: absolute;
-  background: url('/MasterThief_Demo.png');
+  background: url('/Thief_Demo_v1.png');
   background-repeat: no-repeat;
   width: calc(177px / var(--pixel-ratio));
   height: calc(177px / var(--pixel-ratio));  
@@ -21,10 +21,8 @@
   background-color: transparent;
   border-radius: 50%;
   background-size: 100%;
-  z-index: 999;
-
+  z-index: 49;
 }
-
 
 .mapItem {
   position: absolute;
@@ -34,6 +32,5 @@
   width: 40px;
   height: 40px;  
   cursor: pointer;
-  z-index: 999;
-
+  z-index: 49;
 }

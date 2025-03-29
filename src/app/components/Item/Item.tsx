@@ -56,7 +56,7 @@ const Item: React.FC<ItemProps> = ({ currentItem, charId }) => {
       }}
     >
       {showContext && (
-        <div className="z-50 relative right-2 bottom-5">
+        <div className="relative right-2 bottom-5">
           <ContextMenu
             indexId={currentItem?.id}
             contextMenuType={"Item"}

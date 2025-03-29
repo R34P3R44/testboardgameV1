@@ -2,24 +2,20 @@
 import React from 'react';
 import Factions from '../SideBar/Factions';
 import MapContainer from '../Map/MapContainer';
+import { useSideMenuNavigation } from '@/app/Store/useSideMenuNavigation';
 
-interface MaincontentProps {
-  activeItem: string | null;
-  onCloseModal: () => void;
-  isActiveModal: boolean;
-  showGameMenu: boolean;
-  activeMenuItem: string | null
-}
 
-const Maincontent: React.FC<MaincontentProps> = ({ activeItem, onCloseModal, isActiveModal, showGameMenu, activeMenuItem }) => {
-  
+const Maincontent: React.FC = () => {
+
+  const {activeSideMenuItem} = useSideMenuNavigation()
+
   return (
     <>
-      {!showGameMenu && 
-        <MapContainer activeMenuItem={activeMenuItem}/>
-      }
-      {isActiveModal && activeItem === '4' ?
-        <Factions onCloseModal={onCloseModal} activeItem={activeItem} />
+      {/* {!showGameMenu &&  */}
+        <MapContainer/>
+      {/* } */}
+      { activeSideMenuItem === 'Factions' ?
+        <Factions />
         :
         null
       }

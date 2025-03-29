@@ -3,17 +3,30 @@
 import React, { useState, useEffect } from 'react';
 import Spinner from '../Misc/Spinner';
 import './GameMenu.css';
+import { gameMenuList } from '@/app/data-types/constants';
+import {useGameMenuNavigation} from '../../Store/useGameMenuNavigation'
 
-interface GameMenuProps {
-    onOpenGameMenu: (gameMenuItem: string) => void
-}
 
-const GameMenu: React.FC<GameMenuProps> = ({onOpenGameMenu}) => {
+const GameMenu: React.FC = () => {
     
     const [loading, setLoading] = useState(false)
+    const {activeGameMenuItem, setActiveGameMenuItem} = useGameMenuNavigation()
 
-    const gameMenuList = ['New game', 'Load game', 'Rules',]
-
+    const onOpenGameMenu = (gameMenuListItem: string) => {
+        switch (gameMenuListItem) {
+            case "New game":
+                setActiveGameMenuItem("New game")
+              break;
+            case "Load game":
+                setActiveGameMenuItem("Load game")
+              break;
+            case "Rules":
+                setActiveGameMenuItem("")
+              break;
+            default:
+              return ""
+          }
+    }
 
     return (
         <React.Fragment>
@@ -28,7 +41,7 @@ const GameMenu: React.FC<GameMenuProps> = ({onOpenGameMenu}) => {
                         {gameMenuList.map((gameMenuListItem) => (
                             <li
                                 key={gameMenuListItem}
-                                onClick={gameMenuListItem === "Rules" ? (e) => e.preventDefault() : () => onOpenGameMenu(gameMenuListItem)}
+                                onClick={() => onOpenGameMenu(gameMenuListItem)}
                             >
                                 <a href={`#${gameMenuListItem}`}  className={gameMenuListItem === "Rules" ? "opacity-60 h-16 flex items-center text-xl" :"h-16 flex items-center text-xl hover:bg-gray-900 hover:border-l-4 hover:border-red-900 hover:border-r-4"}>
                                     {gameMenuListItem} 

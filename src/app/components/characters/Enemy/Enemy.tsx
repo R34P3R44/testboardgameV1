@@ -63,8 +63,8 @@ const Enemy: React.FC<EnemyProps> = ({ enemyPositions, isEndTurnClicked, resetTu
   //   else if (!showContext && event.button === 0 && divRef.current && enableMoving && newPosition[0].x && newPosition[0].y) {
   //     const rect = divRef.current.getBoundingClientRect();
 
-  //     const offsetX = (event.clientX - rect.left) / 2;
-  //     const offsetY = (event.clientY - rect.top) / 2;
+  //     const offsetX = (event.clientX - rect.left) / 4;
+  //     const offsetY = (event.clientY - rect.top) / 4;
 
   //     const startX = event.clientX;
   //     const startY = event.clientY;

@@ -41,7 +41,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   return (
     <div key={indexId} className={contextMenuType === "Character" || "Enemy" ? 'w-44  z-40 bg-gray-900 rounded-lg relative left-12' : 'w-44  z-40 bg-gray-900 rounded-lg absolute left-12'}>
       <div className='flex justify-between font-extrabold items-center pe-2 ps-2 pt-1'>
-        {contextMenuType === "Character" || "Enemy" ?
+        {contextMenuType !== "Item" ?
           <div>
             {enableMoving ? <GiPadlockOpen className='pt-1 ps-2' color='#48bb78' size={30} /> : <GiPadlock className='pt-1 ps-2' color='#f56565' size={30} />}
           </div>
@@ -60,7 +60,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
               <button onClick={() => onClickMove && onClickMove()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Move</button>
             </li>
             <li>
-              <button onClick={() => removeCharacter} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Remove</button>
+              <button onClick={() => removeCharacter()} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Remove</button>
             </li>
             <li>
               <button onClick={() => setShowInventory && setShowInventory(true)} className='w-36 h-7 bg-blue-400 text-gray-900 rounded-lg font-bold m-1 curzor-pointer hover:text-yellow-100'>Inventory</button>

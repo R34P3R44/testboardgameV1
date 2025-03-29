@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, } from 'react';
 import './MapStyle.css';
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
 import Spinner from '../Misc/Spinner';
 import Map from './Map';
 import Dice from '../Dice/Dice';
 import { CharacterTurn } from '@/app/data-types/characterType';
-import { BsDice1, BsDice2, BsDice3, BsDice4, BsDice5, BsDice6 } from "react-icons/bs";
 import { useCharacterInventory } from '@/app/Store/useCharacterInventory';
 import { updateCharacterInventory } from '@/app/_restApiFn/send-updateCharacterInventory';
 import { SuccesAlert, FailAlert } from '../Misc/Alert';
@@ -16,18 +15,16 @@ import { postHexagonItems } from '@/app/_restApiFn/post-hexagonItems';
 import { getHexLayerEnemies } from '@/app/_restApiFn/getHexLayerEnemies';
 import { EnemyPosition } from '@/app/data-types/characterType';
 import SideBar from '../SideBar/SideBar';
+import { dicesArray } from '@/app/data-types/constants';
+import { SideBarPosition } from '@/app/data-types/characterType';
+import { getDataForMouseMove } from '@/app/utilityFunctions/getDataForMouseMove';
+import { useGameMenuNavigation } from '@/app/Store/useGameMenuNavigation';
 
 
-interface MapContainerProps {
-    activeMenuItem: string | null
-}
-
-const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
+const MapContainer: React.FC = () => {
 
     const [showAragorn, setShowAragorn] = useState<boolean>(false);
     const [dBPositions, setDBPositions] = useState<CharacterPosition[]>([]);
-    const { isCharacterSelected, setIsCharacterSelected } = useSelectedCharacter();
-    const { characterInventory } = useCharacterInventory();
     const [showSpinner, setShowSpinner] = useState<boolean>(false);
     const [isEndTurnClicked, setIsEndTurnClicked] = useState<boolean>(false);
     const [showGrid, setShowGrid] = useState<boolean>(false)
@@ -35,31 +32,30 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
     const [currentDiceNumber, setCurrentDiceNumber] = useState<Dice | null>(null)
     const [isRolling, setIsRolling] = useState<boolean>(false)
     const [alert, setAlert] = useState<AlertTypes>({ success: false, fail: false })
-    const { hexagonItems, setHexagonItems } = useHexagonItems();
-    const mapIdRef = useRef<string>("BalinsTomb");
     const [enemyPositions, setEnemyPositions] = useState<EnemyPosition[]>([]);
+    const [showSideBar, setShowSideBar] = useState<boolean>(true)
+    const [newSidebarPosition, setNewSidebarPosition] = useState<SideBarPosition>({ x: 5, y: 5 });
 
+    const {hexagonItems, setHexagonItems} = useHexagonItems();
+    const {isCharacterSelected, setIsCharacterSelected} = useSelectedCharacter();
+    const {characterInventory} = useCharacterInventory();
+    const {activeGameMenuItem} = useGameMenuNavigation()
 
-    const dicesArray: Dice[] = [
-        { key: 1, value: BsDice1 },
-        { key: 2, value: BsDice2 },
-        { key: 3, value: BsDice3 },
-        { key: 4, value: BsDice4 },
-        { key: 5, value: BsDice5 },
-        { key: 6, value: BsDice6 }
-    ]
+    const sideBarRef = useRef<HTMLDivElement>(null);
+    const mapIdRef = useRef<string>("BalinsTomb");
 
     useEffect(() => {
-        if (activeMenuItem && activeMenuItem === 'Load game') {
+        if (activeGameMenuItem === 'Load game') {
             setShowSpinner(true)
             fetchposition()
             fetchEnemyPositions()
         }
-        // else if (activeMenuItem && activeMenuItem === 'New game') {
-        //     console.log("this is a new game")
-        // }
-        setTurn({ enemy: true, friendly: false, className: `fill-current ${'bg-enemyDice'} rounded-lg` })
-        // setTurn({enemy: true, friendly: false, className: `fill-current ${'bg-friendlyDice'} rounded-lg`})      
+        // setTurn({ enemy: true, friendly: false, className: `fill-current ${'bg-enemyDice'} rounded-lg` })
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        }
     }, []);
 
     useEffect(() => {
@@ -73,6 +69,12 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
             fetchposition()
         }
     }, [isCharacterSelected, isEndTurnClicked, setIsCharacterSelected]);
+
+    const handleKeyPress = useCallback((event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            setShowSideBar(prevState => !prevState)
+        }
+    }, []);
 
     const fetchposition = async () => {
         const res = await fetch('/api/get-position');
@@ -162,7 +164,6 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
     const saveHexgonItems = async () => {
         if (mapIdRef.current && hexagonItems) {
             try {
-                console.log(mapIdRef.current, hexagonItems, "ITEMS TO UPLOAD")
                 const response = await postHexagonItems(mapIdRef.current, hexagonItems);
                 if (response.success) {
                     setAlert({ success: true, fail: false })
@@ -185,6 +186,37 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
         setShowGrid(!showGrid)
     }
 
+    const handleMouseDown = (event: React.MouseEvent) => {
+        event.preventDefault();
+
+        if(!sideBarRef.current) return 
+
+        const sideBar = sideBarRef.current;
+        const firstChild = sideBar.querySelector(":first-child") as HTMLElement | null;
+        
+        if (!firstChild) return;
+
+        const moveData = getDataForMouseMove(event, firstChild)
+
+        const handleMouseMove = (e: MouseEvent) => {
+
+            const restrictedX = Math.max(0, Math.min(e.clientX - moveData.offsetX, moveData.startTestX));
+            const restrictedY = Math.max(0, Math.min(e.clientY - moveData.offsetY, moveData.startTestY));
+
+            setNewSidebarPosition({x: restrictedX, y: restrictedY});
+        };
+
+        const handleMouseUp = () => {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+        };
+
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
+    };
+
+
+
     return (
         <>
             {(alert.success || alert.fail) && (
@@ -201,44 +233,54 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
             }
 
             <React.Fragment>
-                <div className='z-50 absolute left-0 top-2/4 h-48 flex flex-col justify-between w-auto'>
-                        <button onClick={() => onClickEndTurn()} className="z-50 h-10 w-24 top-2 p-1 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
-                            End turn
-                        </button>
-                        <button
-                            className={isRolling ? "w-24 p-1 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 opacity-50 cursor-not-allowed pointer-events-none" : "w-24 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900"}
-                            onClick={() => onClickRoll()}
-                        >
-                            New roll
-                        </button>
-                    <div className='z-50 rounded-lg w-12 h-12 relative left-5'>
-                        <Dice
-                            currentDiceNumber={currentDiceNumber}
-                            isRolling={isRolling}
-                            dice={{
-                                enemy: turn.enemy,
-                                friendly: turn.friendly,
-                                className: turn.className
+                <div ref={sideBarRef} >
+                    {showSideBar ?
+                        <div className='absolute z-50 h-auto p-1 bg-gray-900 rounded-xl cursor-move'
+                            style={{
+                                left: `${newSidebarPosition.x}px`,
+                                top: `${newSidebarPosition.y}px`,
                             }}
-                        />
-                    </div>
-                </div>
-                <div className='z-50 absolute left-0 top-3/4 h-28 flex flex-col justify-between w-auto'>
-                    <button onClick={() => showHexGrid()} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
-                        Hex grid
-                    </button>
-                    <button onClick={() => saveHexgonItems()} className="z-50 h-10 w-auto top-10 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
-                        Upload data
-                    </button>
-                </div>
-                <div className='testmapContainer'>
-                    <>
-                        <div className=''>
+
+                            onMouseDown={handleMouseDown}
+                            draggable={false}
+                        >
                             <SideBar
-                                // handleItemClick={handleItemClick}
+                            // handleItemClick={handleItemClick}
                             />
+                            <div className='flex flex-col h-80 w-auto justify-around flex-wrap'>
+                                <button onClick={() => onClickEndTurn()} className="z-50 h-10 w-24 top-2 p-1 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                                    End turn
+                                </button>
+                                <button
+                                    className={isRolling ? "w-24 p-1 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 opacity-50 cursor-not-allowed pointer-events-none" : "w-24 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900"}
+                                    onClick={() => onClickRoll()}
+                                >
+                                    New roll
+                                </button>
+                                <div className='z-50 rounded-lg w-12 h-12 relative left-5'>
+                                    <Dice
+                                        currentDiceNumber={currentDiceNumber}
+                                        isRolling={isRolling}
+                                        dice={{
+                                            enemy: turn.enemy,
+                                            friendly: turn.friendly,
+                                            className: turn.className
+                                        }}
+                                    />
+                                </div>
+                                <button onClick={() => showHexGrid()} className="z-50 h-10 w-24 top-2 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                                    Hex grid
+                                </button>
+                                <button onClick={() => saveHexgonItems()} className="z-50 h-10 w-auto top-10 p-2 btn btn-outline font-bold text-sm text-yellow-500 bg-gray-900 " type="button">
+                                    Upload data
+                                </button>
+
+                            </div>
                         </div>
-                        <div >
+                        :
+                        null
+                    }
+                    <div>
                         <Map
                             mapIdRef={mapIdRef.current}
                             resetTurnClick={resetTurnClick}
@@ -248,8 +290,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ activeMenuItem }) => {
                             enemyPositions={enemyPositions}
                             showGrid={showGrid}
                         />
-                        </div>
-                    </>
+                    </div>
                 </div>
             </React.Fragment>
         </>

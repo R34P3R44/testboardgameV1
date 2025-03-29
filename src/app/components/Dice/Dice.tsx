@@ -15,10 +15,9 @@ const Dice: React.FC<DiceProps> = ({ dice, currentDiceNumber, isRolling }) => {
 
     return (
         <>
-            <div className={isRolling ? "text-white animate-roll-x" : "text-white "}>
+            <div className={isRolling ? "text-white animate-roll-x bg-enemyDice rounded-lg" : "text-white bg-enemyDice rounded-lg"}>
                 {React.createElement(currentDiceNumber?.value ?? BsDice1, {
                     size: 50,
-                    className: dice.className
                 })}
             </div>
         </>

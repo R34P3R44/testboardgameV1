@@ -1,3 +1,12 @@
+import Dice from "../components/Dice/Dice";
+import { BsDice1, BsDice2, BsDice3, BsDice4, BsDice5, BsDice6 } from "react-icons/bs";
+import { GiCrenulatedShield } from "react-icons/gi";
+import { TiThMenu } from "react-icons/ti";
+import { GiBookmarklet } from "react-icons/gi";
+import { IoPeopleSharp } from "react-icons/io5";
+import { GiTreasureMap } from "react-icons/gi";
+import { GiEarthAfricaEurope } from "react-icons/gi";
+
 export const INCREMENT = 1;
 export const DECREMENT = -1;
 
@@ -32,3 +41,24 @@ export const hexDropdownItems = [
     {id: 25, value: "Y1"},
     {id: 26, value: "Z1"}
   ]
+
+export const dicesArray: Dice[] = [
+      { key: 1, value: BsDice1 },
+      { key: 2, value: BsDice2 },
+      { key: 3, value: BsDice3 },
+      { key: 4, value: BsDice4 },
+      { key: 5, value: BsDice5 },
+      { key: 6, value: BsDice6 }
+  ]
+
+
+export const sidebarList = [
+      { key: 1, value: GiTreasureMap, tooltip: 'Map'},
+      { key: 2, value: GiEarthAfricaEurope, tooltip: 'World'},
+      { key: 3, value: IoPeopleSharp, tooltip: 'Players'},
+      { key: 4, value: GiCrenulatedShield, tooltip: 'Factions'},
+      { key: 5, value: GiBookmarklet, tooltip: 'Rules'},
+      { key: 6, value: TiThMenu, tooltip: 'Main menu'}
+  ]
+
+export const gameMenuList = ['New game', 'Load game', 'Rules',]

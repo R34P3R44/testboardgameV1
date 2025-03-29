@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { updateCharacters } from '../../_restApiFn/send-updateCharacters'
 import { FactionsData } from "../../../app/data-types/characterType";
 import { useSelectedCharacter } from '../../Store/useSelectedCharacter';
+import { useSideMenuNavigation } from '@/app/Store/useSideMenuNavigation';
+
 
 interface CharacterCardProps {
     factionsData: FactionsData[]
@@ -11,21 +13,20 @@ interface CharacterCardProps {
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
 
-    const {setIsCharacterSelected} = useSelectedCharacter();
-    const [isSelected, setIsSelected] = useState<boolean>(false);
+    const {isCharacterSelected ,setIsCharacterSelected} = useSelectedCharacter();
+    const {setActiveSideMenuItem} = useSideMenuNavigation()
 
 
-
-    useEffect(() => {
-        if (isSelected) {
-            setIsCharacterSelected(true)
-        }
-
-    }, [isSelected]);
 
     const onSelectCharacter = async (facData: any) => {
-        await updateCharacters(facData.charId, true)
-        setIsSelected(true)
+        const response = await updateCharacters(facData.charId, true)
+        if(response.success){
+            setIsCharacterSelected(true)
+            setActiveSideMenuItem('')
+        }
+        else {
+            return window.alert("Cant find Character")
+        }
     }
 
     return (
@@ -44,7 +45,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ factionsData }) => {
                     </div>
                     <div className="flex justify-center p-6 pt-2 gap-7">
                         <button
-                            onClick={() => { onSelectCharacter(facData) }}
+                            onClick={() => {onSelectCharacter(facData) }}
                             className="min-w-32  rounded-md bg-blue-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                             Select
                         </button>

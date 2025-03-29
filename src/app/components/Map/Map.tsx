@@ -35,14 +35,13 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
   const pixelRatio = window.devicePixelRatio || 1;
   document.documentElement.style.setProperty('--pixel-ratio', pixelRatio.toString());
 
-
   return (
 
     <div className='map-container'>
       <Image
         key={mapIdRef}
         className='testmap'
-        src={"/Field_Demo.jpg"}
+        src={"/Field_Demo_v1.jpg"}
         alt="Map"
         width={6000}
         height={5000}
@@ -80,8 +79,6 @@ const Map: React.FC<MapProps> = ({ isEndTurnClicked, resetTurnClick, showAragorn
       {dBPositions.length > 0 && mapItems.length > 0 && mapItems.map((item) => (
         item.itemData.visible && <Item key={item.id} currentItem={item} charId={dBPositions[0].charId} />
       ))}
-
-      {/* <img key={mapIdRef} className='testmap' src="/Field_Demo.jpg" alt="Map"></img> */}
 
       {showGrid ?
         <HoneycombGrid />
